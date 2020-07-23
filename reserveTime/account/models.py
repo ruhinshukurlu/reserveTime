@@ -28,6 +28,9 @@ class User(AbstractUser):
         verbose_name = _('user')
         verbose_name_plural = _('users')
 
+    def __str__(self):
+        return self.email
+    
 
 
 class Customer(models.Model):
@@ -38,4 +41,8 @@ class Customer(models.Model):
     class Meta:
         verbose_name = 'Customer'
         verbose_name_plural = 'Customers'
+
+    def __str__(self):
+        return self.user.email
+    
 

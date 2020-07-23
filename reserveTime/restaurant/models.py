@@ -18,3 +18,6 @@ class Company(models.Model):
         verbose_name = 'Comapany'
         verbose_name_plural = 'Companies'
 
+    def __str__(self):
+        return self.user.email
+    
