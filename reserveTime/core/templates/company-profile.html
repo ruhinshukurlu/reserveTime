@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/fontawesome.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/user-profile.css">
+    <link rel="stylesheet" href="css/company-profile.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <title>Company Profile</title>
+</head>
+<body id="profile-body">
+    
+    <header>
+        <div class="container custom-container header-container shadow">
+            <div class="row justify-content-between">
+                <div class="left side">
+                    <a href="#">
+                        <img src="images/logo.png" width="250px" alt="">
+                    </a>
+                </div>
+                <div class="right side">
+                    <div class="user-profile left-border">
+                        <span> Hi, User <i class="fas fa-chevron-down" id="arrow-down"></i></span>
+                        <div class="custom-drop-down shadow" style="display: none;">
+                            <div class="triangle"></div>
+                            <span>Hello, User</span>
+                            <ul>
+                                <li><a href="#">My Profile</a></li>
+                                <li><a href="#">My Dining History</a></li>
+                                <li><a href="#">My Saved Restaurants</a></li>
+                                <li><a href="#">Sign out</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="reserve-table">
+                        <button type="button" class="header-btn"><i class="far fa-calendar"></i></button>
+                        <div class="custom-drop-down p-3" style="display: none;">
+                            <div class="triangle"></div>
+                            <span>Upcoming reservations</span>
+                            <p class="pl-2 pr-2">You have no upcoming reservations</p>
+                        </div>
+                    </div>
+                    <div class="notification">
+                        <button type="button" class="header-btn"><i class="far fa-bell"></i></button>
+                        <div class="custom-drop-down shadow p-3" style="display: none;">
+                            <div class="triangle"></div>
+                            <span>Notifications</span>
+                            <p class="pl-2 pr-2">Nothing to see here, you’re all caught up!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="position: relative;">
+                <a class="save-restaurant-btn" href="#"><i class="far fa-bookmark pr-2"></i>Save This Restaurant</a>
+                <div id="custom-retaurant-carousel"  class="owl-carousel owl-theme card-list">
+                    <div class="item">
+                        <div class="inner p-relative">
+                            <div class="overlay">
+                            </div>
+                            <img src="images/img1.jpg" alt="Owl Image">
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="inner p-relative">
+                            <div class="overlay">
+                            </div>
+                            <img src="images/img2.jpg" alt="Owl Image">
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="inner p-relative">
+                            <div class="overlay">
+                            </div>
+                            <img src="images/img3.jpg" alt="Owl Image">
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="inner p-relative">
+                            <div class="overlay">
+                            </div>
+                            <img src="images/img4.jpg" alt="Owl Image">
+                        </div>  
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    </header>
+
+    <main class="pt-5 mb-5">
+        <div class="container main-container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="row menu-box">
+                        <div class="menu">
+                            <ul class="menu-list">
+                                <li><a href="#1">Overview</a></li>
+                                <li><a href="#2">Photos</a></li>
+                                <li><a href="#3">Menu</a></li>
+                                <li><a href="#4">Review</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row overview" id="1">
+                        <h1 class="company-name bold">Cilantro - Hilton Baku Hotel</h1>
+                        <div class="d-flex pl-3">
+                            <div class="stars d-flex">
+                                <div class="star"><i class="fas fa-star"></i></div>
+                                <div class="star"><i class="fas fa-star"></i></div>
+                                <div class="star"><i class="fas fa-star"></i></div>
+                                <div class="star"><i class="fas fa-star"></i></div>
+                                <div class="star"><i class="fas fa-star"></i></div>
+                            </div>
+                            <p class="review-text mr-4 ml-4"><i class="far fa-comment"></i> 1875 reviews</p>
+                            <p class="company-type"><i class="fas fa-utensils"></i> Global, International</p>
+                        </div>
+                        <p class="description p-3">
+                            At ROLLERCOASTERRESTAURANT®, food and beverages are freshly prepared immediately upon 
+                            receipt of your order. The ingredients used are local ingredients (if possible). 
+                            Innovative technical kitchen equipment and our head chef with his team of talented 
+                            chefs prepare all meals freshly, creating a marvellous taste.</p>
+                    </div>
+
+                    <div class="row go-to-reservation">
+                        <h3 class="full pl-3 pb-3 bottom-border bold">Go To Reservation</h3>
+                        <p>If you find suitable table, you can pass to the reservation page. In this page you can choose foods and exact time for a meal.</p>
+                        <a href="reservation-page.html" class="go-reserve-btn">Reservation Page<i class="pl-2 fas fa-external-link-alt"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="order-box">
+                        <h4 class="bottom-border bold pb-2 text-center">Order delivery or pickup</h4>
+                        <span class="bold">Pickup</span>
+                        <div class="phone-number d-flex mt-2">
+                            <i class="fas fa-phone-alt pr-2"></i> 
+                            <p>xxx xxx xx xx</p>
+                        </div>
+                    </div>
+
+                    <div class="reserve-box">
+                        <h4 class="bottom-border bold pb-2 text-center">Make a reservation</h4>
+                        <form action="" class="reserve-form">
+                            <label for="party-size" >Party Size</label>
+                            <select id="party-size" name="size">
+                              <option value="1">For 1</option>
+                              <option value="2">For 2</option>
+                              <option value="3">For 3</option>
+                              <option value="4">For 4</option>
+                              <option value="5">For 5</option>
+                              <option value="6">For 6</option>
+                              <option value="7">For 7</option>
+                            </select>
+                            <div class="d-flex mt-4 mb-4">
+                                <div>
+                                    <label for="date">Date</label>
+                                    <input type="date" id="date" name="trip-start" value="2018-07-22" min="2020-07-15" max="2020-08-31">
+                                </div>
+                                <div>
+                                    <label for="time">Time</label>
+                                    <select id="time" name="time">
+                                        <option value="">11:30 AM</option>
+                                        <option value="">12:00 AM</option>
+                                        <option value="">11:30 AM</option>
+                                        <option value="">11:30 AM</option>
+                                        <option value="">11:30 AM</option>
+                                        <option value="">11:30 AM</option>
+                                        <option value="">11:30 AM</option>
+                                        <option value="">11:30 AM</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <input type="submit" value="Find Table" class="find-table-btn">
+                          </form>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="row photos pb-3" id="2">
+                        <h3 class="full pl-3 pb-3 bottom-border">66 Photos</h3>
+                        <div class="menu-box full mb-3">
+                            <div class="photo-menu pl-3">
+                                <ul class="menu-list">
+                                    <li><a href="#">All</a></li>
+                                    <li><a href="#">Food</a></li>
+                                    <li><a href="#">Drink</a></li>
+                                    <li><a href="#">Interior</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="photo-gallery d-flex m-auto">
+                            <div class="col"><img src="images/img1.jpg" alt=""></div>
+                            <div class="col"><img src="images/img3.jpg" alt=""></div>
+                            <div class="col"><img src="images/img4.jpg" alt=""></div>
+                            <div class="col"><img src="images/img1.jpg" alt=""></div>
+                        </div>
+                    </div>
+                    <div class="row menu-section" id="3">
+                        <div class="menu-container mb-3 collapse-menu">
+                            <h3 class="full bottom-border pb-3 pl-3">Menu</h3>
+                            <div class="row">
+                                <div class="menu-section pl-4 pr-4 mb-4 bottom-border">
+                                    <div class="menu-section-header mb-4"><span>Appetizers</span></div>
+                                    <div class="row menu-items">
+                                        <div class="col-6">
+                                            <div class="menu-item">
+                                                <div class="menu-item-header">
+                                                    <div class="menu-title"><span>Baked Clams</span></div>
+                                                    <div class="menu-price"><span>$23.95</span></div>
+                                                </div>
+                                                <div class="menu-description">
+                                                    <p>Fresh Littleneck Clams Baked w/ Our Seasoned Breadcrumbs & Clam Broth</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="menu-item">
+                                                <div class="menu-item-header">
+                                                    <div class="menu-title"><span>Baked Clams</span></div>
+                                                    <div class="menu-price"><span>$23.95</span></div>
+                                                </div>
+                                                <div class="menu-description">
+                                                    <p>Fresh Littleneck Clams Baked w/ Our Seasoned Breadcrumbs & Clam Broth</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="menu-item">
+                                                <div class="menu-item-header">
+                                                    <div class="menu-title"><span>Baked Clams</span></div>
+                                                    <div class="menu-price"><span>$23.95</span></div>
+                                                </div>
+                                                <div class="menu-description">
+                                                    <p>Fresh Littleneck Clams Baked w/ Our Seasoned Breadcrumbs & Clam Broth</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="menu-item">
+                                                <div class="menu-item-header">
+                                                    <div class="menu-title"><span>Baked Clams</span></div>
+                                                    <div class="menu-price"><span>$23.95</span></div>
+                                                </div>
+                                                <div class="menu-description">
+                                                    <p>Fresh Littleneck Clams Baked w/ Our Seasoned Breadcrumbs & Clam Broth</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="menu-item">
+                                                <div class="menu-item-header">
+                                                    <div class="menu-title"><span>Baked Clams</span></div>
+                                                    <div class="menu-price"><span>$23.95</span></div>
+                                                </div>
+                                                <div class="menu-description">
+                                                    <p>Fresh Littleneck Clams Baked w/ Our Seasoned Breadcrumbs & Clam Broth</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="menu-item">
+                                                <div class="menu-item-header">
+                                                    <div class="menu-title"><span>Baked Clams</span></div>
+                                                    <div class="menu-price"><span>$23.95</span></div>
+                                                </div>
+                                                <div class="menu-description">
+                                                    <p>Fresh Littleneck Clams Baked w/ Our Seasoned Breadcrumbs & Clam Broth</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="menu-section pl-4 pr-4 mb-4 bottom-border">
+                                    <div class="menu-section-header mb-4"><span>Appetizers</span></div>
+                                    <div class="row menu-items">
+                                        <div class="col-6">
+                                            <div class="menu-item">
+                                                <div class="menu-item-header">
+                                                    <div class="menu-title"><span>Baked Clams</span></div>
+                                                    <div class="menu-price"><span>$23.95</span></div>
+                                                </div>
+                                                <div class="menu-description">
+                                                    <p>Fresh Littleneck Clams Baked w/ Our Seasoned Breadcrumbs & Clam Broth</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="menu-item">
+                                                <div class="menu-item-header">
+                                                    <div class="menu-title"><span>Baked Clams</span></div>
+                                                    <div class="menu-price"><span>$23.95</span></div>
+                                                </div>
+                                                <div class="menu-description">
+                                                    <p>Fresh Littleneck Clams Baked w/ Our Seasoned Breadcrumbs & Clam Broth</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="menu-item">
+                                                <div class="menu-item-header">
+                                                    <div class="menu-title"><span>Baked Clams</span></div>
+                                                    <div class="menu-price"><span>$23.95</span></div>
+                                                </div>
+                                                <div class="menu-description">
+                                                    <p>Fresh Littleneck Clams Baked w/ Our Seasoned Breadcrumbs & Clam Broth</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="menu-item">
+                                                <div class="menu-item-header">
+                                                    <div class="menu-title"><span>Baked Clams</span></div>
+                                                    <div class="menu-price"><span>$23.95</span></div>
+                                                </div>
+                                                <div class="menu-description">
+                                                    <p>Fresh Littleneck Clams Baked w/ Our Seasoned Breadcrumbs & Clam Broth</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="menu-item">
+                                                <div class="menu-item-header">
+                                                    <div class="menu-title"><span>Baked Clams</span></div>
+                                                    <div class="menu-price"><span>$23.95</span></div>
+                                                </div>
+                                                <div class="menu-description">
+                                                    <p>Fresh Littleneck Clams Baked w/ Our Seasoned Breadcrumbs & Clam Broth</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="menu-item">
+                                                <div class="menu-item-header">
+                                                    <div class="menu-title"><span>Baked Clams</span></div>
+                                                    <div class="menu-price"><span>$23.95</span></div>
+                                                </div>
+                                                <div class="menu-description">
+                                                    <p>Fresh Littleneck Clams Baked w/ Our Seasoned Breadcrumbs & Clam Broth</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="m-auto show-menu-btn">Show full menu</button>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="row company-info-block">
+                        <h3 class="full pl-3 pb-3 bottom-border">Company Information</h3>
+                        <div class="col-6 d-flex">
+                            <div class="icon-box">
+                                <i class="fas fa-road"></i>
+                            </div>
+                            <div class="info-text">
+                                <span>Cross street</span>
+                                <p>b/w 24th and 25th Streets</p>
+                            </div>
+                        </div>
+                        <div class="col-6 d-flex">
+                            <div class="icon-box">
+                                <i class="far fa-building"></i>
+                            </div>
+                            <div class="info-text">
+                                <span>Neighborhood</span>
+                                <p>Chelsea</p>
+                            </div>
+                        </div>
+                        <div class="col-6 d-flex">
+                            <div class="icon-box">
+                                <i class="far fa-clock"></i>
+                            </div>
+                            <div class="info-text">
+                                <span>Hours of operation</span>
+                                <p>Mon–Sat 5:30 pm–9:30 pm</p>
+                            </div>
+                        </div>
+                        <div class="col-6 d-flex">
+                            <div class="icon-box">
+                                <i class="fas fa-utensils"></i>
+                            </div>
+                            <div class="info-text">
+                                <span>Cuisines</span>
+                                <p>Italian</p>
+                            </div>
+                        </div>
+                        <div class="col-6 d-flex">
+                            <div class="icon-box">
+                                <i class="fas fa-pizza-slice"></i>
+                            </div>
+                            <div class="info-text">
+                                <span>Dining Style</span>
+                                <p>b/w 24th and 25th Streets</p>
+                            </div>
+                        </div>
+                        <div class="col-6 d-flex">
+                            <div class="icon-box">
+                                <i class="fas fa-parking"></i>
+                            </div>
+                            <div class="info-text">
+                                <span>Parking details</span>
+                                <p>There is a garage across the street. Private party availability for groups ranging in size from 18-80 guests.</p>
+                            </div>
+                        </div>
+                        <div class="col-6 d-flex">
+                            <div class="icon-box">
+                                <i class="fas fa-bus"></i>
+                            </div>
+                            <div class="info-text">
+                                <span>Public transit</span>
+                                <p>A and E trains to 23rd Street and 8th Avenue.</p>
+                            </div>
+                        </div>
+                        <div class="col-6 d-flex">
+                            <div class="icon-box">
+                                <i class="far fa-credit-card"></i>
+                            </div>
+                            <div class="info-text">
+                                <span>Payment options</span>
+                                <p>AMEX, Diners Club, MasterCard, Visa</p>
+                            </div>
+                        </div>
+                        <div class="col-6 d-flex">
+                            <div class="icon-box">
+                                <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" style="background: rgb(255, 255, 255);"><title>icon/ic_chef</title><desc>Created with Sketch.</desc><defs></defs><g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="icon/ic_chef" fill-rule="nonzero" fill="#333333"><g id="ic_chef" transform="translate(3.000000, 3.000000)"><g id="path0_stroke"><path d="M9,2 C10.74753,2 11.2909,2.52203 11.5663,2.90067 C11.7569,3.15266 11.8773,3.44336 12.0477,3.77663 C12.1995,4.07263 12.4802,4.60816 13.0528,4.89443 L13.9472,3.10557 C14.0198,3.14184 13.988,3.17737 13.8273,2.864 C13.6852,2.58789 13.4931,2.15984 13.1837,1.724328 C12.4591,0.72797 11.2525,0 9,0 L9,2 Z M13.0528,4.89443 C13.3931,5.05914 13.813,5.17853 14.1705,5.29042 C14.531,5.40297 14.8325,5.50244 15.1211,5.67628 C15.5714,5.93891 16,6.36421 16,7.5 L18,7.5 C18,5.63579 17.1786,4.56109 16.1289,3.94872 C15.6675,3.68506 15.1565,3.50328 14.767,3.38146 C14.3745,3.25897 14.1069,3.19086 13.9472,3.10557 L13.0528,4.89443 Z M16,7.5 C16,8.58594 15.4906,9.2061 14.8598,9.73178 C14.5267,10.01122 14.1517,10.26122 13.8286,10.52865 C13.5618,10.75096 13,11.2399 13,12 L15,12 C15,12.2601 14.8132,12.3115 15.1089,12.0651 C15.3483,11.8638 15.7233,11.6138 16.1402,11.2682 C17.0094,10.5439 18,9.41406 18,7.5 L16,7.5 Z M13.5793,16 L4.49999,16 L4.49999,18 L13.5793,18 L13.5793,16 Z M4.99999,12 C4.99999,11.2399 4.4382,10.75097 4.17142,10.52866 C3.84829,10.26122 3.47329,10.01122 3.14018,9.73178 C2.50937,9.20611 2,8.58594 2,7.5 L0,7.5 C0,9.41406 0.99061891,10.54389 1.859807,11.2682 C2.2767,11.6138 2.65169,11.8638 2.89105,12.0651 C3.18677,12.3115 2.99999,12.2601 2.99999,12 L4.99999,12 Z M2,7.5 C2,6.36421 2.42864,5.93891 2.87887,5.67628 C3.16747,5.50244 3.46898,5.40297 3.82952,5.29042 C4.18699,5.17853 4.6069,5.05914 4.94721,4.89443 L4.05279,3.10557 C3.8931,3.19086 3.62551,3.25897 3.23298,3.38146 C2.84352,3.50328 2.33253,3.68506 1.871129,3.94872 C0.821361,4.56109 0,5.63579 0,7.5 L2,7.5 Z M4.94721,4.89443 C5.51975,4.60816 5.80052,4.07263 5.95232,3.77663 C6.12265,3.44336 6.24309,3.15266 6.43374,2.90067 C6.70911,2.52203 7.25247,2 9,2 L9,0 C6.74753,0 5.54089,0.72797 4.81626,1.724328 C4.50691,2.15984 4.31485,2.58789 4.17268,2.864 C4.01198,3.17737 3.98025,3.14184 4.05279,3.10557 L4.94721,4.89443 Z M4.99999,16.5 L4.99999,13 L2.99999,13 L2.99999,16.5 L4.99999,16.5 Z M4.99999,13 L4.99999,12 L2.99999,12 L2.99999,13 L4.99999,13 Z M13,12 C13,12.5 13,12.75 13,12.875 C13,12.9375 13,12.9688 13,12.9844 C13,12.9922 13,12.9961 13,12.998 C13,12.999 13,12.9995 13,12.9998 C13,12.9999 13,12.9999 13,13 C13,13 13,13 13,13 C13,13 13,13 13,13 C13,13 13,13 13,13 C13,13 13,13 13,13 C13,13 14,13 14,13 C14,13 15,13 15,13 C15,13 15,13 15,13 C15,13 15,13 15,13 C15,13 15,13 15,13 C15,13 15,13 15,13 C15,12.9999 15,12.9999 15,12.9998 C15,12.9995 15,12.999 15,12.998 C15,12.9961 15,12.9922 15,12.9844 C15,12.9688 15,12.9375 15,12.875 C15,12.75 15,12.5 15,12 L13,12 Z M13.0002,13.0227 L13.0794,16.5113 L15.0789,16.466 L14.9997,12.9773 L13.0002,13.0227 Z M3.99999,14 L14,14 L14,12 L3.99999,12 L3.99999,14 Z M13.5793,18 C14.4211,18 15.098,17.3075 15.0789,16.466 L13.0794,16.5113 C13.0731,16.2308 13.2987,16 13.5793,16 L13.5793,18 Z M4.49999,16 C4.77613,16 4.99999,16.2239 4.99999,16.5 L2.99999,16.5 C2.99999,17.3284 3.67156,18 4.49999,18 L4.49999,16 Z"></path></g></g></g></g></svg>
+                            </div>
+                            <div class="info-text">
+                                <span>Executive chef</span>
+                                <p>Joe Delgado</p>
+                            </div>
+                        </div>
+                        <div class="col-6 d-flex">
+                            <div class="icon-box">
+                                <i class="fas fa-external-link-alt"></i>
+                            </div>
+                            <div class="info-text">
+                                <span>Website</span>
+                                <p><a href="http://www.carminesnyc.com/">http://www.carminesnyc.com/</a></p>
+                            </div>
+                        </div>
+                        <div class="col-6 d-flex">
+                            <div class="icon-box">
+                                <i class="fas fa-phone-alt pr-2"></i>
+                            </div>
+                            <div class="info-text">
+                                <span>Phone number</span>
+                                <p>(212) 362-2200</p>
+                            </div>
+                        </div>
+                        <div class="col-6 d-flex">
+                            <div class="icon-box">
+                                <i class="far fa-file-alt"></i>
+                            </div>
+                            <div class="info-text">
+                                <span>Private party contact</span>
+                                <p>Corinne Escanes: (877) 839-0234</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+
+            <div class="row comments-section" id="4">
+                <h3 class="full bottom-border pb-3 pl-3">What 6016 people are saying</h3>
+                <div class="comment-sort">
+                    <span>Sort By</span>
+                </div>
+                <!-- <div class="comment-filter">
+                    <span>Filters</span>
+                </div> -->
+                <div class="comments-box inner-container">
+                    <div class="comment-item row">
+                        <div class="col-3 comment-author">
+                            <div class="comment-author-profile-img">AS</div>
+                            <div class="comment-author-username">alexandrav</div>
+                            <div class="comment-author-address">San Francisco</div>
+                            <div class="user-comments-count">
+                                <p class="review-text mr-4 ml-4"><i class="far fa-comment"></i> 4 reviews</p>
+                            </div>
+                        </div>
+                        <div class="col-9">
+                            <div class="d-flex">
+                                <div class="stars d-flex">
+                                    <div class="star"><i class="fas fa-star"></i></div>
+                                    <div class="star"><i class="fas fa-star"></i></div>
+                                    <div class="star"><i class="fas fa-star"></i></div>
+                                    <div class="star"><i class="fas fa-star"></i></div>
+                                    <div class="star"><i class="fas fa-star"></i></div>
+                                </div>
+                                <div class="posted-date pl-4">
+                                    <p>Dined on July 7, 2020</p>
+                                </div>
+                            </div>
+                            <div class="post-body">
+                                <p>Nice time and very sanitary! Definitely will be back again.
+                                    Nice time and very sanitary! Definitely will be back again.
+                                    Nice time and very sanitary! Definitely will be back again.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment-item row">
+                        <div class="col-3 comment-author">
+                            <div class="comment-author-profile-img">AS</div>
+                            <div class="username">alexandrav</div>
+                            <div class="address">San Francisco</div>
+                            <div class="user-comments-count">
+                                <p class="review-text mr-4 ml-4"><i class="far fa-comment"></i> 4 reviews</p>
+                            </div>
+                        </div>
+                        <div class="col-9">
+                            <div class="d-flex">
+                                <div class="stars d-flex">
+                                    <div class="star"><i class="fas fa-star"></i></div>
+                                    <div class="star"><i class="fas fa-star"></i></div>
+                                    <div class="star"><i class="fas fa-star"></i></div>
+                                    <div class="star"><i class="fas fa-star"></i></div>
+                                    <div class="star"><i class="fas fa-star"></i></div>
+                                </div>
+                                <div class="posted-date pl-4">
+                                    <p>Dined on July 7, 2020</p>
+                                </div>
+                            </div>
+                            <div class="post-body">
+                                <p>Nice time and very sanitary! Definitely will be back again.
+                                    Nice time and very sanitary! Definitely will be back again.
+                                    Nice time and very sanitary! Definitely will be back again.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment-item row">
+                        <div class="col-3 comment-author">
+                            <div class="comment-author-profile-img">AS</div>
+                            <div class="username">alexandrav</div>
+                            <div class="address">San Francisco</div>
+                            <div class="user-comments-count">
+                                <p class="review-text mr-4 ml-4"><i class="far fa-comment"></i> 4 reviews</p>
+                            </div>
+                        </div>
+                        <div class="col-9">
+                            <div class="d-flex">
+                                <div class="stars d-flex">
+                                    <div class="star"><i class="fas fa-star"></i></div>
+                                    <div class="star"><i class="fas fa-star"></i></div>
+                                    <div class="star"><i class="fas fa-star"></i></div>
+                                    <div class="star"><i class="fas fa-star"></i></div>
+                                    <div class="star"><i class="fas fa-star"></i></div>
+                                </div>
+                                <div class="posted-date pl-4">
+                                    <p>Dined on July 7, 2020</p>
+                                </div>
+                            </div>
+                            <div class="post-body">
+                                <p>Nice time and very sanitary! Definitely will be back again.
+                                    Nice time and very sanitary! Definitely will be back again.
+                                    Nice time and very sanitary! Definitely will be back again.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment-item row">
+                        <div class="col-3 comment-author">
+                            <div class="comment-author-profile-img">AS</div>
+                            <div class="username">alexandrav</div>
+                            <div class="address">San Francisco</div>
+                            <div class="user-comments-count">
+                                <p class="review-text mr-4 ml-4"><i class="far fa-comment"></i> 4 reviews</p>
+                            </div>
+                        </div>
+                        <div class="col-9">
+                            <div class="d-flex">
+                                <div class="stars d-flex">
+                                    <div class="star"><i class="fas fa-star"></i></div>
+                                    <div class="star"><i class="fas fa-star"></i></div>
+                                    <div class="star"><i class="fas fa-star"></i></div>
+                                    <div class="star"><i class="fas fa-star"></i></div>
+                                    <div class="star"><i class="fas fa-star"></i></div>
+                                </div>
+                                <div class="posted-date pl-4">
+                                    <p>Dined on July 7, 2020</p>
+                                </div>
+                            </div>
+                            <div class="post-body">
+                                <p>Nice time and very sanitary! Definitely will be back again.
+                                    Nice time and very sanitary! Definitely will be back again.
+                                    Nice time and very sanitary! Definitely will be back again.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.header-btn').click(function(){
+                $('.custom-drop-down').hide()
+                $(this).siblings('.custom-drop-down').slideToggle()
+            });
+
+            $('.show-menu-btn').click(function(){
+                $('.menu-container').toggleClass('collapse-menu')
+                
+                if ($(this).text() == 'Show full menu') {
+                    $(this).text('Collapse Menu')
+                }
+                else{
+                    $(this).text('Show full menu')
+                }
+            });
+        });
+    </script>
+</body>
+</html>

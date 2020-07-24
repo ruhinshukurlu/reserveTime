@@ -1,5 +1,6 @@
 from django.test import TestCase
 from account.models import User,Customer
+
 class UserTestCase(TestCase):
     def setUp(self):
         self.user = User.objects.create(email="test@gmail.com", first_name="test", last_name='test')

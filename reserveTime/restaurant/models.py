@@ -8,7 +8,7 @@ class Company(models.Model):
     user = models.OneToOneField("account.User", verbose_name=_("company"), on_delete=models.CASCADE, primary_key=True, related_name='Company')
     
     company_name = models.CharField(_("Company Name"), max_length=250)
-    phone_number = models.IntegerField(_("Phone Number"))
+    phone_number = models.CharField(_("Phone Number"), max_length=50)
 
     city_location = models.CharField(_("City"), max_length=150)
     province_location = models.CharField(_("Province"), max_length=150)

@@ -1,42 +1,86 @@
-
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm,AuthenticationForm, PasswordChangeForm, PasswordResetForm, SetPasswordForm
 from django import forms
 from django.db import transaction
 from .models import User,Company,Customer
 
 class CustomerRegisterForm(UserCreationForm):
-    first_name = forms.CharField(required=True)
-    last_name = forms.CharField(required=True)
-    email = forms.EmailField(required=True)
+    first_name = forms.CharField(required=True, widget=forms.TextInput(attrs={
+                    'class': 'form-control height',
+                    'placeholder' : 'First Name *',
+                }))
+    last_name = forms.CharField(required=True, widget=forms.TextInput(attrs={
+                    'class': 'form-control height',
+                    'placeholder' : 'Last Name *',
+                }))
+    username = forms.EmailField(required=True, widget=forms.EmailInput(attrs={
+                    'class': 'form-control height',
+                    'placeholder' : 'Email *',
+                }))
+    password1 = forms.CharField(required=True, widget = forms.PasswordInput(attrs={
+                    'class': 'form-control height',
+                    'placeholder' : 'Password *',
+                }))
+    password2 = forms.CharField(required=True, widget = forms.PasswordInput(attrs={
+                    'class': 'form-control height',
+                    'placeholder' : 'Re-enter Password *',
+                }))
+                
     # profile_image = forms.FileField('Profile', max_length=, required=False)
 
     class Meta(UserCreationForm.Meta):
         model = User
-    
+        
     @transaction.atomic
     def save(self):
         user = super().save(commit=False)
         user.is_customer = True
+        user.is_active = True
         user.first_name = self.cleaned_data.get('first_name')
         user.last_name = self.cleaned_data.get('last_name')
-        user.email = self.cleaned_data.get('email')
+        user.email = self.cleaned_data.get('username')
         user.save()
         customer = Customer.objects.create(user=user)
         customer.phone_number=self.cleaned_data.get('phone_number')
-        customer.location=self.cleaned_data.get('location')
+        # customer.location=self.cleaned_data.get('location')
         customer.save()
         return user
 
-class RestaurantRegisterForm(UserCreationForm):
-    first_name = forms.CharField(required=True)
-    last_name = forms.CharField(required=True)
-    email = forms.EmailField(required=True)
-    company_name = forms.CharField(max_length=250)
-    # phone_number = forms.IntegerField()
 
-    city_location = forms.CharField(max_length=150)
-    province_location = forms.CharField(max_length=150)
-    country_location = forms.CharField(max_length=150)
+class RestaurantRegisterForm(UserCreationForm):
+    password1 = forms.CharField(required=True, widget = forms.PasswordInput(attrs={
+                    'class': 'form-control register-input',
+                    
+                }))
+    password2 = forms.CharField(required=True, widget = forms.PasswordInput(attrs={
+                    'class': 'form-control register-input',
+                    
+                }))
+    first_name = forms.CharField(required=True, widget=forms.TextInput(attrs={
+                    'class': 'form-control register-input',
+                }))
+    last_name = forms.CharField(required=True, widget=forms.TextInput(attrs={
+                    'class': 'form-control register-input',
+                }))
+    username = forms.EmailField(required=True, widget=forms.EmailInput(attrs={
+                    'class': 'form-control register-input',
+                }), label='Email Address')
+
+    company_name = forms.CharField(max_length=250, widget=forms.TextInput(attrs={
+                    'class': 'form-control register-input',
+                }))
+    phone_number = forms.CharField(required=True, widget=forms.TextInput(attrs={
+                    'class': 'form-control register-input',
+                }))
+
+    city_location = forms.CharField(max_length=150, widget=forms.TextInput(attrs={
+                    'class': 'form-control register-input',
+                }))
+    province_location = forms.CharField(max_length=150, widget=forms.TextInput(attrs={
+                    'class': 'form-control register-input',
+                }))
+    country_location = forms.CharField(max_length=150, widget=forms.TextInput(attrs={
+                    'class': 'form-control register-input',
+                }))
 
     class Meta(UserCreationForm.Meta):
         model = User
@@ -45,15 +89,36 @@ class RestaurantRegisterForm(UserCreationForm):
     def save(self):
         user = super().save(commit=False)
         user.is_company = True
-        user.is_staff = True
+        user.is_active = False
         user.first_name = self.cleaned_data.get('first_name')
         user.last_name = self.cleaned_data.get('last_name')
-        user.email = self.cleaned_data.get('email')
+        user.email = self.cleaned_data.get('username')
         user.save()
         company = Company.objects.create(user=user)
-        # company.phone_number=self.cleaned_data.get('phone_number')
-        company.company_name=self.company_name.get('company_name')
-        company.city_location=self.city_location.get('city_location')
+        company.phone_number=self.cleaned_data['phone_number']
+        company.company_name=self.cleaned_data['company_name']
+        company.city_location=self.cleaned_data['city_location']
+        company.province_location=self.cleaned_data['province_location']
+        company.country_location=self.cleaned_data['country_location']
         company.save()
         return user
+ 
   
+class LoginForm(forms.ModelForm):
+    
+    username = forms.EmailField(widget = forms.TextInput(attrs = {
+        'placeholder' : 'Email',
+        'class' : 'form-control',
+    }))
+    password = forms.CharField(widget = forms.PasswordInput(attrs = {
+        'placeholder' : 'Password',
+        'class' : 'form-control',
+    }))
+
+    class Meta:
+        model = User
+        fields = ['username', 'password']
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(LoginForm, self).__init__(*args, **kwargs)

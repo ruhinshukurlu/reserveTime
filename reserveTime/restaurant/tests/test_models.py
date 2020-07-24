@@ -2,6 +2,7 @@ from django.test import TestCase
 from restaurant.models import Company
 from account.models import User
 
+
 class CompanyTestCase(TestCase):
     def setUp(self):
         self.user = User.objects.create(email="test@gmail.com", first_name="test", last_name='test')

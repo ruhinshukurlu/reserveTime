@@ -1,22 +1,36 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import CreateView
 from account.models import User
-from account.forms import CustomerRegisterForm
+from account.forms import *
 from django.urls import reverse_lazy
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.views import LoginView,PasswordChangeView,PasswordChangeDoneView,PasswordResetView, PasswordResetConfirmView
 # Create your views here.
 
 class CustomerRegisterView(CreateView):
     model = User
     form_class = CustomerRegisterForm
     template_name = 'register-user.html'
-    success_url = reverse_lazy('core:home')
 
+    def get_context_data(self, **kwargs):
+        kwargs['user_type'] = 'customer'
+        return super().get_context_data(**kwargs)
 
     def form_valid(self, form):
-        form.save()
-        return super().form_valid(form)
+        user = form.save()
+        # login(self.request, user)
+        return redirect('core:home')
 
-    # def form_invalid(self, form):
-    #     messages.warning(self.request, 'Something went wrong!!')
-    #     return super().form_invalid(form)
+class LoginView(LoginView):
+    template_name = 'login-user.html'
+    form_class = LoginForm
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        # print(self.request.user)
+        return render(request, self.template_name, {'form' : form})
+
+    def form_valid(self, form):
+        # print(self.request.user)
+        return redirect('core:home')
 

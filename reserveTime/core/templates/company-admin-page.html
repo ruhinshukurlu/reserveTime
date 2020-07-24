@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/fontawesome.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/user-profile.css">
+    <link rel="stylesheet" href="css/company-profile.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <title>Company admin panel</title>
+
+    <style>
+        header,
+        header .container{
+            background: linear-gradient(to bottom, rgba(56,59,68,1) 0%,rgba(46,47,52,1) 100%);
+            color: #fff;
+        }
+
+    </style>
+
+</head>
+<body id="company-admin-body">
+    
+    <header>
+        <div class="container custom-container ">
+            <div class="row justify-content-between">
+                <div class="left side">
+                    <img src="images/profile.png" width="60px" alt="Profile photo">
+                    <div class="d-flex flex-direction-column ml-2">
+                        <span class="mt-1">Welcome</span>
+                        <h5 class="bold">Ruhin Shukurlu</h5>
+                    </div>
+                </div>
+                <div class="right side">
+                    <div class="notification">
+                        <div class="d-flex">
+                            <span>Notifications</span>
+                            <button type="button" class="ml-2 header-btn"><i class="color-w far fa-bell"></i></button>
+                        </div>
+                        <div class="custom-drop-down shadow p-3" style="display: none;">
+                            <div class="triangle"></div>
+                            <span>Notifications</span>
+                            <p class="pl-2 pr-2">Nothing to see here, you’re all caught up!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        
+    </header>
+
+    <section class="full">
+        <div class="row">
+            <a href="home-page.html" class="logo-link">
+                <img src="images/logo.png" width="350px" alt="">
+            </a>
+        </div>
+    </section>
+
+    <main>
+        <div class="container mt-3 company-admin-container">
+            <div class="row">
+                <h3 class="bottom-border bold pb-3 mb-5">Welcome to the personal page of your company</h3>
+                <div class="col-lg-6 d-flex justify-content-center">
+                    <a href="company-photos.html">
+                        <div class="link-box" style="background-color: #a285c5;">
+                            <i class="fas fa-images"></i>
+                            <div class="ml-2 d-flex flex-direction-column">
+                                <span class="bold">Photos</span>
+                                <span class="bold">56</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-6 d-flex justify-content-center">
+                    <a href="company-menus.html">
+                        <div class="link-box" style="background-color: #68cab6;">
+                            <i class="fas fa-hamburger"></i>
+                            <span class="ml-2 bold">Menus</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-6 d-flex justify-content-center">
+                    <a href="company-infos.html">
+                        <div class="link-box" style="background-color: #22ba9b;">
+                            <i class="fas fa-info-circle"></i>
+                            <span class="ml-2 bold">Informations</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-6 d-flex justify-content-center">
+                    <a href="company-comments.html">
+                        <div class="link-box" style="background-color: #fbb168;">
+                            <i class="fas fa-comment-alt"></i>
+                            <div class="ml-2 d-flex flex-direction-column">
+                                <span class="bold">Reviews</span>
+                                <span class="bold">56</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-6 d-flex justify-content-center">
+                    <a href="company-users.html">
+                        <div class="link-box" style="background-color: #666981;">
+                            <i class="fas fa-users"></i>
+                            <div class="ml-2 d-flex flex-direction-column">
+                                <span class="bold">Users</span>
+                                <span class="bold">56</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-6 d-flex justify-content-center">
+                    <a href="reservations-list.html">
+                        <div class="link-box" style="background-color: #e17695;">
+                            <i class="fas fa-clock"></i>
+                            <div class="ml-2 d-flex flex-direction-column">
+                                <span class="bold">Reservations</span>
+                                <span class="bold">56</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.header-btn').click(function(){
+                // $('.custom-drop-down').hide()
+                $(this).siblings('.custom-drop-down').slideToggle()
+            });
+            var width = $('.link-box').width()
+            $('.link-box').hover(function(){
+                var height = $(this).height()
+
+                $(this).stop().animate({
+                    borderRadius : '50%',
+                    width : height
+                    })
+            }, function(){
+                $(this).animate({
+                    borderRadius : '10px',
+                    width : width
+                    })
+            })
+        });
+    </script>
+</body>
+</html>

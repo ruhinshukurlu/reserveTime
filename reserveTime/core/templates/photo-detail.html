@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/fontawesome.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/user-profile.css">
+    <link rel="stylesheet" href="css/company-profile.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <title>Company List</title>
+
+    <style>
+        header,
+        header .container{
+            background: linear-gradient(to bottom, rgba(56,59,68,1) 0%,rgba(46,47,52,1) 100%);
+            color: #fff;
+        }
+
+    </style>
+
+</head>
+<body id="company-admin-body">
+    
+    <header>
+        <div class="container custom-container ">
+            <div class="row justify-content-between">
+                <div class="left side">
+                    <img src="images/profile.png" width="60px" alt="Profile photo">
+                    <div class="d-flex flex-direction-column ml-2">
+                        <span class="mt-1">Welcome</span>
+                        <h5 class="bold">Ruhin Shukurlu</h5>
+                    </div>
+                </div>
+                <div class="right side">
+                    <div class="notification">
+                        <div class="d-flex">
+                            <span>Notifications</span>
+                            <button type="button" class="ml-2 header-btn"><i class="color-w far fa-bell"></i></button>
+                        </div>
+                        <div class="custom-drop-down shadow p-3" style="display: none;">
+                            <div class="triangle"></div>
+                            <span>Notifications</span>
+                            <p class="pl-2 pr-2">Nothing to see here, you’re all caught up!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container mt-3 company-admin-container">
+            <div class="row">
+                <h3 class="full bottom-border bold pb-3 mb-5">Edit Photo</h3>
+                <form action="" class="add-img-form mt-3 mb-5">
+                    <div class="d-flex">
+                        <label for="upload-img" class="add-img-label bold">Change Photo<i class="ml-2 fas fa-plus-circle"></i></label>
+                        <input type="file" name="" id="upload-img">
+                    </div>
+                    <select class="select-img-type">
+                        <option selected>Type</option>
+                        <option value="1">Food</option>
+                        <option value="2">Drink</option>
+                        <option value="3">Interior</option>
+                        <option value="4">Exterior</option>
+                    </select>
+                    <input type="submit" value="Save" class="save-btn">
+                    <a href="#" class="delete-btn" data-toggle="modal" data-target="#exampleModal">Delete</a>   
+                </form>
+                <div class="col">
+                    <img src="images/img6.jpg" alt="">
+                </div>
+                
+                
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Delete Photo</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure to delete this photo?</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+              <button type="button" class="btn btn-primary">Yes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.header-btn').click(function(){
+                // $('.custom-drop-down').hide()
+                $(this).siblings('.custom-drop-down').slideToggle()
+            });
+
+            $('.link-box').hover(function(){
+                height = $(this).height()
+                $(this).stop().animate({
+                    borderRadius : '50%',
+                    width : height
+                    })
+            }, function(){
+                $(this).animate({
+                    borderRadius : '10px',
+                    width : '250px'
+                    })
+            })
+        });
+    </script>
+</body>
+</html>

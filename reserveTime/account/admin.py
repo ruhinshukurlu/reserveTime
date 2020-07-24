@@ -9,11 +9,13 @@ User = get_user_model()
 
 class UserAdmin(BaseUserAdmin):
     fieldsets = (
-        (None, {'fields': ('email', 'password', 'first_name', 'last_name')}),
+        (None, {'fields': ('email', 'password', 'first_name', 'last_name',)}),
         ('Permissions', {'fields': (
             'is_active',
             'is_staff',
             'is_superuser',
+            'is_customer',
+            'is_company',
             'groups',
             'user_permissions',
         )}),
@@ -28,14 +30,24 @@ class UserAdmin(BaseUserAdmin):
         ),
     )
 
-    list_display = ('email', 'first_name', 'is_staff', 'last_name','is_customer','is_company',)
-    list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
+    list_display = ('email', 'id', 'is_staff','is_customer','is_company',)
+    list_filter = ('is_staff', 'is_superuser', 'is_active', 'is_customer','is_company')
     search_fields = ('email',)
     ordering = ('email',)
     # filter_horizontal = ('groups', 'user_permissions',)
 
 
 admin.site.register(User, UserAdmin)
-admin.site.register(Customer)
-admin.site.register(Company)
 
+class CustomerAdmin(admin.ModelAdmin):
+    list_display = ('user',)
+    # list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
+    # search_fields = ('email',)
+    # ordering = ('email',)
+admin.site.register(Customer, CustomerAdmin)
+class CompanyAdmin(admin.ModelAdmin):
+    list_display = ('user','company_name','city_location','province_location','country_location',)
+    # list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
+    # search_fields = ('email',)
+    # ordering = ('email',)
+admin.site.register(Company, CompanyAdmin)
