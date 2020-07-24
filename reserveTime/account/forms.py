@@ -104,9 +104,9 @@ class RestaurantRegisterForm(UserCreationForm):
         return user
  
   
-class LoginForm(forms.ModelForm):
+class LoginForm(forms.Form):
     
-    username = forms.EmailField(widget = forms.TextInput(attrs = {
+    username = forms.EmailField(widget = forms.EmailInput(attrs = {
         'placeholder' : 'Email',
         'class' : 'form-control',
     }))
@@ -115,10 +115,5 @@ class LoginForm(forms.ModelForm):
         'class' : 'form-control',
     }))
 
-    class Meta:
-        model = User
-        fields = ['username', 'password']
 
-    def __init__(self, *args, **kwargs):
-        self.request = kwargs.pop('request', None)
-        super(LoginForm, self).__init__(*args, **kwargs)
+    

@@ -21,16 +21,28 @@ class CustomerRegisterView(CreateView):
         # login(self.request, user)
         return redirect('core:home')
 
-class LoginView(LoginView):
-    template_name = 'login-user.html'
-    form_class = LoginForm
+# class LoginView(LoginView):
+#     template_name = 'login-user.html'
+#     form_class = LoginForm
 
-    def get(self, request, *args, **kwargs):
-        form = self.form_class()
-        # print(self.request.user)
-        return render(request, self.template_name, {'form' : form})
+#     def get(self, request, *args, **kwargs):
+#         form = self.form_class()
+#         print(self.request.user)
+#         return render(request, self.template_name, {'form' : form})
 
-    def form_valid(self, form):
-        # print(self.request.user)
+#     def form_valid(self, form):
+#         # print(self.request.user)
+#         return redirect('core:home')
+
+def login_view(request):
+
+    form = LoginForm(request.POST or None)
+    if form.is_valid():
+        email = form.cleaned_data.get("username")
+        password = form.cleaned_data.get("password")
+        user = authenticate(email=email, password=password)
+        login(request, user)
         return redirect('core:home')
+    context = {"form": form}
 
+    return render (request, "login-user.html", context)

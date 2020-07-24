@@ -22,11 +22,11 @@
                     <a href="#">
                         <img src="{% static 'images/logo.png' %}" width="200px" alt="">
                     </a>
-                    {{request.user.first_name}}
+                    {{request.user}}
                 </div>
                 <div class="right side">
                     <button type="button" class="btn register-btn mr-2" data-toggle="modal" data-target="#exampleModal">Sign Up</button>
-                    <a href="{% url 'account:user-login' %}" class="btn login-btn bold">Sign In</a>
+                    <a href="{% url 'account:login' %}" class="btn login-btn bold">Sign In</a>
                     <div class="user-profile">
                         <button type="button" class="header-btn"> 
                             <i class="far fa-user"></i>
@@ -38,7 +38,7 @@
                                 <li><a href="user-profile.html">My Profile</a></li>
                                 <li><a href="user-profile.html">My Dining History</a></li>
                                 <li><a href="user-profile.html">My Saved Restaurants</a></li>
-                                <li><a href="#">Sign out</a></li>
+                                <li><a href="{% url 'account:logout' %}">Sign out</a></li>
                             </ul>
                         </div>
                     </div>
