@@ -46,3 +46,12 @@ def login_view(request):
     context = {"form": form}
 
     return render (request, "login-user.html", context)
+
+class ChangePasswordView(PasswordChangeView):
+    template_name = 'change-password.html'
+    form_class = ChangePasswordForm
+    success_url = reverse_lazy('core:home')
+
+
+class ChangePasswordDoneView(PasswordChangeDoneView):
+    template_name = 'change_password_done.html'

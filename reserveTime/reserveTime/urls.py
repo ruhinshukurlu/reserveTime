@@ -22,7 +22,7 @@ urlpatterns = [
     path('jet/', include('jet.urls', 'jet')),
     path('admin/', admin.site.urls),
     path('', include('core.urls', namespace = 'core')),
-    path('account/', include('account.urls', namespace = 'account')),
+    path('account/', include(('account.urls', 'django.contrib.auth.urls'))),
     path('restaurant/', include('restaurant.urls', namespace = 'restaurant')),
 ]
 

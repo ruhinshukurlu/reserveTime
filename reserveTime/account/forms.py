@@ -105,7 +105,6 @@ class RestaurantRegisterForm(UserCreationForm):
  
   
 class LoginForm(forms.Form):
-    
     username = forms.EmailField(widget = forms.EmailInput(attrs = {
         'placeholder' : 'Email',
         'class' : 'form-control',
@@ -116,4 +115,19 @@ class LoginForm(forms.Form):
     }))
 
 
+class ChangePasswordForm(PasswordChangeForm):
+    old_password = forms.CharField(widget = forms.PasswordInput(attrs = {
+        'class' : 'form-control',
+        'placeholder' : 'Old password'
+    }), required=True)
+
+    new_password1 = forms.CharField(widget = forms.PasswordInput(attrs = {
+        'class' : 'form-control',
+        'placeholder' : 'New password'
+    }), required=True)
+
+    new_password2 = forms.CharField(widget = forms.PasswordInput(attrs = {
+        'class' : 'form-control',
+        'placeholder' : 'Re-enter new password'
+    }), required=True)
     
