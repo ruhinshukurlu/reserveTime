@@ -24,6 +24,7 @@ urlpatterns = [
     path('', include('core.urls', namespace = 'core')),
     path('account/', include(('account.urls', 'django.contrib.auth.urls'))),
     path('restaurant/', include('restaurant.urls', namespace = 'restaurant')),
+    path('social-auth/', include('social_django.urls', namespace="social")), 
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)  

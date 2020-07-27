@@ -90,10 +90,10 @@
                 <div class="col-lg-5 mx-auto pt-5">
                     <form>
                         <div class="form-group">
-                            <a class="btn btn-block btn-social btn-google py-3" style="border: 1px solid #ccc;">
+                            <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-block btn-social btn-google py-3" style="border: 1px solid #ccc;">
                                 <i class="fab fa-google-plus-g mr-2"></i>Continue with Google
                             </a>
-                            <a class="btn btn-block btn-social btn-facebook py-3 social" style="border: 1px solid #ccc">
+                            <a href="{% url 'social:begin' 'facebook' %}" class="btn btn-block btn-social btn-facebook py-3 social" style="border: 1px solid #ccc">
                                 <i class="fab fa-facebook-f mr-2"></i> Continue with Facebook
                             </a>
                         
