@@ -14,6 +14,7 @@ class User(AbstractUser):
     email = models.EmailField(_("Email"), max_length=254, unique=True)
     first_name = models.CharField(_('first name'), max_length=30, blank=True)
     last_name = models.CharField(_('last name'), max_length=30, blank=True)
+    profile_img = models.ImageField(_("Profile image"),upload_to='profile-pictures/', null=True, blank=True)
     date_joined = models.DateTimeField(_('date joined'), auto_now_add=True) 
 
     is_staff = models.BooleanField(default=False)
@@ -30,13 +31,12 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.email
-    
+
 
 
 class Customer(models.Model):
-    user = models.OneToOneField("account.User", verbose_name=_("customer"), on_delete=models.CASCADE, primary_key=True, related_name='Customer')
+    user = models.OneToOneField("account.User", verbose_name=_("customer"), on_delete=models.CASCADE, primary_key=True, related_name='customer')
     
-    profile_img = models.ImageField(upload_to='profile-pictures/', null=True, blank=True)
 
     class Meta:
         verbose_name = 'Customer'

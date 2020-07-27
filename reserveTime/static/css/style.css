@@ -40,7 +40,9 @@
     align-items: center;
     margin: 5px 0px;   
 }
-
+.side img{
+    border-radius: 50%;
+}
 .right i{
     color: #000;
     font-size: 22px;

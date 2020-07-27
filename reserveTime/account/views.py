@@ -96,4 +96,4 @@ class CompanyUpdateView(UpdateView):
         return self.request.user
 
     def get_success_url(self):
-        return redirect('restaurant:company-profile', kwargs={'pk': self.object.pk})
+        return reverse_lazy('account:company-profile', kwargs={'pk': self.object.pk})

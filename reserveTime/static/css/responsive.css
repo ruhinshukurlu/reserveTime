@@ -20,6 +20,20 @@
     .reserve-header{
         top: 20%;
     }
+    
+}
+@media (max-width : 768px) {
+    .username-box{
+        flex-direction: column;
+        align-items: center;
+    }
+    .username-box img{
+        width: 100px;
+        height: 100px;
+    }
+    .username-box div{
+        text-align: center;
+    }
 }
 @media (max-width : 450px) {
     .date-time-size-container{

@@ -32,9 +32,13 @@
     <header>
         <div class="container custom-container ">
             <div class="row justify-content-between">
-                <a href="{% url 'restaurant:company-update' user.pk %}">
+                <a href="{% url 'account:company-update' user.pk %}">
                     <div class="left side">
+                        {% if user.profile_img %}
+                        <img src="{{user.profile_img.url}}" width="60px" alt="Profile photo">
+                        {% else %}
                         <img src="{% static 'images/profile.png' %}" width="60px" alt="Profile photo">
+                        {% endif %}
                         <div class="d-flex flex-direction-column ml-2" style="color: wheat;">
                             <span class="mt-1">Welcome</span>
                             <h5 class="bold">{{user.first_name}} {{user.last_name}}</h5>

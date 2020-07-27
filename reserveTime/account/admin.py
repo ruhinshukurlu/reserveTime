@@ -9,7 +9,7 @@ User = get_user_model()
 
 class UserAdmin(BaseUserAdmin):
     fieldsets = (
-        (None, {'fields': ('email', 'password', 'first_name', 'last_name',)}),
+        (None, {'fields': ('email', 'password', 'first_name', 'last_name','profile_img',)}),
         ('Permissions', {'fields': (
             'is_active',
             'is_staff',
@@ -40,7 +40,7 @@ class UserAdmin(BaseUserAdmin):
 admin.site.register(User, UserAdmin)
 
 class CustomerAdmin(admin.ModelAdmin):
-    list_display = ('user','profile_img',)
+    list_display = ('user',)
     # list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
     # search_fields = ('email',)
     # ordering = ('email',)

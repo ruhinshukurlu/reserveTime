@@ -6,9 +6,16 @@
 
 .username-box{
     padding: 25px 50px;
-    flex-direction: column;
+    display: flex;
 }
-
+.username-box img{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-top: 7px;
+    margin-right: 10px;
+}
 .username-box h2{
     font-weight: bold;
 }

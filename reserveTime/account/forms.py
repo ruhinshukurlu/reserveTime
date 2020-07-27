@@ -133,11 +133,11 @@ class ChangePasswordForm(PasswordChangeForm):
     
     
 class UserEditForm(forms.ModelForm):
-    profile_img = forms.ImageField(widget=forms.FileInput())
+    # profile_img = forms.ImageField(widget=forms.FileInput())
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name','email']
+        fields = ['first_name', 'last_name','email','profile_img']
 
         widgets = {
             'first_name': forms.TextInput(attrs={

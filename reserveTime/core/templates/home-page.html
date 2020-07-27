@@ -19,7 +19,7 @@
         <div class="container">
             <div class="row justify-content-between">
                 <div class="left side">
-                    <a href="#">
+                    <a href="{% url 'core:home' %}">
                         <img src="{% static 'images/logo.png' %}" width="200px" alt="">
                     </a>
                     {{request.user}}
@@ -37,7 +37,7 @@
                                 <span>Hello, User</span>
                                 <ul>
                                     {% if request.user.is_company %}
-                                        <li><a href="{% url 'restaurant:company-profile' user.pk %}">Company Profile</a></li>
+                                        <li><a href="{% url 'account:company-profile' user.pk %}">Company Profile</a></li>
                                     {% else %}
                                         <li><a href="{% url 'account:user-profile' user.pk %}">My Profile</a></li>
                                     {% endif %}
