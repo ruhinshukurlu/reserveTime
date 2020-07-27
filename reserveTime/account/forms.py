@@ -131,3 +131,25 @@ class ChangePasswordForm(PasswordChangeForm):
         'placeholder' : 'Re-enter new password'
     }), required=True)
     
+    
+class UserEditForm(forms.ModelForm):
+    profile_img = forms.ImageField(widget=forms.FileInput())
+
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name','email']
+
+        widgets = {
+            'first_name': forms.TextInput(attrs={
+                'class': 'form-control height',
+                'placeholder' : 'First Name',
+                }),
+            'last_name': forms.TextInput(attrs={
+                'class': 'form-control height',
+                'placeholder' : 'Last Name',
+                }),
+            'email' : forms.EmailInput(attrs = {
+                'class' : 'form-control height',
+                'placeholder' : 'Email'
+            }),
+        }

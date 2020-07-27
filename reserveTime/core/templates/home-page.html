@@ -27,21 +27,28 @@
                 <div class="right side">
                     <button type="button" class="btn register-btn mr-2" data-toggle="modal" data-target="#exampleModal">Sign Up</button>
                     <a href="{% url 'account:login' %}" class="btn login-btn bold">Sign In</a>
-                    <div class="user-profile">
-                        <button type="button" class="header-btn"> 
-                            <i class="far fa-user"></i>
-                        </button>
-                        <div class="custom-drop-down shadow" style="display: none;">
-                            <div class="triangle"></div>
-                            <span>Hello, User</span>
-                            <ul>
-                                <li><a href="user-profile.html">My Profile</a></li>
-                                <li><a href="user-profile.html">My Dining History</a></li>
-                                <li><a href="user-profile.html">My Saved Restaurants</a></li>
-                                <li><a href="{% url 'account:logout' %}">Sign out</a></li>
-                            </ul>
+                    {% if request.user.is_authenticated %}
+                        <div class="user-profile">
+                            <button type="button" class="header-btn"> 
+                                <i class="far fa-user"></i>
+                            </button>
+                            <div class="custom-drop-down shadow" style="display: none;">
+                                <div class="triangle"></div>
+                                <span>Hello, User</span>
+                                <ul>
+                                    {% if request.user.is_company %}
+                                        <li><a href="{% url 'restaurant:company-profile' user.pk %}">Company Profile</a></li>
+                                    {% else %}
+                                        <li><a href="{% url 'account:user-profile' user.pk %}">My Profile</a></li>
+                                    {% endif %}
+                                    <li><a href="user-profile.html">My Dining History</a></li>
+                                    <li><a href="user-profile.html">My Saved Restaurants</a></li>
+                                    <li><a href="{% url 'account:logout' %}">Sign out</a></li>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
+                    {% endif %}
+                    
                     <div class="reserve-table">
                         <button type="button" class="header-btn"><i class="far fa-calendar"></i></button>
                         <div class="custom-drop-down p-3" style="display: none;">

@@ -1,9 +1,13 @@
 from django.shortcuts import render, redirect
 from django.views.generic import CreateView
 from account.models import User
-from account.forms import RestaurantRegisterForm
+from account.forms import RestaurantRegisterForm, UserEditForm
 from django.urls import reverse_lazy
 from django.contrib.auth import login
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic import DetailView, UpdateView
+from .forms import CompanyEditForm
+
 
 # Create your views here.
 
@@ -20,3 +24,5 @@ class RestaurantRegisterView(CreateView):
         user = form.save()
         login(self.request, user)
         return redirect('core:home')
+
+

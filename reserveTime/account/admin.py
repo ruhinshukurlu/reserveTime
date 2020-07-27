@@ -40,11 +40,12 @@ class UserAdmin(BaseUserAdmin):
 admin.site.register(User, UserAdmin)
 
 class CustomerAdmin(admin.ModelAdmin):
-    list_display = ('user',)
+    list_display = ('user','profile_img',)
     # list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
     # search_fields = ('email',)
     # ordering = ('email',)
 admin.site.register(Customer, CustomerAdmin)
+
 class CompanyAdmin(admin.ModelAdmin):
     list_display = ('user','company_name','city_location','province_location','country_location',)
     # list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
