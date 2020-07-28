@@ -15,3 +15,11 @@ class CompanyTestCase(TestCase):
     def test_company_str(self):
         
         self.assertEqual(str(self.company),self.company.user.email)
+
+    def test_read_company(self):
+        self.assertEqual(self.company.user, self.user)
+
+    def test_update_company_name(self):
+        self.company.company_name = 'new name'
+        self.company.save()
+        self.assertEqual(self.company.company_name, 'new name')
