@@ -46,9 +46,3 @@ class CustomerAdmin(admin.ModelAdmin):
     # ordering = ('email',)
 admin.site.register(Customer, CustomerAdmin)
 
-class CompanyAdmin(admin.ModelAdmin):
-    list_display = ('user','company_name','city_location','province_location','country_location',)
-    # list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
-    # search_fields = ('email',)
-    # ordering = ('email',)
-admin.site.register(Company, CompanyAdmin)

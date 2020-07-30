@@ -15,7 +15,9 @@ class User(AbstractUser):
     first_name = models.CharField(_('first name'), max_length=30, blank=True)
     last_name = models.CharField(_('last name'), max_length=30, blank=True)
     profile_img = models.ImageField(_("Profile image"),upload_to='profile-pictures/', null=True, blank=True)
-    date_joined = models.DateTimeField(_('date joined'), auto_now_add=True) 
+    date_joined = models.DateTimeField(_('date joined'), auto_now_add=True)
+    
+    saved_restaurants = models.ManyToManyField("restaurant.Company", verbose_name=_("Saved Restaurant"), related_name='user') 
 
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
