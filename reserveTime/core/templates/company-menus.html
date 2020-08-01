@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/fontawesome.min.css">
-    <link rel="stylesheet" href="css/owl.theme.default.min.css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/user-profile.css">
-    <link rel="stylesheet" href="css/company-profile.css">
-    <link rel="stylesheet" href="css/responsive.css">
-    <title>Company List</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/fontawesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/user-profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/company-profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+
+    <title>Company Menus</title>
 
     <style>
         header,
@@ -30,13 +32,19 @@
     <header>
         <div class="container custom-container ">
             <div class="row justify-content-between">
-                <div class="left side">
-                    <img src="images/profile.png" width="60px" alt="Profile photo">
-                    <div class="d-flex flex-direction-column ml-2">
-                        <span class="mt-1">Welcome</span>
-                        <h5 class="bold">Ruhin Shukurlu</h5>
+                <a href="{% url 'account:company-update' user.pk %}">
+                    <div class="left side">
+                        {% if user.profile_img %}
+                        <img src="{{user.profile_img.url}}" width="60px" alt="Profile photo">
+                        {% else %}
+                        <img src="{% static 'images/profile.png' %}" width="60px" alt="Profile photo">
+                        {% endif %}
+                        <div class="d-flex flex-direction-column ml-2" style="color: wheat;">
+                            <span class="mt-1">Welcome</span>
+                            <h5 class="bold">{{user.first_name}} {{user.last_name}}</h5>
+                        </div>
                     </div>
-                </div>
+                </a>
                 <div class="right side">
                     <div class="notification">
                         <div class="d-flex">
@@ -58,38 +66,39 @@
         <div class="container mt-3 company-admin-container">
             <div class="row">
                 <h3 class="full bottom-border bold pb-3 mb-5">Create menu</h3>
-                <form action="" class="full mb-3 menu-form">
+                <form method = "POST" class="full mb-3 menu-form">
+                    {% csrf_token %}
                    <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label for="formGroupExampleInput">Title</label>
-                                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="title">
+                                {{form.title}}
+                                {{form.title.errors}}
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label for="selectType">Type</label>
-                                <select  class="form-control"  id="selectType">
-                                    <option selected>Type</option>
-                                    <option value="1">Salads</option>
-                                    <option value="2">Drinks</option>
-                                    <option value="3">Hot Meals</option>
-                                    <option value="4">Cold Meals</option>
-                                </select>
+                                {{form.price}}
+                                {{form.price.errors}}
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                {{form.menu_type}}
+                                {{form.menu_type.errors}}
                             </div>
                         </div>
                    </div>
                    <div class="row">
                        <div class="col">
                             <div class="form-group">
-                                <label for="exampleFormControlTextarea1">Description</label>
-                                <textarea  placeholder="Write description ..." class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+                                {{form.description}}
+                                {{form.description.errors}}
                             </div>
                        </div>
                    </div>
-                    
                     <input type="submit" value="Save" class="save-btn">
                 </form>
+                
                 <h3 class="full bottom-border bold pb-3 mb-5">Company Menu list</h3>
                 <div class="row company-menu-block">
                     <div class="menu-section pl-4 pr-4 mb-4 bottom-border">

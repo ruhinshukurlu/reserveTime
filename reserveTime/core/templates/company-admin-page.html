@@ -77,7 +77,7 @@
             <div class="row">
                 <h3 class="bottom-border bold pb-3 mb-5">Welcome to the personal page of your company</h3>
                 <div class="col-lg-6 d-flex justify-content-center">
-                    <a href="company-photos.html">
+                    <a href="{% url 'restaurant:photo' %}">
                         <div class="link-box" style="background-color: #a285c5;">
                             <i class="fas fa-images"></i>
                             <div class="ml-2 d-flex flex-direction-column">
@@ -88,7 +88,7 @@
                     </a>
                 </div>
                 <div class="col-lg-6 d-flex justify-content-center">
-                    <a href="company-menus.html">
+                    <a href="{% url 'restaurant:menu' %}">
                         <div class="link-box" style="background-color: #68cab6;">
                             <i class="fas fa-hamburger"></i>
                             <span class="ml-2 bold">Menus</span>

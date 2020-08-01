@@ -9,13 +9,11 @@ User = get_user_model()
 
 @admin.register(Company)
 class CompanyAdmin(admin.ModelAdmin):
-    list_display = ('user','company_name','city_location','province_location','country_location',)
+    list_display = ('id','company_name','city_location','province_location','country_location',)
     
-
-
 @admin.register(Menu)
 class MenuAdmin(admin.ModelAdmin):
-    list_display = ('company','title','price', 'description','menu_type',)
+    list_display = ('title','price', 'description','menu_type',)
     
 @admin.register(Photo)
 class PhotoAdmin(admin.ModelAdmin):

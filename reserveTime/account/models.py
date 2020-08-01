@@ -17,7 +17,7 @@ class User(AbstractUser):
     profile_img = models.ImageField(_("Profile image"),upload_to='profile-pictures/', null=True, blank=True)
     date_joined = models.DateTimeField(_('date joined'), auto_now_add=True)
     
-    saved_restaurants = models.ManyToManyField("restaurant.Company", verbose_name=_("Saved Restaurant"), related_name='user') 
+    # saved_restaurants = models.ManyToManyField("restaurant.Company", verbose_name=_("Saved Restaurant"), related_name='user') 
 
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
@@ -39,7 +39,6 @@ class User(AbstractUser):
 class Customer(models.Model):
     user = models.OneToOneField("account.User", verbose_name=_("customer"), on_delete=models.CASCADE, primary_key=True, related_name='customer')
     
-
     class Meta:
         verbose_name = 'Customer'
         verbose_name_plural = 'Customers'
