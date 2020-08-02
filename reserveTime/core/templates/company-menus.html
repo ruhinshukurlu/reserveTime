@@ -65,7 +65,10 @@
     <main>
         <div class="container mt-3 company-admin-container">
             <div class="row">
-                <h3 class="full bottom-border bold pb-3 mb-5">Create menu</h3>
+                <h3 class="full bottom-border bold pb-3 mb-5">
+                    <a href="{% url 'account:company-profile' user.company.pk %}"><i class="fas fa-arrow-alt-circle-left"></i></a>
+                    Create menu
+                </h3>
                 <form method = "POST" class="full mb-3 menu-form">
                     {% csrf_token %}
                    <div class="row">

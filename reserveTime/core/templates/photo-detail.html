@@ -31,17 +31,19 @@
     <header>
         <div class="container custom-container ">
             <div class="row justify-content-between">
-                <div class="left side">
-                    {% if user.profile_img %}
+                <a href="{% url 'account:company-update' user.pk %}">
+                    <div class="left side">
+                        {% if user.profile_img %}
                         <img src="{{user.profile_img.url}}" width="60px" alt="Profile photo">
-                    {% else %}
+                        {% else %}
                         <img src="{% static 'images/profile.png' %}" width="60px" alt="Profile photo">
-                    {% endif %}
-                    <div class="d-flex flex-direction-column ml-2">
-                        <span class="mt-1">Welcome</span>
-                        <h5 class="bold">{{user.first_name}} {{user.last_name}}</h5>
+                        {% endif %}
+                        <div class="d-flex flex-direction-column ml-2" style="color: wheat;">
+                            <span class="mt-1">Welcome</span>
+                            <h5 class="bold">{{user.first_name}} {{user.last_name}}</h5>
+                        </div>
                     </div>
-                </div>
+                </a>
                 <div class="right side">
                     <div class="notification">
                         <div class="d-flex">
@@ -62,21 +64,28 @@
     <main>
         <div class="container mt-3 company-admin-container">
             <div class="row">
-                <h3 class="full bottom-border bold pb-3 mb-5">Edit Photo</h3>
-                <form action="" class="add-img-form mt-3 mb-5" method= 'post' enctype="multipart/form-data">
+                <h3 class="full bottom-border bold pb-3 mb-5">
+                    <a href="{% url 'account:company-profile' user.company.pk %}"><i class="fas fa-arrow-alt-circle-left"></i></a>
+                    Edit Photo
+                </h3>
+                <form action="" class="d-column add-img-form m-3" method= 'post' enctype="multipart/form-data">
                     {% csrf_token %}
-                    <div class="d-flex" >
+                    <div class="justify-flex-end mb-4" >
+                        {{form.photo}} 
                         <label for="upload-img" class="add-img-label bold">Change Photo<i class="ml-2 fas fa-plus-circle"></i></label>
-                        {{form.photo}}
-                        
                     </div>
-                    {{form.photo_url}}
-                   {{form.photo_type}}
-                    <input type="submit" value="Save" class="save-btn">
-                    <button type='button' class="delete-btn" data-toggle="modal" data-target="#exampleModal">Delete</button>   
+                    <div class="d-flex mb-4 ml-2">
+                        {{form.photo_url}}
+                        {{form.photo_type}}
+                    </div>
+                    <div class="justify-flex-end ">
+                        <input type="submit" value="Save" class="save-btn">
+                        <button type='button' class="delete-btn" data-toggle="modal" data-target="#exampleModal">Delete</button>   
+                    </div>
                 </form>
                 <div class="col">
-                    <img src="{{photo.photo.url}}" alt="">
+                    <h3 class="bold">Current Photo</h3>
+                    <img id="detail-photo" src="{{photo.photo.url}}" alt="">
                 </div>
                 
                 

@@ -109,7 +109,7 @@ class Table(models.Model):
         ('inside', 'Inside'),
     )
 
-    company = models.ForeignKey("restaurant.Company", verbose_name=_("Company"), on_delete=models.CASCADE, related_name='company_table')
+    company = models.ForeignKey("account.User", verbose_name=_("Company"), on_delete=models.CASCADE, related_name='company_table')
     size = models.IntegerField(_("Size"))
     times = models.ManyToManyField("restaurant.Time", verbose_name=_("Time"))
     table_place = models.CharField(_("Table Place"), max_length=50, choices=TABLE_PLACES)
@@ -119,7 +119,7 @@ class Table(models.Model):
         verbose_name_plural = _("Tables")
 
     def __str__(self):
-        return self.size
+        return str(self.size)
 
     
 class Time(models.Model):

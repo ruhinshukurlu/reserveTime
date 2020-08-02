@@ -403,9 +403,17 @@ footer{
     color: white !important;
 }
 
-.company-admin-container .col img{
+.photo-list-item{
     width: 100%;
     margin-bottom: 15px;
+    height: 150px;
+    object-fit: cover;
+}
+
+#detail-photo{
+    width: 100%;
+    margin-bottom: 15px;
+    object-fit: cover;
 }
 
 .add-img-form{
@@ -439,7 +447,7 @@ footer{
 
 .select-img-type{
     width: 250px;
-    background-color: #2AFAFD;
+    background-color: #fff;
     border-radius: 10px;
     cursor: pointer;
     padding: 0 10px;
@@ -454,7 +462,7 @@ footer{
  .add-img-label{
     width: 250px;
     margin: 0 10px;
-    background-color: #2AFAFD ;
+    background-color: #fff ;
     border-radius: 10px;
     display: flex;
     justify-content: center;
@@ -482,7 +490,7 @@ footer{
  }
 
 .company-infos-form input{
-    height: 60px !important;
+    height: 50px !important;
 }
 
  .portion-count{

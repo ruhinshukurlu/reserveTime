@@ -46,7 +46,7 @@
                     </div>
                 </a>
                 <div class="right side">
-                    <div class="notification">
+                    <div class="notification">  
                         <div class="d-flex">
                             <span>Notifications</span>
                             <button type="button" class="ml-2 header-btn"><i class="color-w far fa-bell"></i></button>
@@ -96,7 +96,7 @@
                     </a>
                 </div>
                 <div class="col-lg-6 d-flex justify-content-center">
-                    <a href="company-infos.html">
+                    <a href="{% url 'restaurant:company-infos' user.company.pk %}">
                         <div class="link-box" style="background-color: #22ba9b;">
                             <i class="fas fa-info-circle"></i>
                             <span class="ml-2 bold">Informations</span>
@@ -137,7 +137,7 @@
                     </a>
                 </div>
                 <div class="col-lg-6 d-flex m-auto justify-content-center">
-                    <a href="company-tables.html">
+                    <a href="{% url 'restaurant:company-tables' user.company.pk %}">
                         <div class="link-box" style="background-color: #CD6155 ;">
                             <i class="fas fa-table"></i>
                             <div class="ml-2 d-flex flex-direction-column">

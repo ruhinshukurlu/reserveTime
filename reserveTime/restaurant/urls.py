@@ -11,6 +11,6 @@ urlpatterns = [
     path("company/photos", PhotoView.as_view(), name="photo"),
     path("company/photos/<int:pk>/update", PhotoUpdateView.as_view(), name="photo-update"),
     path("company/photos/<int:pk>/delete", PhotoDeleteView.as_view(), name="photo-delete"),
-
-
+    path("company/<int:pk>/informations", CompanyInfosView.as_view(), name="company-infos"),
+    path("company/<int:pk>/tables", CompanyTablesView.as_view(), name="company-tables"),
 ]

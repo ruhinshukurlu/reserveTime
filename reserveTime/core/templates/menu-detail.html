@@ -31,17 +31,19 @@
     <header>
         <div class="container custom-container ">
             <div class="row justify-content-between">
-                <div class="left side">
-                    {% if user.profile_img %}
+                <a href="{% url 'account:company-update' user.pk %}">
+                    <div class="left side">
+                        {% if user.profile_img %}
                         <img src="{{user.profile_img.url}}" width="60px" alt="Profile photo">
-                    {% else %}
+                        {% else %}
                         <img src="{% static 'images/profile.png' %}" width="60px" alt="Profile photo">
-                    {% endif %}
-                    <div class="d-flex flex-direction-column ml-2">
-                        <span class="mt-1">Welcome</span>
-                        <h5 class="bold">{{user.first_name}} {{user.last_name}}</h5>
+                        {% endif %}
+                        <div class="d-flex flex-direction-column ml-2" style="color: wheat;">
+                            <span class="mt-1">Welcome</span>
+                            <h5 class="bold">{{user.first_name}} {{user.last_name}}</h5>
+                        </div>
                     </div>
-                </div>
+                </a>
                 <div class="right side">
                     <div class="notification">
                         <div class="d-flex">
@@ -62,7 +64,10 @@
     <main>
         <div class="container mt-3 company-admin-container">
             <div class="row">
-                <h3 class="full bottom-border bold pb-3 mb-5">Edit menu</h3>
+                <h3 class="full bottom-border bold pb-3 mb-5">
+                    <a href="{% url 'account:company-profile' user.company.pk %}"><i class="fas fa-arrow-alt-circle-left"></i></a>
+                    Edit menu
+                </h3>
                 <form class="full mb-3 menu-form" method='POST'>
                 {% csrf_token %}
                    <div class="row">

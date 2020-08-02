@@ -66,11 +66,14 @@
     <main>
         <div class="container mt-3 company-admin-container">
             <div class="row">
-                <h3 class="full bottom-border bold pb-3 mb-5">Add Photo</h3>
+                <h3 class="full bottom-border bold pb-3 mb-5">
+                    <a href="{% url 'account:company-profile' user.company.pk %}"><i class="fas fa-arrow-alt-circle-left"></i></a>
+                    Add Photo
+                </h3>
                 <form method = "POST" class="add-img-form mt-3 mb-3" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="d-flex">
-                        {% comment %} <label for="upload-img" class="add-img-label">Add Photo<i class="ml-2 fas fa-plus-circle"></i></label> {% endcomment %}
+                        <label for="upload-img" class="add-img-label">Add Photo<i class="ml-2 fas fa-plus-circle"></i></label>
                         {{form.photo}}
                         {{form.photo.errors}}
                     </div>
@@ -87,9 +90,9 @@
                             <div class="col">
                                 <a href="{% url 'restaurant:photo-update' photo.pk %}">
                                     {% if photo.photo %}
-                                        <img src="{{photo.photo.url}}" data-type='{{photo.photo_type}}' alt="">
+                                        <img class="photo-list-item" src="{{photo.photo.url}}" data-type='{{photo.photo_type}}' alt="">
                                     {% else %}
-                                        <img src="{{photo.photo_url}}" alt="">
+                                        <img class="photo-list-item" src="{{photo.photo_url}}" alt="">
                                     {% endif %}
                                 </a>
                             </div>
@@ -104,10 +107,10 @@
         </div>
     </main>
 
-    <script src="js/jquery-3.4.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
     <script>
         $(document).ready(function(){
             $('.header-btn').click(function(){

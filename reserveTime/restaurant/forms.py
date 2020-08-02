@@ -52,20 +52,101 @@ class MenuForm(forms.ModelForm):
         }
 
 class PhotoForm(forms.ModelForm):
-    
+    photo_url = forms.URLField(required=False, widget=forms.URLInput(attrs={
+        'class' : 'form-control mr-2',
+        'placeholder' : 'Photo Url'
+    }))
+
     class Meta:
         model = Photo
         fields = ("photo",'photo_url','photo_type',)
 
         widgets = {
-            
-            'photo_url' : forms.TextInput(attrs={
-                # 'class' : 'form-control',
-                'placeholder' : 'Photo Url',
-                'required' : 'False'
+            'photo' : forms.ClearableFileInput(attrs = {
+                'id' : 'upload-img'
             }),
             'photo_type' : forms.Select(attrs={
                 'class' : 'select-img-type',
                 'placeholder' : 'Type'
+            })
+        }
+
+
+class CompanyInfosForm(forms.ModelForm):
+    
+    class Meta:
+        model = Company
+        fields = ['company_name','phone_number','city_location','province_location','country_location','work_hours_from','work_hours_to','cuisines','dining_style','parking_details','public_transit','payment_options','executive_chef','website','private_party_contact','description']
+
+        widgets = {
+            'company_name' : forms.TextInput(attrs={
+                'class' : 'form-control'
+            }),
+            'phone_number' : forms.TextInput(attrs={
+                'class' : 'form-control'
+            }),
+            'city_location' : forms.TextInput(attrs={
+                'class' : 'form-control'
+            }),
+            'province_location' : forms.TextInput(attrs={
+                'class' : 'form-control'
+            }),
+            'country_location' : forms.TextInput(attrs={
+                'class' : 'form-control'
+            }),
+            'work_hours_from' : forms.TextInput(attrs={
+                'class' : 'form-control'
+            }),
+            'work_hours_to' : forms.TextInput(attrs={
+                'class' : 'form-control'
+            }),
+            'cuisines' : forms.TextInput(attrs={
+                'class' : 'form-control'
+            }),
+            'dining_style' : forms.TextInput(attrs={
+                'class' : 'form-control'
+            }),
+            'parking_details' : forms.Textarea(attrs={
+                'class' : 'form-control',
+                'rows' : '5'
+            }),
+            'public_transit' : forms.Textarea(attrs={
+                'class' : 'form-control',
+                'rows' : '5'
+            }),
+            'payment_options' : forms.Select(attrs={
+                'class' : 'form-control'
+            }),
+            'executive_chef' : forms.TextInput(attrs={
+                'class' : 'form-control'
+            }),
+            'website' : forms.URLInput(attrs={
+                'class' : 'form-control'
+            }),
+            'private_party_contact' : forms.TextInput(attrs={
+                'class' : 'form-control'
+            }),
+            'description' : forms.Textarea(attrs={
+                'class' : 'form-control',
+                'rows' : '5'
+            }),
+        }
+
+
+class TableForm(forms.ModelForm):
+    amount = forms.IntegerField(widget= forms.NumberInput(attrs={
+        'class' : 'form-control'
+    }), required=True)
+
+    class Meta:
+        model = Table
+        fields = ("size",'table_place')
+
+        widgets = {
+            'size' : forms.NumberInput(attrs={
+                'class' : 'form-control'
+            }),
+            'table_place' : forms.Select(attrs={
+                'class' : 'form-control'
             })
         }
