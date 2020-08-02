@@ -5,10 +5,11 @@ from account.forms import RestaurantRegisterForm, UserEditForm
 from django.urls import reverse_lazy
 from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.views.generic import DetailView, UpdateView
-from .forms import CompanyEditForm
+from django.views.generic import DetailView, UpdateView, FormView , DeleteView
+from django.views.generic.edit import FormMixin
 from restaurant.models import *
 from restaurant.forms import *
+from django.contrib import messages
 # Create your views here.
 
 class RestaurantRegisterView(CreateView):
@@ -30,18 +31,73 @@ class MenuView(CreateView):
     model = Menu
     form_class = MenuForm
     template_name = 'company-menus.html'
+    success_url = reverse_lazy('core:home')
     
     def form_valid(self, form):
-        menu = form.save()
-        menu.save()
-        return redirect('core:home')
+        form.instance.company = self.request.user
+        form.save()
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["menus"] = Menu.objects.all()
+        context["menu_categories"] = MenuCategory.objects.all()
+        
+        return context
+
+
+class MenuUpdateView(UpdateView):
+    model = Menu
+    template_name = "menu-detail.html"
+    form_class = MenuForm
+
+    def get_success_url(self):
+        return reverse_lazy('restaurant:menu')
+
+
+
+class MenuDeleteView(DeleteView):
+    model = Menu
+    template_name = "menu-detail.html"
+    
+    def get_success_url(self):
+        return reverse_lazy('restaurant:menu')
+
 
 class PhotoView(CreateView):
     model = Photo
     form_class = PhotoForm
     template_name = 'company-photos.html'
-    
+    success_url = reverse_lazy('core:home')
+
     def form_valid(self, form):
-        photo = form.save()
-        photo.save()
-        return redirect('core:home')
+        form.instance.owner = self.request.user
+        form.save()
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.warning(self.request, 'Something went wrong!!')
+        return super().form_invalid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["photos"] = Photo.objects.all()
+        
+        return context
+
+class PhotoUpdateView(UpdateView):
+    model = Photo
+    template_name = "photo-detail.html"
+    form_class = PhotoForm
+    context_object_name = 'photo'
+
+    def get_success_url(self):
+        return reverse_lazy('restaurant:photo')
+    
+
+class PhotoDeleteView(DeleteView):
+    model = Photo
+    template_name = "photo-detail.html"
+    
+    def get_success_url(self):
+        return reverse_lazy('restaurant:photo')

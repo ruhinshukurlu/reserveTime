@@ -64,7 +64,7 @@ class PhotoForm(forms.ModelForm):
                 'placeholder' : 'Photo Url',
                 'required' : 'False'
             }),
-            'menu_type' : forms.Select(attrs={
+            'photo_type' : forms.Select(attrs={
                 'class' : 'select-img-type',
                 'placeholder' : 'Type'
             })

@@ -101,80 +101,35 @@
                 
                 <h3 class="full bottom-border bold pb-3 mb-5">Company Menu list</h3>
                 <div class="row company-menu-block">
+                  {% for category in menu_categories %}
+                    
                     <div class="menu-section pl-4 pr-4 mb-4 bottom-border">
-                        <div class="menu-section-header mb-4"><span>Salads</span></div>
+                        <div class="menu-section-header mb-4"><span>{{category.title}}</span></div>
                         <div class="row menu-items">
-                            <div class="col-sm-6">
-                                <a href="menu-detail.html">
-                                    <div class="menu-item">
-                                        <div class="menu-item-header">
-                                            <div class="menu-title"><span>Baked Clams</span></div>
-                                            <div class="menu-price"><span>$23.95</span></div>
+                            {% for menu in menus %}
+                                {% if menu.menu_type == category %}
+                                <div class="col-sm-6">
+                                    <a href="{% url 'restaurant:menu-update' menu.pk %}">
+                                        <div class="menu-item">
+                                            <div class="menu-item-header">
+                                                <div class="menu-title"><span>{{menu.title}}</span></div>
+                                                <div class="menu-price"><span>${{menu.price}}</span></div>
+                                            </div>
+                                            <div class="menu-description">
+                                                <p>{{menu.description}}</p>
+                                            </div>
                                         </div>
-                                        <div class="menu-description">
-                                            <p>Fresh Littleneck Clams Baked w/ Our Seasoned Breadcrumbs & Clam Broth</p>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="menu-item">
-                                    <div class="menu-item-header">
-                                        <div class="menu-title"><span>Baked Clams</span></div>
-                                        <div class="menu-price"><span>$23.95</span></div>
-                                    </div>
-                                    <div class="menu-description">
-                                        <p>Fresh Littleneck Clams Baked w/ Our Seasoned Breadcrumbs & Clam Broth</p>
-                                    </div>
+                                    </a>
                                 </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="menu-item">
-                                    <div class="menu-item-header">
-                                        <div class="menu-title"><span>Baked Clams</span></div>
-                                        <div class="menu-price"><span>$23.95</span></div>
-                                    </div>
-                                    <div class="menu-description">
-                                        <p>Fresh Littleneck Clams Baked w/ Our Seasoned Breadcrumbs & Clam Broth</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="menu-item">
-                                    <div class="menu-item-header">
-                                        <div class="menu-title"><span>Baked Clams</span></div>
-                                        <div class="menu-price"><span>$23.95</span></div>
-                                    </div>
-                                    <div class="menu-description">
-                                        <p>Fresh Littleneck Clams Baked w/ Our Seasoned Breadcrumbs & Clam Broth</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="menu-item">
-                                    <div class="menu-item-header">
-                                        <div class="menu-title"><span>Baked Clams</span></div>
-                                        <div class="menu-price"><span>$23.95</span></div>
-                                    </div>
-                                    <div class="menu-description">
-                                        <p>Fresh Littleneck Clams Baked w/ Our Seasoned Breadcrumbs & Clam Broth</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="menu-item">
-                                    <div class="menu-item-header">
-                                        <div class="menu-title"><span>Baked Clams</span></div>
-                                        <div class="menu-price"><span>$23.95</span></div>
-                                    </div>
-                                    <div class="menu-description">
-                                        <p>Fresh Littleneck Clams Baked w/ Our Seasoned Breadcrumbs & Clam Broth</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                
+                                {% endif %}
+                                
+                            {% endfor %}
+                           
+                       </div>
                     </div>
-                    <div class="menu-section pl-4 pr-4 mb-4 bottom-border">
+                  {% endfor %}
+                    <!-- <div class="menu-section pl-4 pr-4 mb-4 bottom-border">
                         <div class="menu-section-header mb-4"><span>Appetizers</span></div>
                         <div class="row menu-items">
                             <div class="col-sm-6">
@@ -246,7 +201,7 @@
                                 </div>
                             </div>
                         </div>  
-                    </div>
+                    </div> -->
                 </div>
                 
             </div>

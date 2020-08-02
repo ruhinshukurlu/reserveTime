@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+{% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/fontawesome.min.css">
-    <link rel="stylesheet" href="css/owl.theme.default.min.css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/user-profile.css">
-    <link rel="stylesheet" href="css/company-profile.css">
-    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/fontawesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/user-profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/company-profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
     <title>Company List</title>
 
     <style>
@@ -31,10 +32,14 @@
         <div class="container custom-container ">
             <div class="row justify-content-between">
                 <div class="left side">
-                    <img src="images/profile.png" width="60px" alt="Profile photo">
+                    {% if user.profile_img %}
+                        <img src="{{user.profile_img.url}}" width="60px" alt="Profile photo">
+                    {% else %}
+                        <img src="{% static 'images/profile.png' %}" width="60px" alt="Profile photo">
+                    {% endif %}
                     <div class="d-flex flex-direction-column ml-2">
                         <span class="mt-1">Welcome</span>
-                        <h5 class="bold">Ruhin Shukurlu</h5>
+                        <h5 class="bold">{{user.first_name}} {{user.last_name}}</h5>
                     </div>
                 </div>
                 <div class="right side">
@@ -58,24 +63,25 @@
         <div class="container mt-3 company-admin-container">
             <div class="row">
                 <h3 class="full bottom-border bold pb-3 mb-5">Edit menu</h3>
-                <form action="" class="full mb-3 menu-form">
+                <form class="full mb-3 menu-form" method='POST'>
+                {% csrf_token %}
                    <div class="row">
                         <div class="col">
                             <div class="form-group">
                                 <label for="formGroupExampleInput">Title</label>
-                                <input type="text" class="form-control" id="formGroupExampleInput" placeholder="title">
+                                {{form.title}}
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
                                 <label for="selectType">Type</label>
-                                <select  class="form-control"  id="selectType">
-                                    <option selected>Type</option>
-                                    <option value="1">Salads</option>
-                                    <option value="2">Drinks</option>
-                                    <option value="3">Hot Meals</option>
-                                    <option value="4">Cold Meals</option>
-                                </select>
+                                {{form.menu_type}}
+                            </div>
+                        </div>
+                         <div class="col">
+                            <div class="form-group">
+                                <label for="selectType">Price</label>
+                                {{form.price}}
                             </div>
                         </div>
                    </div>
@@ -83,14 +89,14 @@
                        <div class="col">
                             <div class="form-group">
                                 <label for="exampleFormControlTextarea1">Description</label>
-                                <textarea  placeholder="Write description ..." class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+                                {{form.description}}
                             </div>
                        </div>
                    </div>  
                     <div class="d-flex justify-content-end">
                         <input type="submit" value="Save Changes" class="save-btn">
-                        <a href="#" class="delete-btn" data-toggle="modal" data-target="#exampleModal">Delete</a>   
-                    </div>
+                        <button type='button' class="delete-btn" data-toggle="modal" data-target="#exampleModal">Delete</button>   
+                    </div>  
                 </form>
                 
                 
@@ -114,16 +120,19 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-              <button type="button" class="btn btn-primary">Yes</button>
+              <form method="POST" action="{% url 'restaurant:menu-delete' menu.pk %}">
+                    {% csrf_token %}<input type="submit" class="btn btn-primary" value="DELETE">
+              </form>
+              
             </div>
           </div>
         </div>
       </div>
 
-    <script src="js/jquery-3.4.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
     <script>
         $(document).ready(function(){
             $('.header-btn').click(function(){

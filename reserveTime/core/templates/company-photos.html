@@ -82,30 +82,22 @@
                 <h3 class="full bottom-border bold pb-3 mb-5">Company Photos</h3>
                 <div class="row row-cols-2 row-cols-sm-3 row-cols-md-5 mb-3">
                     <!-- <p>You don't have any photo</p> -->
-                    <div class="col">
-                        <a href="photo-detail.html">
-                            <img src="images/img6.jpg" alt="">
-                        </a>
-                    </div>
-                    <div class="col">
-                        <img src="images/img6.jpg" alt="">
-                    </div>
-                    <div class="col">
-                        <img src="images/img6.jpg" alt="">
-                    </div>
-                    <div class="col">
-                        <img src="images/img6.jpg" alt="">
-                    </div>
-                    <div class="col">
-                        <img src="images/img6.jpg" alt="">
-                    </div>
-                    <div class="col">
-                        <img src="images/img6.jpg" alt="">
-                    </div>
-                    <div class="col">
-                        <img src="images/img6.jpg" alt="">
-                    </div>
-
+                    {% if photos %}
+                        {% for photo in photos %}
+                            <div class="col">
+                                <a href="{% url 'restaurant:photo-update' photo.pk %}">
+                                    {% if photo.photo %}
+                                        <img src="{{photo.photo.url}}" data-type='{{photo.photo_type}}' alt="">
+                                    {% else %}
+                                        <img src="{{photo.photo_url}}" alt="">
+                                    {% endif %}
+                                </a>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p>You don't have any photo</p>
+                    {% endif %}
+                   
                 </div>
 
             </div>

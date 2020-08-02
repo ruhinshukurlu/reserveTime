@@ -12,8 +12,8 @@ class Company(models.Model):
         ('MasterCard', 'MasterCard'),
         ('Visa', 'Visa'),
     )
+    user = models.OneToOneField("account.User", verbose_name=_(""), on_delete=models.CASCADE)
     
-    user = models.OneToOneField("account.User", verbose_name=_("customer"), on_delete=models.CASCADE, related_name='company')
     company_name = models.CharField(_("Company Name"), max_length=250)
     phone_number = models.CharField(_("Phone Number"), max_length=50)
 
@@ -44,14 +44,14 @@ class Company(models.Model):
 
 class Photo(models.Model):
     PHOTO_TYPES = (
-        ('1', 'Food'),
-        ('2', 'Drink'),
-        ('3', 'Interior'),
-        ('4', 'Exterior'),
+        ('food', 'Food'),
+        ('drink', 'Drink'),
+        ('interior', 'Interior'),
+        ('exterior', 'Exterior'),
     )
-    owner = models.ForeignKey("restaurant.Company", verbose_name=_("Owner"), on_delete=models.CASCADE, related_name='photo_owner')
+    owner = models.ForeignKey("account.User", verbose_name=_("Owner"), on_delete=models.CASCADE, related_name='photo_owner')
     photo = models.ImageField(_("Company Photo"), upload_to='company-photos/')
-    photo_url = models.URLField(_("Photo Url"), max_length=200, blank=True, null=True)
+    photo_url = models.URLField(_("Photo Url"), max_length=200)
     photo_type = models.CharField(_("type"), choices=PHOTO_TYPES ,max_length=50)
 
     class Meta:
@@ -63,12 +63,11 @@ class Photo(models.Model):
 
 
 class Menu(models.Model):
-    # company = models.OneToOneField("restaurant.Company", verbose_name=_("Company"), on_delete=models.CASCADE, related_name='company_menu')
-    company = models.ForeignKey("restaurant.Company", verbose_name=_("Company"), on_delete=models.CASCADE, related_name='menu')
+    company = models.ForeignKey("account.User", verbose_name=_("Company"), on_delete=models.CASCADE, related_name='menu')
     title = models.CharField(_("Title"), max_length=50)
     price = models.IntegerField(_("Price"))
     description = models.TextField(_("Description"))
-    menu_type = models.ForeignKey("restaurant.MenuCategory", verbose_name=_("Type"), on_delete=models.CASCADE, related_name='menu_type')
+    menu_type = models.ForeignKey("restaurant.MenuCategory", verbose_name=_("Type"), on_delete=models.CASCADE, related_name='menu')
 
     class Meta:
         verbose_name = _("Menu")
