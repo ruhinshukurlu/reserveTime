@@ -73,6 +73,14 @@ class PhotoForm(forms.ModelForm):
 
 
 class CompanyInfosForm(forms.ModelForm):
+    work_hours_from = forms.TimeField( widget=forms.TimeInput(attrs={
+        'class' : 'form-control',
+        'type' : 'time'
+    }))
+    work_hours_to = forms.TimeField( widget=forms.TimeInput(attrs={
+        'class' : 'form-control',
+        'type' : 'time'
+    }))
     
     class Meta:
         model = Company
@@ -92,12 +100,6 @@ class CompanyInfosForm(forms.ModelForm):
                 'class' : 'form-control'
             }),
             'country_location' : forms.TextInput(attrs={
-                'class' : 'form-control'
-            }),
-            'work_hours_from' : forms.TextInput(attrs={
-                'class' : 'form-control'
-            }),
-            'work_hours_to' : forms.TextInput(attrs={
                 'class' : 'form-control'
             }),
             'cuisines' : forms.TextInput(attrs={

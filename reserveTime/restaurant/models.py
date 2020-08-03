@@ -1,5 +1,5 @@
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext as _
 
 
 # Create your models here.
@@ -132,7 +132,7 @@ class Time(models.Model):
         verbose_name_plural = _("Times")
 
     def __str__(self):
-        return self.reserved_time
+        return str(self.reserved)
 
 
 class Reservation(models.Model):

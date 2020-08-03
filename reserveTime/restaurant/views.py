@@ -11,6 +11,7 @@ from django.views.generic.edit import FormMixin
 from restaurant.models import *
 from restaurant.forms import *
 from django.contrib import messages
+import datetime
 # Create your views here.
 
 
@@ -34,7 +35,7 @@ class MenuView(CreateView):
     model = Menu
     form_class = MenuForm
     template_name = 'company-menus.html'
-    success_url = reverse_lazy('core:home')
+    success_url = reverse_lazy('restaurant:menu')
     
     def form_valid(self, form):
         form.instance.company = self.request.user
@@ -124,10 +125,14 @@ class CompanyTablesView(CreateView):
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
-
+        
         inside_tables = Table.objects.filter(table_place = 'inside').order_by('size')
         outside_tables = Table.objects.filter(table_place = 'outside').order_by('size')
-        return render(request, self.template_name, {'form' : form, 'inside_tables' : inside_tables, 'outside_tables' : outside_tables})
+        return render(request, self.template_name, {
+                'form' : form, 
+                'inside_tables' : inside_tables, 
+                'outside_tables' : outside_tables
+            })
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -136,12 +141,35 @@ class CompanyTablesView(CreateView):
             amount = form.cleaned_data['amount']
             size = form.cleaned_data['size']
             place = form.cleaned_data['table_place']
+             
+            company_start_hour = self.request.user.company.work_hours_from
+            company_finish_hour = self.request.user.company.work_hours_to
+            free_times = []
 
+            while company_start_hour < company_finish_hour:
+                company_start_hour = (datetime.datetime.combine(  
+                        datetime.date(1, 1, 1),  
+                        company_start_hour
+                    ) + datetime.timedelta(minutes=30)).time()
+
+                free_times.append(company_start_hour)
+            
+            free_times = free_times[:-1]
+            
             for i in range(amount): 
                 table = Table.objects.create(size = size, table_place = place, company = self.request.user)
+                for free_time in free_times:
+                    time = Time.objects.create(free_time = free_time, reserved = False)
+                    table.times.add(time)
 
             return HttpResponseRedirect(reverse_lazy('restaurant:company-tables', kwargs={'pk': self.request.user.pk}))
 
         return render(request,self.template_name, {'form' : form})
 
+
+class TableDeleteView(DeleteView):
+    model = Table
+    template_name = "company-tables.html"
     
+    def get_success_url(self):
+        return reverse_lazy('restaurant:company-tables', kwargs={'pk': self.object.pk})  

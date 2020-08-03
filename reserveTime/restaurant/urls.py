@@ -13,4 +13,5 @@ urlpatterns = [
     path("company/photos/<int:pk>/delete", PhotoDeleteView.as_view(), name="photo-delete"),
     path("company/<int:pk>/informations", CompanyInfosView.as_view(), name="company-infos"),
     path("company/<int:pk>/tables", CompanyTablesView.as_view(), name="company-tables"),
+    path("company/tables/<int:pk>/delete", TableDeleteView.as_view(), name="table-delete"),
 ]

@@ -83,7 +83,7 @@
                     <input type="submit" value="Save" class="save-btn">
                 </form>
                 <h3 class="full bottom-border bold pb-3 mb-5">Company Photos</h3>
-                <div class="row row-cols-2 row-cols-sm-3 row-cols-md-5 mb-3">
+                <div class="row row-cols-2 row-cols-sm-3 row-cols-md-5 mb-3 full">
                     <!-- <p>You don't have any photo</p> -->
                     {% if photos %}
                         {% for photo in photos %}
@@ -98,7 +98,7 @@
                             </div>
                         {% endfor %}
                     {% else %}
-                        <p>You don't have any photo</p>
+                        <p class="bold m-auto">You don't have any photo</p>
                     {% endif %}
                    
                 </div>
