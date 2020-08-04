@@ -12,7 +12,6 @@ from restaurant.models import *
 from restaurant.forms import *
 from django.contrib import messages
 import datetime
-# Create your views here.
 
 
 class RestaurantRegisterView(CreateView):
@@ -26,7 +25,7 @@ class RestaurantRegisterView(CreateView):
 
     def form_valid(self, form):
         user = form.save()
-        login(self.request, user)
+        login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
         return redirect('core:home')
 
 
@@ -44,7 +43,7 @@ class MenuView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["menus"] = Menu.objects.all()
+        context["menus"] = Menu.objects.filter(company=self.request.user)
         context["menu_categories"] = MenuCategory.objects.all()
         
         return context
@@ -85,7 +84,7 @@ class PhotoView(CreateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["photos"] = Photo.objects.all()
+        context["photos"] = Photo.objects.filter(owner=self.request.user)
         
         return context
 
@@ -126,8 +125,8 @@ class CompanyTablesView(CreateView):
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         
-        inside_tables = Table.objects.filter(table_place = 'inside').order_by('size')
-        outside_tables = Table.objects.filter(table_place = 'outside').order_by('size')
+        inside_tables = Table.objects.filter(table_place = 'inside', company=self.request.user).order_by('size')
+        outside_tables = Table.objects.filter(table_place = 'outside', company=self.request.user).order_by('size')
         return render(request, self.template_name, {
                 'form' : form, 
                 'inside_tables' : inside_tables, 

@@ -23,7 +23,8 @@ urlpatterns = [
     path("company/<int:pk>/update", CompanyUpdateView.as_view(), name="company-update"),
 
     path('reset_password/',
-     auth_views.PasswordResetView.as_view(template_name = 'reset_password.html',success_url = reverse_lazy('account:password_reset_done')),
+     auth_views.PasswordResetView.as_view(template_name = 'reset_password.html',
+     success_url = reverse_lazy('account:password_reset_done')),
      name="password_reset"),
 
     path('reset_password_done/', 

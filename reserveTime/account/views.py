@@ -1,13 +1,15 @@
 from django.shortcuts import render, redirect
 from django.views.generic import CreateView
 from django.views.generic import DetailView, UpdateView
-from account.models import User
+from account.models import *
 from account.forms import *
 from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.views import LoginView,PasswordChangeView,PasswordChangeDoneView,PasswordResetView, PasswordResetConfirmView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-# Create your views here.
+from django.contrib import messages
+
+
 
 class CustomerRegisterView(CreateView):
     model = User
@@ -23,31 +25,29 @@ class CustomerRegisterView(CreateView):
         # login(self.request, user)
         return redirect('core:home')
 
-# class LoginView(LoginView):
-#     template_name = 'login-user.html'
-#     form_class = LoginForm
 
-#     def get(self, request, *args, **kwargs):
-#         form = self.form_class()
-#         print(self.request.user)
-#         return render(request, self.template_name, {'form' : form})
-
-#     def form_valid(self, form):
-#         # print(self.request.user)
-#         return redirect('core:home')
 
 def login_view(request):
-
-    form = LoginForm(request.POST or None)
-    if form.is_valid():
-        email = form.cleaned_data.get("username")
-        password = form.cleaned_data.get("password")
+    if request.method == 'POST':
+        form = LoginForm(request.POST or None)
+        email = request.POST['username']
+        password = request.POST['password']
         user = authenticate(email=email, password=password)
-        login(request, user)
-        return redirect('core:home')
-    context = {"form": form}
 
-    return render (request, "login-user.html", context)
+        if user is not None:
+            if user.is_active:
+                login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+                return redirect('core:home')
+        else:
+            messages.error(request,'Email or password is not correct')
+            return redirect('account:login')
+
+    else:
+        form = LoginForm()
+    return render(request, 'login-user.html', {'form': form})
+
+
+
 
 class ChangePasswordView(PasswordChangeView):
     template_name = 'change-password.html'
