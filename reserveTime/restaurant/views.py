@@ -145,7 +145,6 @@ class CompanyTablesView(CreateView):
             company_start_hour = self.request.user.company.work_hours_from
             company_finish_hour = self.request.user.company.work_hours_to
             free_times = []
-
             while company_start_hour < company_finish_hour:
                 company_start_hour = (datetime.datetime.combine(  
                         datetime.date(1, 1, 1),  
@@ -173,3 +172,5 @@ class TableDeleteView(DeleteView):
     
     def get_success_url(self):
         return reverse_lazy('restaurant:company-tables', kwargs={'pk': self.object.pk})  
+
+

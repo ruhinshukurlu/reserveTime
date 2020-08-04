@@ -86,22 +86,27 @@
                 </div>
                
             </div>
-            <div class="row">
-                <div class="col-lg-5 mx-auto pt-5">
-                    <form>
-                        <div class="form-group">
-                            <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-block btn-social btn-google py-3" style="border: 1px solid #ccc;">
-                                <i class="fab fa-google-plus-g mr-2"></i>Continue with Google
-                            </a>
-                            <a href="{% url 'social:begin' 'facebook' %}" class="btn btn-block btn-social btn-facebook py-3 social" style="border: 1px solid #ccc">
-                                <i class="fab fa-facebook-f mr-2"></i> Continue with Facebook
-                            </a>
-                        
-                        </div>
-                    </form>
+            {% if user.is_company %}
+                <div class="row"></div>
+            
+            {% else %}
+                <div class="row">
+                    <div class="col-lg-5 mx-auto pt-5">
+                        <form>
+                            <div class="form-group">
+                                <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-block btn-social btn-google py-3" style="border: 1px solid #ccc;">
+                                    <i class="fab fa-google-plus-g mr-2"></i>Continue with Google
+                                </a>
+                                <a href="{% url 'social:begin' 'facebook' %}" class="btn btn-block btn-social btn-facebook py-3 social" style="border: 1px solid #ccc">
+                                    <i class="fab fa-facebook-f mr-2"></i> Continue with Facebook
+                                </a>
+                            
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </div>
-        
+
+            {% endif %}
         </div>
     <!-- </main> -->
     

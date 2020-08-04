@@ -164,7 +164,7 @@
                                 </span>
 
                                 <div class="modal fade" id="time{{table.pk}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
+                                    <div class="modal-dialog times-list-box" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="exampleModalLabel">Times</h5>
@@ -173,15 +173,15 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <div class="row row-cols-5">
+                                                <div class="row row-cols-5 time-items-box">
                                                     {% for time in table.times.all %}
                                                         {% if time.reserved %}
-                                                            <div class="col">
-                                                                <span class="btn btn-danger mb-2">{{time.free_time}}</span>
+                                                            <div class="col-6 col-lg-3 mb-2">
+                                                                <span class="btn btn-danger mb-2 reserve-times">{{time.free_time}}</span>
                                                             </div>
                                                         {% else %}
-                                                            <div class="col">
-                                                                <span class="btn btn-success mb-2">{{time.free_time}}</span>
+                                                            <div class="col-6 col-lg-3 mb-2">
+                                                                <span class="btn btn-success mb-2 reserve-times">{{time.free_time}}</span>
                                                             </div>
                                                         {% endif %} 
                                                     {% endfor %}
@@ -230,7 +230,7 @@
                                 </span>
 
                                 <div class="modal fade" id="time{{table.pk}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
+                                    <div class="modal-dialog times-list-box" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="exampleModalLabel">Times</h5>
@@ -239,15 +239,15 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                <div class="row row-cols-5">
+                                                <div class="row row-cols-5 time-items-box">
                                                     {% for time in table.times.all %}
                                                         {% if time.reserved %}
-                                                            <div class="col">
-                                                                <span class="btn btn-danger mb-2">{{time.free_time}}</span>
+                                                            <div class="col-6 col-lg-3 mb-2">
+                                                                <span class="btn btn-danger mb-2 reserve-times">{{time.free_time}}</span>
                                                             </div>
                                                         {% else %}
-                                                            <div class="col">
-                                                                <span class="btn btn-success mb-2">{{time.free_time}}</span>
+                                                            <div class="col-6 col-lg-3 mb-2">
+                                                                <span class="btn btn-success mb-2 reserve-times">{{time.free_time}}</span>
                                                             </div>
                                                         {% endif %} 
                                                     {% endfor %}

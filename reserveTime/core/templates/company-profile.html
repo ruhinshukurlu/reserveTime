@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+{% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/fontawesome.min.css">
-    <link rel="stylesheet" href="css/owl.theme.default.min.css">
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
-    <link rel="stylesheet" href="css/reset.css">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/user-profile.css">
-    <link rel="stylesheet" href="css/company-profile.css">
-    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/fontawesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/user-profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/company-profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
     <title>Company Profile</title>
 </head>
 <body id="profile-body">
@@ -22,7 +23,7 @@
             <div class="row justify-content-between">
                 <div class="left side">
                     <a href="#">
-                        <img src="images/logo.png" width="250px" alt="">
+                        <img src="{% static 'images/logo.png' %}" width="250px" alt="">
                     </a>
                 </div>
                 <div class="right side">
@@ -109,7 +110,7 @@
                         </div>
                     </div>
                     <div class="row overview" id="1">
-                        <h1 class="company-name bold">Cilantro - Hilton Baku Hotel</h1>
+                        <h1 class="company-name bold">{{company.company_name}}</h1>
                         <div class="d-flex pl-3">
                             <div class="stars d-flex">
                                 <div class="star"><i class="fas fa-star"></i></div>
@@ -122,10 +123,8 @@
                             <p class="company-type"><i class="fas fa-utensils"></i> Global, International</p>
                         </div>
                         <p class="description p-3">
-                            At ROLLERCOASTERRESTAURANT®, food and beverages are freshly prepared immediately upon 
-                            receipt of your order. The ingredients used are local ingredients (if possible). 
-                            Innovative technical kitchen equipment and our head chef with his team of talented 
-                            chefs prepare all meals freshly, creating a marvellous taste.</p>
+                            {{company.description}}
+                        </p>
                     </div>
 
                     <div class="row go-to-reservation">
@@ -604,10 +603,10 @@
     </main>
     
 
-    <script src="js/jquery-3.4.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
     <script>
         $(document).ready(function(){
             $('.header-btn').click(function(){
