@@ -22,7 +22,7 @@
         <div class="container custom-container header-container shadow">
             <div class="row justify-content-between">
                 <div class="left side">
-                    <a href="#">
+                    <a href="{% url 'core:home' %}">
                         <img src="{% static 'images/logo.png' %}" width="250px" alt="">
                     </a>
                 </div>
@@ -110,7 +110,7 @@
                         </div>
                     </div>
                     <div class="row overview" id="1">
-                        <h1 class="company-name bold">{{company.company_name}}</h1>
+                        <h1 class="company-name bold">{{user.company.company_name}}</h1>
                         <div class="d-flex pl-3">
                             <div class="stars d-flex">
                                 <div class="star"><i class="fas fa-star"></i></div>
@@ -145,34 +145,18 @@
 
                     <div class="reserve-box">
                         <h4 class="bottom-border bold pb-2 text-center">Make a reservation</h4>
-                        <form action="" class="reserve-form">
+                        <form action="{% url 'core:company-table' user.company.pk %}"  method='POST' class="reserve-form">
+                            {% csrf_token %}
                             <label for="party-size" >Party Size</label>
-                            <select id="party-size" name="size">
-                              <option value="1">For 1</option>
-                              <option value="2">For 2</option>
-                              <option value="3">For 3</option>
-                              <option value="4">For 4</option>
-                              <option value="5">For 5</option>
-                              <option value="6">For 6</option>
-                              <option value="7">For 7</option>
-                            </select>
+                            {{form.size}}
                             <div class="d-flex mt-4 mb-4">
                                 <div>
                                     <label for="date">Date</label>
-                                    <input type="date" id="date" name="trip-start" value="2018-07-22" min="2020-07-15" max="2020-08-31">
+                                    {{form.date}}
                                 </div>
                                 <div>
                                     <label for="time">Time</label>
-                                    <select id="time" name="time">
-                                        <option value="">11:30 AM</option>
-                                        <option value="">12:00 AM</option>
-                                        <option value="">11:30 AM</option>
-                                        <option value="">11:30 AM</option>
-                                        <option value="">11:30 AM</option>
-                                        <option value="">11:30 AM</option>
-                                        <option value="">11:30 AM</option>
-                                        <option value="">11:30 AM</option>
-                                    </select>
+                                    {{form.time}}
                                 </div>
                             </div>
                             <input type="submit" value="Find Table" class="find-table-btn">

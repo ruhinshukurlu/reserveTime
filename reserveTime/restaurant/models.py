@@ -68,6 +68,8 @@ class Menu(models.Model):
     price = models.IntegerField(_("Price"))
     description = models.TextField(_("Description"))
     menu_type = models.ForeignKey("restaurant.MenuCategory", verbose_name=_("Type"), on_delete=models.CASCADE, related_name='menu')
+    selected = models.BooleanField(_("Selected"), default=False)
+
 
     class Meta:
         verbose_name = _("Menu")
@@ -87,6 +89,7 @@ class MenuCategory(models.Model):
     def __str__(self):
         return self.title
 
+    
 class Comment(models.Model):
 
     company = models.ForeignKey("restaurant.Company", verbose_name=_("Company"), on_delete=models.CASCADE, related_name='company_comment')
@@ -113,7 +116,8 @@ class Table(models.Model):
     size = models.IntegerField(_("Size"))
     times = models.ManyToManyField("restaurant.Time", verbose_name=_("Time"))
     table_place = models.CharField(_("Table Place"), max_length=50, choices=TABLE_PLACES)
-    
+    date = models.DateField(_("Date"), blank=True, null=True)
+
     class Meta:
         verbose_name = _("Table")
         verbose_name_plural = _("Tables")
