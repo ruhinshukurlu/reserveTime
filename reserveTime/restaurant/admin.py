@@ -9,7 +9,7 @@ User = get_user_model()
 
 @admin.register(Company)
 class CompanyAdmin(admin.ModelAdmin):
-    list_display = ('company_name','city_location','province_location','country_location',)
+    list_display = ('id','company_name','city_location','province_location','country_location',)
     
 @admin.register(Menu)
 class MenuAdmin(admin.ModelAdmin):
@@ -36,7 +36,16 @@ class TableAdmin(admin.ModelAdmin):
 class TimeAdmin(admin.ModelAdmin):
     list_display = ['free_time','reserved']
 
+@admin.register(TableDate)
+class TableDateAdmin(admin.ModelAdmin):
+    list_display = ['date']
+
 
 @admin.register(Reservation)
 class ReservationAdmin(admin.ModelAdmin):
-    list_display = ['company','user','reserved_time','table']
+    list_display = ['company','user','reserved_time','table_id']
+
+@admin.register(Portion)
+class PortionAdmin(admin.ModelAdmin):
+    list_display = ['menu_id','portion_count']
+    

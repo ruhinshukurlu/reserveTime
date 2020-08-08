@@ -70,7 +70,6 @@ class Menu(models.Model):
     menu_type = models.ForeignKey("restaurant.MenuCategory", verbose_name=_("Type"), on_delete=models.CASCADE, related_name='menu')
     selected = models.BooleanField(_("Selected"), default=False)
 
-
     class Meta:
         verbose_name = _("Menu")
         verbose_name_plural = _("Menus")
@@ -116,8 +115,8 @@ class Table(models.Model):
     size = models.IntegerField(_("Size"))
     times = models.ManyToManyField("restaurant.Time", verbose_name=_("Time"))
     table_place = models.CharField(_("Table Place"), max_length=50, choices=TABLE_PLACES)
-    date = models.DateField(_("Date"), blank=True, null=True)
-
+    dates = models.ManyToManyField("restaurant.TableDate", verbose_name=_("Dates"), related_name='table')
+    
     class Meta:
         verbose_name = _("Table")
         verbose_name_plural = _("Tables")
@@ -139,17 +138,47 @@ class Time(models.Model):
         return str(self.reserved)
 
 
+class TableDate(models.Model):
+
+    date = models.DateField(_("Date"), blank=True, null=True)
+
+    class Meta:
+        verbose_name = _("TableDate")
+        verbose_name_plural = _("TableDates")
+
+    def __str__(self):
+        return str(self.date)
+
+    
+class Portion(models.Model):
+
+    menu_id = models.IntegerField(_("Menu Id"))
+    portion_count = models.IntegerField(_("Portion Count"))
+
+    class Meta:
+        verbose_name = _("Portion")
+        verbose_name_plural = _("Portions")
+
+    def __str__(self):  
+        return str(self.menu_id)
+
+    
+
+
 class Reservation(models.Model):
 
-    user = models.OneToOneField("account.User", verbose_name=_("User"), on_delete=models.CASCADE, related_name='reservation')
+    user = models.ForeignKey("account.User", verbose_name=_("User"), on_delete=models.CASCADE, related_name='reservation')
     company = models.ForeignKey("restaurant.Company", verbose_name=_("Company"), on_delete=models.CASCADE, related_name='reservation')
-    table = models.OneToOneField("restaurant.Table", verbose_name=_("Table"), on_delete=models.CASCADE, related_name='reservation')
-    reserved_time = models.TimeField(_("Reserved Time"), auto_now=False, auto_now_add=False)
-    menus = models.ManyToManyField("restaurant.Menu", verbose_name=_("Menus"), related_name='reservation')
+    table_id = models.IntegerField(_("Table Id"), null=True, blank=True)
+    reserved_time = models.TimeField(_("Reserved Time"))
+    reserved_date = models.DateField(_("Reserved Date"), blank=True, null=True)
+    # menus = models.ManyToManyField("restaurant.Menu", verbose_name=_("Menus"), related_name='reservation')
+    portions = models.ManyToManyField("restaurant.Portion", verbose_name=_("Portions"), related_name='reservation_portions')
+    total_price = models.IntegerField(_("Total Price"), null=True, blank=True)
 
     class Meta:
         verbose_name = _("Reservation")
         verbose_name_plural = _("Reservations")
 
     def __str__(self):
-        return self.reserved_time
+        return str(self.reserved_time)

@@ -168,24 +168,24 @@
 }
 
 #party-size,
-#time,
-#date{
+#reserve-time,
+#reserve-date{
     background-color: white;
     width: 100%;
     cursor: pointer;
-    height: 35px;
+    height: 45px;
     border: 1px solid #ccc;
     border-radius: 10px;
-    padding: 5px;
+    padding: 3px;
 }
 
 .go-reserve-btn{
-    width: 350px;
+    width: 200px;
     height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #0051FF;
+    background-color: #28a745;
     border-radius: 15px;
     color: white;
     font-weight: bold;
@@ -213,6 +213,11 @@
 
 .company-info-block span{
     font-weight: bold;
+}
+
+.icon-block i, svg{
+    margin: 10px;
+    font-size: 18px;
 }
 
 .icon-box i, svg{

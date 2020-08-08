@@ -144,6 +144,7 @@ class CompanyTablesView(CreateView):
             company_start_hour = self.request.user.company.work_hours_from
             company_finish_hour = self.request.user.company.work_hours_to
             free_times = []
+            free_times.append(company_start_hour)
             while company_start_hour < company_finish_hour:
                 company_start_hour = (datetime.datetime.combine(  
                         datetime.date(1, 1, 1),  
@@ -154,11 +155,22 @@ class CompanyTablesView(CreateView):
             
             free_times = free_times[:-1]
             
+            reserve_start_date = datetime.date.today()
+            reserve_finish_date = (datetime.date.today()+datetime.timedelta(days=30)).isoformat()
+        
+            reserve_dates = []
+            for i in range(31):
+                reserve_dates.append(reserve_start_date)
+                reserve_start_date = (reserve_start_date+datetime.timedelta(days=1))
+
             for i in range(amount): 
                 table = Table.objects.create(size = size, table_place = place, company = self.request.user)
                 for free_time in free_times:
                     time = Time.objects.create(free_time = free_time, reserved = False)
                     table.times.add(time)
+                for free_date in reserve_dates:
+                    date = TableDate.objects.create(date=free_date)
+                    table.dates.add(date)
 
             return HttpResponseRedirect(reverse_lazy('restaurant:company-tables', kwargs={'pk': self.request.user.pk}))
 
