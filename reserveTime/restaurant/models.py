@@ -163,8 +163,6 @@ class Portion(models.Model):
         return str(self.menu_id)
 
     
-
-
 class Reservation(models.Model):
 
     user = models.ForeignKey("account.User", verbose_name=_("User"), on_delete=models.CASCADE, related_name='reservation')

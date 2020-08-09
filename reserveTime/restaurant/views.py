@@ -6,7 +6,7 @@ from account.forms import RestaurantRegisterForm, UserEditForm
 from django.urls import reverse_lazy
 from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.views.generic import DetailView, UpdateView, FormView , DeleteView
+from django.views.generic import DetailView, UpdateView, FormView , DeleteView, ListView
 from django.views.generic.edit import FormMixin
 from restaurant.models import *
 from restaurant.forms import *
@@ -27,7 +27,6 @@ class RestaurantRegisterView(CreateView):
         user = form.save()
         login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
         return redirect('core:home')
-
 
 
 class MenuView(CreateView):
@@ -56,7 +55,6 @@ class MenuUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('restaurant:menu')
-
 
 
 class MenuDeleteView(DeleteView):
@@ -185,3 +183,36 @@ class TableDeleteView(DeleteView):
         return reverse_lazy('restaurant:company-tables', kwargs={'pk': self.object.pk})  
 
 
+class ResevedUserList(DetailView):
+    model = Company
+    template_name = 'company-users.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        company = Company.objects.filter(pk=self.kwargs.get('pk'))
+
+        reservations = Reservation.objects.filter(company__in=company)
+
+        reserved_user_list = []
+
+        for reservation in reservations:
+            if reservation.user not in reserved_user_list:
+                reserved_user_list.append(reservation.user)
+
+        context['reserved_users'] = reserved_user_list
+
+        return context
+
+
+class CompanyReservations(ListView):
+    model = Reservation
+    context_object_name = 'reservations'
+    template_name='reservations-list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        company = Company.objects.filter(pk=self.kwargs.get('pk'))
+        reservations = Reservation.objects.filter(user = self.request.user)
+        print(reservations.first().user)
+        context["party_size"] = Reservation.objects.filter(user = self.request.user)
+        return context

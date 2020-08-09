@@ -115,7 +115,7 @@
                     </a>
                 </div>
                 <div class="col-lg-6 d-flex justify-content-center">
-                    <a href="company-users.html">
+                    <a href="{% url 'restaurant:company-users' user.company.pk %}">
                         <div class="link-box" style="background-color: #666981;">
                             <i class="fas fa-users"></i>
                             <div class="ml-2 d-flex flex-direction-column">
@@ -126,7 +126,7 @@
                     </a>
                 </div>
                 <div class="col-lg-6 d-flex justify-content-center">
-                    <a href="reservations-list.html">
+                    <a href="{% url 'restaurant:company-reservations' user.company.pk %}">
                         <div class="link-box" style="background-color: #e17695;">
                             <i class="fas fa-clock"></i>
                             <div class="ml-2 d-flex flex-direction-column">

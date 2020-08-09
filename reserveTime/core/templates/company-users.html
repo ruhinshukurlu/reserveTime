@@ -32,13 +32,19 @@
     <header>
         <div class="container custom-container ">
             <div class="row justify-content-between">
-                <div class="left side">
-                    <img src="images/profile.png" width="60px" alt="Profile photo">
-                    <div class="d-flex flex-direction-column ml-2">
-                        <span class="mt-1">Welcome</span>
-                        <h5 class="bold">Ruhin Shukurlu</h5>
+                <a href="{% url 'account:company-update' user.pk %}">
+                    <div class="left side">
+                        {% if user.profile_img %}
+                        <img src="{{user.profile_img.url}}" width="60px" alt="Profile photo">
+                        {% else %}
+                        <img src="{% static 'images/profile.png' %}" width="60px" alt="Profile photo">
+                        {% endif %}
+                        <div class="d-flex flex-direction-column ml-2" style="color: wheat;">
+                            <span class="mt-1">Welcome</span>
+                            <h5 class="bold">{{user.first_name}} {{user.last_name}}</h5>
+                        </div>
                     </div>
-                </div>
+                </a>
                 <div class="right side">
                     <div class="notification">
                         <div class="d-flex">
@@ -60,7 +66,38 @@
         <div class="container mt-3 company-admin-container">
             <div class="row">
                 <h3 class="full bottom-border bold pb-3 mb-5">All users reserved your restaurant</h3>
-                
+                <div class="user-box inner-container">
+                    {% for user in reserved_users %}
+                        <div class="user-item row">
+                            <div class="col-3 comment-author">
+                                <div class="reserve-author-profile-img">{{user.first_name|slice:"1"}}{{user.last_name|slice:"1"}}</div>
+                                <div class="user-username">{{user.username}}</div>
+                                <div class="user-address">San Francisco</div>
+                                <div class="user-comments-count">
+                                    <p class="review-text mr-4 ml-4"><i class="far fa-comment"></i> 4 reviews</p>
+                                </div>
+                            </div>
+                            <div class="col-9">
+                                <div class="d-flex">
+                                    <div class="posted-date pl-4">
+                                        <p>Last Reservation on July 7, 2020</p>
+                                    </div>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="posted-date pl-4">
+                                        <p>Number of reservations : 4</p>
+                                    </div>
+                                </div>
+                                <div class="d-flex">
+                                    <div class="posted-date pl-4">
+                                        <p>Total money for all reservations : 123$</p>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </main>

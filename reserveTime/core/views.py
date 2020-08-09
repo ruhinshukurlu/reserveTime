@@ -9,8 +9,6 @@ from django.shortcuts import get_list_or_404, get_object_or_404
 import datetime
 from django.views.decorators.csrf import csrf_exempt
 
-def home(request):
-    return render(request, 'home-page.html')
 
 
 class HomeView(TemplateView):
@@ -20,8 +18,6 @@ class HomeView(TemplateView):
         context = super().get_context_data(**kwargs)
         context["companies"] = Company.objects.all()
         return context
-
-
 
 
 class CompanyProfile(FormMixin, DetailView):
@@ -194,22 +190,4 @@ class CompanyProfile(FormMixin, DetailView):
             )
 
         
-    
-class SelectMenu(ListView):
-    model = Menu
-    context_object_name = 'menus'
-    template_name = 'select-menus.html' 
 
-
-class ReservationListView(ListView):
-    model = Reservation
-    context_object_name = 'reservations'
-    template_name='reservations-list.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        company = Company.objects.filter(pk=self.kwargs.get('pk'))
-        reservations = Reservation.objects.filter(user = self.request.user)
-        print(reservations.first().user)
-        context["party_size"] = Reservation.objects.filter(user = self.request.user)
-        return context
