@@ -175,7 +175,9 @@ class Reservation(models.Model):
     # menus = models.ManyToManyField("restaurant.Menu", verbose_name=_("Menus"), related_name='reservation')
     portions = models.ManyToManyField("restaurant.Portion", verbose_name=_("Portions"), related_name='reservation_portions')
     total_price = models.IntegerField(_("Total Price"), null=True, blank=True)
-
+    accessed = models.BooleanField(_("Accessed"), default=False)
+    denied = models.BooleanField(_("Denied"), default=False)
+    
     class Meta:
         verbose_name = _("Reservation")
         verbose_name_plural = _("Reservations")

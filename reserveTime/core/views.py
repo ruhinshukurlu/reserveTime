@@ -199,3 +199,17 @@ class SelectMenu(ListView):
     model = Menu
     context_object_name = 'menus'
     template_name = 'select-menus.html' 
+
+
+class ReservationListView(ListView):
+    model = Reservation
+    context_object_name = 'reservations'
+    template_name='reservations-list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        company = Company.objects.filter(pk=self.kwargs.get('pk'))
+        reservations = Reservation.objects.filter(user = self.request.user)
+        print(reservations.first().user)
+        context["party_size"] = Reservation.objects.filter(user = self.request.user)
+        return context

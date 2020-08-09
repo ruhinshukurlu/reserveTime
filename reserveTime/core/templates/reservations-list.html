@@ -66,7 +66,7 @@
                     </div>
                     <div class="content">
                         <!-- <p>No Upcoming Reservations</p> -->
-                        <a href="reservation-detail.html" class="full">
+                        {% for reservation in reservations %}
                             <div class="comment-item row">
                                 <div class="col-3 comment-author">
                                     <div class="comment-author-profile-img">AS</div>
@@ -91,33 +91,8 @@
                                     </div>  
                                 </div>
                             </div>
-                        </a>
-                        <a href="reservation-detail.html" class="full">
-                            <div class="comment-item row">
-                                <div class="col-3 comment-author">
-                                    <div class="comment-author-profile-img">AS</div>
-                                    <div class="comment-author-username">alexandrav</div>
-                                    <div class="comment-author-address">San Francisco</div>                           
-                                </div>
-                                <div class="col-9">
-                                    <div class="d-flex">
-                                        
-                                        <div class="d-flex ">
-                                            <span class="bold mr-2">Reserve Date and Time : </span>
-                                            <p>July 7, 2020. 12.00 AM</p>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex">
-                                        <span class="bold">Party Size : </span>
-                                        <p> 7 people</p>
-                                    </div>
-                                    <div class="d-flex">
-                                        <span class="bold">Total Price : </span>
-                                        <p>25 $</p>
-                                    </div>  
-                                </div>
-                            </div>
-                        </a>
+                        {% endfor %}   
+                        
                     </div>
                 </div>
                 <div class="reservations full">
