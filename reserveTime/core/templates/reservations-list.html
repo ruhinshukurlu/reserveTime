@@ -72,33 +72,44 @@
                     </div>
                     <div class="content">
                         <!-- <p>No Upcoming Reservations</p> -->
-                        {% for reservation in reservations %}
-                            <div class="comment-item row">
-                                <div class="col-3 comment-author">
-                                    <div class="comment-author-profile-img">AS</div>
-                                    <div class="comment-author-username">alexandrav</div>
-                                    <div class="comment-author-address">San Francisco</div>                           
-                                </div>
-                                <div class="col-9">
-                                    <div class="d-flex">
-                                        
-                                        <div class="d-flex ">
-                                            <span class="bold mr-2">Reserve Date and Time : </span>
-                                            <p>July 7, 2020. 12.00 AM</p>
+                        {% if reservations %}
+                            {% for reservation in reservations %}
+                                <div class="comment-item row">
+                                    <div class="col-3 comment-author">
+                                        <div class="comment-author-profile-img">{{reservation.reservation.user.first_name|capfirst|first}}{{reservation.reservation.user.last_name|capfirst|first}}</div>
+                                        <div class="comment-author-username"></div>
+                                        <div class="comment-author-address">{{reservation.reservation.user.first_name|capfirst}} {{reservation.reservation.user.last_name|capfirst}}</div>                           
+                                    </div>
+                                    <div class="col-9 d-flex">
+                                        <div class="col-lg-10">
+                                            <div class="d-flex">
+                                            
+                                                <div class="d-flex ">
+                                                    <span class="bold mr-2">Reserve Date and Time : </span>
+                                                    <p>{{reservation.reservation.reserved_date}}, {{reservation.reservation.reserved_time|time:'H:i:s'}}</p>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex">
+                                                <span class="bold mr-2">Party Size : </span>
+                                                {% for size in reservation.table_size %}
+                                                    <p> {{size}} people</p>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="d-flex">
+                                                <span class="bold mr-2">Total Price : </span>
+                                                <p> {{reservation.reservation.total_price}} $</p>
+                                            </div> 
+                                        </div> 
+                                        <div class="col-lg-3 d-flex align-items-end pb-2">
+                                            <a href="{% url 'restaurant:reservation-detail' reservation.reservation.pk %}" class="btn btn-primary">View Detail</a>
                                         </div>
                                     </div>
-                                    <div class="d-flex">
-                                        <span class="bold">Party Size : </span>
-                                        <p> 7 people</p>
-                                    </div>
-                                    <div class="d-flex">
-                                        <span class="bold">Total Price : </span>
-                                        <p>25 $</p>
-                                    </div>  
                                 </div>
-                            </div>
-                        {% endfor %}   
-                        
+                            {% endfor %}   
+                        {% else %}
+                            <p>No Upcoming Reservations</p>
+                        {% endif %}
+                            
                     </div>
                 </div>
                 <div class="reservations full">
