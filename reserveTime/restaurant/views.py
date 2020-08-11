@@ -225,27 +225,23 @@ class CompanyReservations(ListView):
         context["reservations"] = reservations_list
         return context
 
+
 class ReservationDetail(DetailView):
     model = Reservation
     template_name='reservation-detail.html'
-    # pk_alt = 'pk'
-    # pk_url_kwarg = 'pk'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         company = Company.objects.filter(pk=self.kwargs.get('pk'))
         reservation = Reservation.objects.filter(pk=self.kwargs.get('pk'))
-        # print(reservation.first().portions.all())
         reservation_obj = {}
         reservation_detail = []
         for reserve in reservation:
-            # print(reserve)
             tables_size = Table.objects.filter(pk = int(reserve.table_id)).values_list('size', flat = True)
             reservation_obj['reservation'] = reservation
             reservation_obj['table_size'] = tables_size
             reservation_detail.append(reservation_obj)
         portions = reservation.first().portions.all()
-        # menus_obj = {}
         menus_list = []
         for portion in portions:
             portion_count = portion.portion_count
@@ -254,10 +250,8 @@ class ReservationDetail(DetailView):
                 'menu': menu,
                 'portion_count': portion_count
             }
-
             menus_list.append(menu_obj)
-        # menus_obj['menus'] = portions_list       
-        print(menus_list)
+            
         context["reservation_detail"] = reservation_detail
         context['menus'] = menus_list
         context['menu_categories'] = MenuCategory.objects.all()

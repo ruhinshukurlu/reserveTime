@@ -2,7 +2,6 @@ from django.db import models
 from django.utils.translation import ugettext as _
 
 
-# Create your models here.
 
 class Company(models.Model):
 
@@ -182,3 +181,20 @@ class Reservation(models.Model):
 
     def __str__(self):
         return str(self.reserved_time)
+
+
+class SavedRestaurant(models.Model):
+
+    user = models.ForeignKey("account.User", verbose_name=_("User"), on_delete=models.CASCADE, related_name='saved_restaurants')
+    company = models.ForeignKey("restaurant.Company", verbose_name=_("Company"), on_delete=models.CASCADE, related_name='saved_restaurants')
+    saved = models.BooleanField(_("Saved"),default=False)
+
+    class Meta:
+        verbose_name = _("SavedRestaurant")
+        verbose_name_plural = _("SavedRestaurants")
+
+    def __str__(self):
+        return str(self.user)
+
+    
+

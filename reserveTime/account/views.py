@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.views import LoginView,PasswordChangeView,PasswordChangeDoneView,PasswordResetView, PasswordResetConfirmView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
-
+from restaurant.models import *
 
 
 class CustomerRegisterView(CreateView):
@@ -64,8 +64,17 @@ class CustomerProfileView(LoginRequiredMixin, DetailView):
     template_name = 'user-profile.html'
     context_opject_name = 'user'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        reservations = Reservation.objects.filter(user=self.request.user, accessed=True)
+        context["user_reservations"] = reservations
+        
+        return context
+
     def get_object(self):
         return self.request.user
+
 
 class CustomerUpdateView(UpdateView):
     model = User
@@ -86,6 +95,7 @@ class CompanyProfileView(LoginRequiredMixin, DetailView):
 
     def get_object(self):
         return self.request.user
+
 
 class CompanyUpdateView(UpdateView):
     model = User

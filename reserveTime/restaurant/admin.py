@@ -49,3 +49,7 @@ class ReservationAdmin(admin.ModelAdmin):
 class PortionAdmin(admin.ModelAdmin):
     list_display = ['menu_id','portion_count']
     
+@admin.register(SavedRestaurant)
+class SavedRestaurantAdmin(admin.ModelAdmin):
+    list_display = ['user','company', 'saved']
+    

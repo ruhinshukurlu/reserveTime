@@ -15,6 +15,12 @@
     <link rel="stylesheet" href="{% static 'css/company-profile.css' %}">
     <link rel="stylesheet" href="{% static 'css/reserve-page.css' %}">
     <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+    <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
     <title>Company Profile</title>
     <style>
         @media (min-width: 992px){
@@ -29,6 +35,14 @@
 
         .inner-container{
             background-color: #fff;
+        }
+
+        .red{
+            color : red;
+        }
+
+        .black{
+            color:black;
         }
 
     </style>
@@ -78,7 +92,18 @@
                 </div>
             </div>
             <div class="row" style="position: relative;">
-                <a class="save-restaurant-btn" href="#"><i class="far fa-bookmark pr-2"></i>Save This Restaurant</a>
+                <div class="save-restaurant-btn align-center" >
+                    {% if saved_restaurant.saved %}
+                        <i class="fas fa-bookmark pr-2 red" id="saved-icon"></i>
+                    {% else %}    
+                        <i class="fas fa-bookmark pr-2 black" id="saved-icon"></i>
+                    {% endif %}
+                    
+                    <form method="POST" action="{% url 'core:company-profile' company.pk %}" id="saveRestaurantForm">
+                        {% csrf_token %}
+                        <input type="submit" value="Save this restaurant">
+                    </form>
+                </div>
                 <div id="custom-retaurant-carousel"  class="owl-carousel owl-theme card-list">
                     <div class="item">
                         <div class="inner p-relative">
@@ -271,11 +296,12 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="photo-gallery d-flex m-auto">
-                                <div class="col"><img src="images/img1.jpg" alt=""></div>
-                                <div class="col"><img src="images/img3.jpg" alt=""></div>
-                                <div class="col"><img src="images/img4.jpg" alt=""></div>
-                                <div class="col"><img src="images/img1.jpg" alt=""></div>
+                            <div class="photo-gallery d-flex row row-cols-4 m-auto">
+                                {% for photo in photos %}
+                                    <div class="col mb-2">
+                                        <a data-fancybox="gallery" href="{{photo.photo.url}}"><img data-type="{{photo.photo_type}}" src="{{photo.photo.url}}"></a>
+                                    </div>
+                                {% endfor %}
                             </div>
                         </div>
                         <div class="row menu-section" id="3">
@@ -519,7 +545,7 @@
                                 </div>
                                 <div class="info-text">
                                     <span>Website</span>
-                                    <p><a href="http://www.carminesnyc.com/">http://www.carminesnyc.com/</a></p>
+                                    <p><a target="blank" href="http://www.carminesnyc.com/">http://www.carminesnyc.com/</a></p>
                                 </div>
                             </div>
                             <div class="col-6 d-flex">
@@ -758,6 +784,33 @@
                 dataType: 'json',
                 success: function (data) {
                     $('#message-2').html("<h2>Form posted</h2>")
+                    console.log(data);
+                    window.location.replace("{% url 'core:home' %}");
+                },
+                error: function(data) {
+                    alert("error");
+                    console.log(data);
+                }
+            });
+        });
+
+        $('#saveRestaurantForm').on('submit', function(e){
+            e.preventDefault()  
+            
+            $.ajax({
+                type: "POST",
+                url: $('#saveRestaurantForm').attr('action'),
+                data:  {
+                    csrfmiddlewaretoken:$('#saveRestaurantForm').find('input[name=csrfmiddlewaretoken]').val(),
+                    form_id : $('#saveRestaurantForm').attr('id')
+                },
+                dataType: 'json',
+                success: function (data) {
+                    if(data.saved == 'true'){
+                        $('#saved-icon').css('color','red')
+                    }else if( data.saved == 'false'){
+                        $('#saved-icon').css('color','black')
+                    }
                     console.log(data);
                 },
                 error: function(data) {

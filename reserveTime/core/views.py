@@ -1,6 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import json
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from restaurant.models import *
 from django.views.generic import DetailView,TemplateView, ListView, UpdateView, FormView , DeleteView, View
 from django.views.generic.edit import FormMixin
@@ -19,7 +19,7 @@ class HomeView(TemplateView):
         context["companies"] = Company.objects.all()
         return context
 
-
+    
 class CompanyProfile(FormMixin, DetailView):
     model = Company
     template_name = 'company-profile.html'
@@ -28,7 +28,13 @@ class CompanyProfile(FormMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         company = Company.objects.filter(pk=self.kwargs.get('pk'))
+
+        company_photos = Photo.objects.filter(owner=company.first().user)
+        context['photos'] = company_photos
         
+        saved_restaurant = SavedRestaurant.objects.filter(company=company.first(), user= self.request.user)
+        context['saved_restaurant'] = saved_restaurant.first()            
+
         company_start_hour = company.values('work_hours_from').first().get('work_hours_from')
         company_finish_hour = company.values('work_hours_to').first().get('work_hours_to')
         
@@ -111,7 +117,7 @@ class CompanyProfile(FormMixin, DetailView):
                 date = TableDate.objects.filter(date=reserve_date_obj)
                 tables = Table.objects.filter(company=company.values('user').first().get('user'), dates__in=date, table_place=table_place, size=party_size)   
 
-                print(tables)   
+                # print(tables)   
                 
                 for table in tables:
                     times = table.times.filter(reserved=False)
@@ -142,7 +148,7 @@ class CompanyProfile(FormMixin, DetailView):
             elif request.POST.get('form_id') == 'selectMenuForm':
                 company = Company.objects.filter(pk=self.kwargs.get('pk'))
 
-                print(request.POST)
+                # print(request.POST)
                 reserve_date = request.POST.get('reserve_date')
                 reserve_time = request.POST.get('reserve_time')
                 table_id = request.POST.get('table_id')
@@ -158,7 +164,7 @@ class CompanyProfile(FormMixin, DetailView):
                 table.first().times.filter(free_time=reserve_time_obj).update(reserved = True)
 
                 response_data = {
-                    # 'menus' :request.POST.get('selected_menus_list[0].menu_id')
+                   
                 }
 
                 reservation = Reservation.objects.create(
@@ -183,6 +189,31 @@ class CompanyProfile(FormMixin, DetailView):
                     content_type="application/json"
                 )
             
+            elif request.POST.get('form_id') == 'saveRestaurantForm':
+                company = Company.objects.filter(pk=self.kwargs.get('pk'))
+
+                response_data = {}
+
+                if(SavedRestaurant.objects.filter(user=request.user, company=company.first())):
+                    saved_restaurant = SavedRestaurant.objects.filter(company=company.first(), user=request.user)
+                    if saved_restaurant.first().saved:
+                        saved_restaurant.update(saved=False)
+                        response_data['saved'] = 'false'
+                    else:
+                        saved_restaurant.update(saved=True)
+                        response_data['saved'] = 'true'
+                else:
+                    saved_restaurant = SavedRestaurant.objects.create(company=company.first(), user=request.user, saved=True)
+                    response_data['saved'] = 'true'
+
+                
+
+                return HttpResponse(
+                    json.dumps(response_data, indent=4, sort_keys=True, default=str),
+                    content_type="application/json"
+                )
+
+            
         else:
             return HttpResponse(
                 json.dumps({"nothing to see": "this isn't happening"}),
@@ -190,4 +221,10 @@ class CompanyProfile(FormMixin, DetailView):
             )
 
         
-
+class SavedRestaurantsView(ListView):
+    template_name = "user-saved-restaurants.html"
+    context_object_name = 'saved_restaurants'
+    
+    def get_queryset(self):
+        return SavedRestaurant.objects.filter(user=self.request.user, saved=True)
+    

@@ -115,3 +115,8 @@ ol li{
     display: flex;
     justify-content: flex-end;
 }
+
+.align-center{
+	display: flex;
+	align-items: center;
+}

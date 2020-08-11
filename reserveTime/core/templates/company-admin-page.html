@@ -17,39 +17,37 @@
 
     <title>Company admin panel</title>
 
-    <style>
-        header,
-        header .container{
-            background: linear-gradient(to bottom, rgba(56,59,68,1) 0%,rgba(46,47,52,1) 100%);
-            color: #fff;
-        }
-
-    </style>
+    
 
 </head>
 <body id="company-admin-body">
     
     <header>
-        <div class="container custom-container ">
+        <div class="container custom-container shadow">
             <div class="row justify-content-between">
-                <a href="{% url 'account:company-update' user.pk %}">
-                    <div class="left side">
-                        {% if user.profile_img %}
-                        <img src="{{user.profile_img.url}}" width="60px" alt="Profile photo">
-                        {% else %}
-                        <img src="{% static 'images/profile.png' %}" width="60px" alt="Profile photo">
-                        {% endif %}
-                        <div class="d-flex flex-direction-column ml-2" style="color: wheat;">
-                            <span class="mt-1">Welcome</span>
-                            <h5 class="bold">{{user.first_name}} {{user.last_name}}</h5>
+                <div class="left side">
+                    <a href="{% url 'core:home' %}">
+                        <img src="{% static 'images/logo.png' %}" width="250px" alt="">
+                    </a>
+                </div>
+                <div class="right">
+                    <a href="{% url 'account:company-update' user.pk %}" class="d-flex user-profile-link">
+                        <div class="side">
+                            {% if user.profile_img %}
+                            <img src="{{user.profile_img.url}}" width="50px" alt="Profile photo">
+                            {% else %}
+                            <img src="{% static 'images/profile.png' %}" width="50px" alt="Profile photo">
+                            {% endif %}
+                            <div class="d-flex flex-direction-column ml-2">
+                                <span class="mt-1">Welcome</span>
+                                <h5 class="bold">{{user.first_name}} {{user.last_name}}</h5>
+                            </div>
                         </div>
-                    </div>
-                </a>
-                <div class="right side">
+                    </a>
                     <div class="notification">  
                         <div class="d-flex">
                             <span>Notifications</span>
-                            <button type="button" class="ml-2 header-btn"><i class="color-w far fa-bell"></i></button>
+                            <button type="button" class="ml-2 header-btn"><i class="far fa-bell"></i></button>
                         </div>
                         <div class="custom-drop-down shadow p-3" style="display: none;">
                             <div class="triangle"></div>
@@ -64,18 +62,11 @@
         
     </header>
 
-    <!-- <section class="full">
-        <div class="row">
-            <a href="home-page.html" class="logo-link">
-                <img src="{% static 'images/logo.png' %}" width="350px" alt="">
-            </a>
-        </div>
-    </section> -->
-
+  
     <main>
         <div class="container mt-3 company-admin-container">
             <div class="row">
-                <h3 class="bottom-border bold pb-3 mb-5">Welcome to the personal page of your company</h3>
+                <h3 class="bottom-border bold full text-center pb-3 mb-5">Welcome to the personal page of your company</h3>
                 <div class="col-lg-6 d-flex justify-content-center">
                     <a href="{% url 'restaurant:photo' %}">
                         <div class="link-box" style="background-color: #a285c5;">
