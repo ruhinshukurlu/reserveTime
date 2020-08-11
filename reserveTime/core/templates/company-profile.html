@@ -616,9 +616,16 @@
 
     <script>
         $(document).ready(function(){
-
+            console.log($('.header-btn'))
+            $(document).click(function(e){
+                if(e.target.className != "header-btn")
+                {
+                $(".custom-drop-down").hide();
+                }
+            });
             $('.header-btn').click(function(){
                 $('.custom-drop-down').hide()
+                console.log('pl')
                 $(this).siblings('.custom-drop-down').slideToggle()
             });
 

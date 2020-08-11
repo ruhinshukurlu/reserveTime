@@ -32,7 +32,7 @@
                             <button type="button" class="header-btn"> 
                                 <i class="far fa-user"></i>
                             </button>
-                            <div class="custom-drop-down shadow" style="display: none;">
+                            <div class="custom-drop-down shadow box1" style="display: none;">
                                 <div class="triangle"></div>
                                 <span>Hello, User</span>
                                 <ul>
@@ -51,7 +51,7 @@
                     
                     <div class="reserve-table">
                         <button type="button" class="header-btn"><i class="far fa-calendar"></i></button>
-                        <div class="custom-drop-down p-3" style="display: none;">
+                        <div class="custom-drop-down p-3 box2" style="display: none;">
                             <div class="triangle"></div>
                             <span>Upcoming reservations</span>
                             <p class="pl-2 pr-2">You have no upcoming reservations</p>
@@ -59,7 +59,7 @@
                     </div>
                     <div class="notification">
                         <button type="button" class="header-btn"><i class="far fa-bell"></i></button>
-                        <div class="custom-drop-down p-3" style="display: none;">
+                        <div class="custom-drop-down box3 p-3" style="display: none;">
                             <div class="triangle"></div>
                             <span>Notifications</span>
                             <!-- <p class="pl-2 pr-2">Nothing to see here, you’re all caught up!</p> -->
@@ -378,11 +378,17 @@
     <script src="{% static 'js/main.js' %}"></script>
     <script>
         $(document).ready(function(){
+            $(document).click(function(e){
+                if(e.target.className != "header-btn")
+                {
+                $(".custom-drop-down").hide();
+                }
+            });
             $('.header-btn').click(function(){
                 $('.custom-drop-down').hide()
                 $(this).siblings('.custom-drop-down').slideToggle()
             });
-
+            
           
         });
     </script>
