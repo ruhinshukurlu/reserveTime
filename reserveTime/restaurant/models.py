@@ -50,7 +50,7 @@ class Photo(models.Model):
     )
     owner = models.ForeignKey("account.User", verbose_name=_("Owner"), on_delete=models.CASCADE, related_name='photo_owner')
     photo = models.ImageField(_("Company Photo"), upload_to='company-photos/')
-    photo_url = models.URLField(_("Photo Url"), max_length=200)
+    photo_url = models.URLField(_("Photo Url"), max_length=600)
     photo_type = models.CharField(_("type"), choices=PHOTO_TYPES ,max_length=50)
 
     class Meta:
@@ -58,7 +58,7 @@ class Photo(models.Model):
         verbose_name_plural = _("Photos")
 
     def __str__(self):
-        return self.photo
+        return str(self.photo)
 
 
 class Menu(models.Model):
@@ -90,8 +90,8 @@ class MenuCategory(models.Model):
     
 class Comment(models.Model):
 
-    company = models.ForeignKey("restaurant.Company", verbose_name=_("Company"), on_delete=models.CASCADE, related_name='company_comment')
-    user = models.ForeignKey("account.Customer", verbose_name=_("User"), on_delete=models.CASCADE, related_name='user_comment')
+    company = models.ForeignKey("restaurant.Company", verbose_name=_("Company"), on_delete=models.CASCADE, related_name='company_comment',blank=True, null=True)
+    user = models.ForeignKey("account.User", verbose_name=_("User"), on_delete=models.CASCADE, related_name='user_comment')
     text = models.TextField(_("Comment Text"))
     comment_img = models.ImageField(_("Comment Image"), upload_to='comment-images/')
     commented_at = models.DateTimeField(_("Written Date"), auto_now_add=True)
@@ -186,7 +186,7 @@ class Reservation(models.Model):
 class SavedRestaurant(models.Model):
 
     user = models.ForeignKey("account.User", verbose_name=_("User"), on_delete=models.CASCADE, related_name='saved_restaurants')
-    company = models.ForeignKey("restaurant.Company", verbose_name=_("Company"), on_delete=models.CASCADE, related_name='saved_restaurants')
+    company = models.ForeignKey("restaurant.Company", verbose_name=_("Company"), on_delete=models.CASCADE, related_name='saved_restaurants', blank=True, null=True)
     saved = models.BooleanField(_("Saved"),default=False)
 
     class Meta:

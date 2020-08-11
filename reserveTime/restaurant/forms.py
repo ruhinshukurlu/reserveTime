@@ -152,3 +152,19 @@ class TableForm(forms.ModelForm):
                 'class' : 'form-control'
             })
         }
+
+class CommentForm(forms.ModelForm):
+    
+    class Meta:
+        model = Comment
+        fields = ("text",)
+
+        widgets = {
+            'text' : forms.Textarea(attrs={
+                'class' : 'form-control',
+                'cols' : "30",
+                'rows' : "5",
+                'placeholder':"Please, write your review about foods and service in the restaurant"
+            })
+          
+        }

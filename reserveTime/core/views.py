@@ -3,7 +3,7 @@ import json
 from django.http import HttpResponse, HttpResponseRedirect
 from restaurant.models import *
 from django.views.generic import DetailView,TemplateView, ListView, UpdateView, FormView , DeleteView, View
-from django.views.generic.edit import FormMixin
+from django.views.generic.edit import FormMixin, FormView
 from core.forms import *
 from django.shortcuts import get_list_or_404, get_object_or_404 
 import datetime
@@ -24,7 +24,7 @@ class CompanyProfile(FormMixin, DetailView):
     model = Company
     template_name = 'company-profile.html'
     form_class = FindTableForm
-
+   
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         company = Company.objects.filter(pk=self.kwargs.get('pk'))
@@ -32,6 +32,17 @@ class CompanyProfile(FormMixin, DetailView):
         company_photos = Photo.objects.filter(owner=company.first().user)
         context['photos'] = company_photos
         
+        menu_categories = MenuCategory.objects.all()
+        context['menu_categories'] = menu_categories
+
+        menus = Menu.objects.filter(company = company.first().user)
+        context['menus'] = menus
+
+        comments = Comment.objects.filter(company = company.first()).distinct('user')
+        context['comments'] = comments
+        
+        context['users'] = User.objects.all()
+
         saved_restaurant = SavedRestaurant.objects.filter(company=company.first(), user= self.request.user)
         context['saved_restaurant'] = saved_restaurant.first()            
 
@@ -76,8 +87,7 @@ class CompanyProfile(FormMixin, DetailView):
         menus = Menu.objects.filter(company=company.values('user').first().get('user'))
         context['menus'] = menus
         context['menu_categories'] = MenuCategory.objects.all()
-        print(menus)
-
+        
         reserve_dates = []
 
         for i in range(31):
@@ -228,3 +238,4 @@ class SavedRestaurantsView(ListView):
     def get_queryset(self):
         return SavedRestaurant.objects.filter(user=self.request.user, saved=True)
     
+

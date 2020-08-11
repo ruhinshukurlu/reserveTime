@@ -285,20 +285,21 @@
                 <div class="row">
                     <div class="col-lg-8">
                         <div class="row photos pb-3" id="2">
-                            <h3 class="full pl-3 pb-3 bottom-border">66 Photos</h3>
+                            <h3 class="full pl-3 pb-3 bottom-border">{{photos.count}} Photos</h3>
                             <div class="menu-box full mb-3">
                                 <div class="photo-menu pl-3">
                                     <ul class="menu-list">
-                                        <li><a href="#">All</a></li>
-                                        <li><a href="#">Food</a></li>
-                                        <li><a href="#">Drink</a></li>
-                                        <li><a href="#">Interior</a></li>
+                                        <li><a href="#" data-type="all">All</a></li>
+                                        <li><a href="#" data-type="food">Food</a></li>
+                                        <li><a href="#" data-type="drink">Drink</a></li>
+                                        <li><a href="#" data-type="interior">Interier</a></li>
+                                        <li><a href="#" data-type="exterior">Exterier</a></li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="photo-gallery d-flex row row-cols-4 m-auto">
                                 {% for photo in photos %}
-                                    <div class="col mb-2">
+                                    <div class="col mb-2 photo-box">
                                         <a data-fancybox="gallery" href="{{photo.photo.url}}"><img data-type="{{photo.photo_type}}" src="{{photo.photo.url}}"></a>
                                     </div>
                                 {% endfor %}
@@ -308,148 +309,28 @@
                             <div class="menu-container mb-3 collapse-menu">
                                 <h3 class="full bottom-border pb-3 pl-3">Menu</h3>
                                 <div class="row">
-                                    <div class="menu-section pl-4 pr-4 mb-4 bottom-border">
-                                        <div class="menu-section-header mb-4"><span>Appetizers</span></div>
-                                        <div class="row menu-items">
-                                            <div class="col-6">
-                                                <div class="menu-item">
-                                                    <div class="menu-item-header">
-                                                        <div class="menu-title"><span>Baked Clams</span></div>
-                                                        <div class="menu-price"><span>$23.95</span></div>
+                                    {% for category in menu_categories %}
+                                        <div class="menu-section pl-4 pr-4 mb-4 bottom-border">
+                                            <div class="menu-section-header mb-4"><span>{{category}}</span></div>
+                                            <div class="row menu-items">
+                                                {% for menu in menus %}
+                                                {% if menu.menu_type == category %}
+                                                    <div class="col-6">
+                                                        <div class="menu-item">
+                                                            <div class="menu-item-header">
+                                                                <div class="menu-title"><span>{{menu.title}} </span></div>
+                                                                <div class="menu-price"><span>${{menu.price}} </span></div>
+                                                            </div>
+                                                            <div class="menu-description">
+                                                                <p>{{menu.description}} </p>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="menu-description">
-                                                        <p>Fresh Littleneck Clams Baked w/ Our Seasoned Breadcrumbs & Clam Broth</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="menu-item">
-                                                    <div class="menu-item-header">
-                                                        <div class="menu-title"><span>Baked Clams</span></div>
-                                                        <div class="menu-price"><span>$23.95</span></div>
-                                                    </div>
-                                                    <div class="menu-description">
-                                                        <p>Fresh Littleneck Clams Baked w/ Our Seasoned Breadcrumbs & Clam Broth</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="menu-item">
-                                                    <div class="menu-item-header">
-                                                        <div class="menu-title"><span>Baked Clams</span></div>
-                                                        <div class="menu-price"><span>$23.95</span></div>
-                                                    </div>
-                                                    <div class="menu-description">
-                                                        <p>Fresh Littleneck Clams Baked w/ Our Seasoned Breadcrumbs & Clam Broth</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="menu-item">
-                                                    <div class="menu-item-header">
-                                                        <div class="menu-title"><span>Baked Clams</span></div>
-                                                        <div class="menu-price"><span>$23.95</span></div>
-                                                    </div>
-                                                    <div class="menu-description">
-                                                        <p>Fresh Littleneck Clams Baked w/ Our Seasoned Breadcrumbs & Clam Broth</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="menu-item">
-                                                    <div class="menu-item-header">
-                                                        <div class="menu-title"><span>Baked Clams</span></div>
-                                                        <div class="menu-price"><span>$23.95</span></div>
-                                                    </div>
-                                                    <div class="menu-description">
-                                                        <p>Fresh Littleneck Clams Baked w/ Our Seasoned Breadcrumbs & Clam Broth</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="menu-item">
-                                                    <div class="menu-item-header">
-                                                        <div class="menu-title"><span>Baked Clams</span></div>
-                                                        <div class="menu-price"><span>$23.95</span></div>
-                                                    </div>
-                                                    <div class="menu-description">
-                                                        <p>Fresh Littleneck Clams Baked w/ Our Seasoned Breadcrumbs & Clam Broth</p>
-                                                    </div>
-                                                </div>
+                                                {% endif %}
+                                                {% endfor %}
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="menu-section pl-4 pr-4 mb-4 bottom-border">
-                                        <div class="menu-section-header mb-4"><span>Appetizers</span></div>
-                                        <div class="row menu-items">
-                                            <div class="col-6">
-                                                <div class="menu-item">
-                                                    <div class="menu-item-header">
-                                                        <div class="menu-title"><span>Baked Clams</span></div>
-                                                        <div class="menu-price"><span>$23.95</span></div>
-                                                    </div>
-                                                    <div class="menu-description">
-                                                        <p>Fresh Littleneck Clams Baked w/ Our Seasoned Breadcrumbs & Clam Broth</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="menu-item">
-                                                    <div class="menu-item-header">
-                                                        <div class="menu-title"><span>Baked Clams</span></div>
-                                                        <div class="menu-price"><span>$23.95</span></div>
-                                                    </div>
-                                                    <div class="menu-description">
-                                                        <p>Fresh Littleneck Clams Baked w/ Our Seasoned Breadcrumbs & Clam Broth</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="menu-item">
-                                                    <div class="menu-item-header">
-                                                        <div class="menu-title"><span>Baked Clams</span></div>
-                                                        <div class="menu-price"><span>$23.95</span></div>
-                                                    </div>
-                                                    <div class="menu-description">
-                                                        <p>Fresh Littleneck Clams Baked w/ Our Seasoned Breadcrumbs & Clam Broth</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="menu-item">
-                                                    <div class="menu-item-header">
-                                                        <div class="menu-title"><span>Baked Clams</span></div>
-                                                        <div class="menu-price"><span>$23.95</span></div>
-                                                    </div>
-                                                    <div class="menu-description">
-                                                        <p>Fresh Littleneck Clams Baked w/ Our Seasoned Breadcrumbs & Clam Broth</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="menu-item">
-                                                    <div class="menu-item-header">
-                                                        <div class="menu-title"><span>Baked Clams</span></div>
-                                                        <div class="menu-price"><span>$23.95</span></div>
-                                                    </div>
-                                                    <div class="menu-description">
-                                                        <p>Fresh Littleneck Clams Baked w/ Our Seasoned Breadcrumbs & Clam Broth</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="menu-item">
-                                                    <div class="menu-item-header">
-                                                        <div class="menu-title"><span>Baked Clams</span></div>
-                                                        <div class="menu-price"><span>$23.95</span></div>
-                                                    </div>
-                                                    <div class="menu-description">
-                                                        <p>Fresh Littleneck Clams Baked w/ Our Seasoned Breadcrumbs & Clam Broth</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    {% endfor %}
                                 </div>
                             </div>
                             <button type="button" class="m-auto show-menu-btn">Show full menu</button>
@@ -464,7 +345,7 @@
                                 </div>
                                 <div class="info-text">
                                     <span>Cross street</span>
-                                    <p>b/w 24th and 25th Streets</p>
+                                    <p>{% if company.province_location %}{{company.province_location}}{% else %} .... {% endif %}</p>
                                 </div>
                             </div>
                             <div class="col-6 d-flex">
@@ -482,7 +363,7 @@
                                 </div>
                                 <div class="info-text">
                                     <span>Hours of operation</span>
-                                    <p>Mon–Sat 5:30 pm–9:30 pm</p>
+                                    <p>Mon–Sat {{company.work_hours_from}}-{{company.work_hours_to}} </p>
                                 </div>
                             </div>
                             <div class="col-6 d-flex">
@@ -491,7 +372,7 @@
                                 </div>
                                 <div class="info-text">
                                     <span>Cuisines</span>
-                                    <p>Italian</p>
+                                    <p>{% if company.cuisines %}{{company.cuisines}} {% else %} .... {% endif %} </p>
                                 </div>
                             </div>
                             <div class="col-6 d-flex">
@@ -500,7 +381,7 @@
                                 </div>
                                 <div class="info-text">
                                     <span>Dining Style</span>
-                                    <p>b/w 24th and 25th Streets</p>
+                                    <p>{% if company.dining_style %}{{company.dining_style}} {% else %} .... {% endif %}</p>
                                 </div>
                             </div>
                             <div class="col-6 d-flex">
@@ -509,7 +390,7 @@
                                 </div>
                                 <div class="info-text">
                                     <span>Parking details</span>
-                                    <p>There is a garage across the street. Private party availability for groups ranging in size from 18-80 guests.</p>
+                                    <p>{% if company.parking_details %}{{company.parking_details}}{% else %} .... {% endif %}</p>
                                 </div>
                             </div>
                             <div class="col-6 d-flex">
@@ -518,7 +399,7 @@
                                 </div>
                                 <div class="info-text">
                                     <span>Public transit</span>
-                                    <p>A and E trains to 23rd Street and 8th Avenue.</p>
+                                    <p>{% if company.public_transit %}{{company.public_transit}}{% else %} .... {% endif %}</p>
                                 </div>
                             </div>
                             <div class="col-6 d-flex">
@@ -527,7 +408,7 @@
                                 </div>
                                 <div class="info-text">
                                     <span>Payment options</span>
-                                    <p>AMEX, Diners Club, MasterCard, Visa</p>
+                                    <p>{% if company.payment_options %}{{company.payment_options}}{% else %} .... {% endif %}</p>
                                 </div>
                             </div>
                             <div class="col-6 d-flex">
@@ -536,7 +417,7 @@
                                 </div>
                                 <div class="info-text">
                                     <span>Executive chef</span>
-                                    <p>Joe Delgado</p>
+                                    <p>{% if company.executive_chef %}{{company.executive_chef}}{% else %} .... {% endif %}</p>
                                 </div>
                             </div>
                             <div class="col-6 d-flex">
@@ -545,7 +426,7 @@
                                 </div>
                                 <div class="info-text">
                                     <span>Website</span>
-                                    <p><a target="blank" href="http://www.carminesnyc.com/">http://www.carminesnyc.com/</a></p>
+                                    <p><a target="blank" href="{% if company.website %}{{company.website}}{% else %}#{% endif %}">{% if company.website %}{{company.website}}{% else %} .... {% endif %}</a></p>
                                 </div>
                             </div>
                             <div class="col-6 d-flex">
@@ -554,7 +435,7 @@
                                 </div>
                                 <div class="info-text">
                                     <span>Phone number</span>
-                                    <p>(212) 362-2200</p>
+                                    <p>{% if company.phone_number %}{{company.phone_number}}{% else %} .... {% endif %}</p>
                                 </div>
                             </div>
                             <div class="col-6 d-flex">
@@ -563,7 +444,7 @@
                                 </div>
                                 <div class="info-text">
                                     <span>Private party contact</span>
-                                    <p>Corinne Escanes: (877) 839-0234</p>
+                                    <p>{% if company.private_party_contact %}{{company.private_party_contact}}{% else %} .... {% endif %}</p>
                                 </div>
                             </div>
                         </div>
@@ -580,126 +461,36 @@
                         <span>Filters</span>
                     </div> -->
                     <div class="comments-box inner-container">
-                        <div class="comment-item row">
-                            <div class="col-3 comment-author">
-                                <div class="comment-author-profile-img">AS</div>
-                                <div class="comment-author-username">alexandrav</div>
-                                <div class="comment-author-address">San Francisco</div>
-                                <div class="user-comments-count">
-                                    <p class="review-text mr-4 ml-4"><i class="far fa-comment"></i> 4 reviews</p>
-                                </div>
-                            </div>
-                            <div class="col-9">
-                                <div class="d-flex">
-                                    <div class="stars d-flex">
-                                        <div class="star"><i class="fas fa-star"></i></div>
-                                        <div class="star"><i class="fas fa-star"></i></div>
-                                        <div class="star"><i class="fas fa-star"></i></div>
-                                        <div class="star"><i class="fas fa-star"></i></div>
-                                        <div class="star"><i class="fas fa-star"></i></div>
-                                    </div>
-                                    <div class="posted-date pl-4">
-                                        <p>Dined on July 7, 2020</p>
+                        {% for comment in comments %}
+                            <div class="comment-item row">
+                                <div class="col-3 comment-author">
+                                    <div class="comment-author-profile-img">{{comment.user.first_name|capfirst|first}}{{comment.user.last_name|capfirst|first}}</div>
+                                    <div class="username">{{comment.user.username}}</div>
+                                    <div class="address">San Francisco</div>
+                                    <div class="user-comments-count">
+                                        <p class="review-text mr-4 ml-4"><i class="far fa-comment"></i> {% for user in users %}{% if user == comment.user %}{{user.user_comment.all.count}}{% endif %}{% endfor %} reviews</p>
                                     </div>
                                 </div>
-                                <div class="post-body">
-                                    <p>Nice time and very sanitary! Definitely will be back again.
-                                        Nice time and very sanitary! Definitely will be back again.
-                                        Nice time and very sanitary! Definitely will be back again.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="comment-item row">
-                            <div class="col-3 comment-author">
-                                <div class="comment-author-profile-img">AS</div>
-                                <div class="username">alexandrav</div>
-                                <div class="address">San Francisco</div>
-                                <div class="user-comments-count">
-                                    <p class="review-text mr-4 ml-4"><i class="far fa-comment"></i> 4 reviews</p>
-                                </div>
-                            </div>
-                            <div class="col-9">
-                                <div class="d-flex">
-                                    <div class="stars d-flex">
-                                        <div class="star"><i class="fas fa-star"></i></div>
-                                        <div class="star"><i class="fas fa-star"></i></div>
-                                        <div class="star"><i class="fas fa-star"></i></div>
-                                        <div class="star"><i class="fas fa-star"></i></div>
-                                        <div class="star"><i class="fas fa-star"></i></div>
+                                <div class="col-9">
+                                    <div class="d-flex">
+                                        <div class="stars d-flex">
+                                            <div class="star"><i class="fas fa-star"></i></div>
+                                            <div class="star"><i class="fas fa-star"></i></div>
+                                            <div class="star"><i class="fas fa-star"></i></div>
+                                            <div class="star"><i class="fas fa-star"></i></div>
+                                            <div class="star"><i class="fas fa-star"></i></div>
+                                        </div>
+                                        <div class="posted-date pl-4">
+                                            <p>Dined on {{comment.commented_at}}</p>
+                                        </div>
                                     </div>
-                                    <div class="posted-date pl-4">
-                                        <p>Dined on July 7, 2020</p>
+                                    <div class="post-body">
+                                        <p>{{comment.text}}
+                                        </p>
                                     </div>
                                 </div>
-                                <div class="post-body">
-                                    <p>Nice time and very sanitary! Definitely will be back again.
-                                        Nice time and very sanitary! Definitely will be back again.
-                                        Nice time and very sanitary! Definitely will be back again.
-                                    </p>
-                                </div>
                             </div>
-                        </div>
-                        <div class="comment-item row">
-                            <div class="col-3 comment-author">
-                                <div class="comment-author-profile-img">AS</div>
-                                <div class="username">alexandrav</div>
-                                <div class="address">San Francisco</div>
-                                <div class="user-comments-count">
-                                    <p class="review-text mr-4 ml-4"><i class="far fa-comment"></i> 4 reviews</p>
-                                </div>
-                            </div>
-                            <div class="col-9">
-                                <div class="d-flex">
-                                    <div class="stars d-flex">
-                                        <div class="star"><i class="fas fa-star"></i></div>
-                                        <div class="star"><i class="fas fa-star"></i></div>
-                                        <div class="star"><i class="fas fa-star"></i></div>
-                                        <div class="star"><i class="fas fa-star"></i></div>
-                                        <div class="star"><i class="fas fa-star"></i></div>
-                                    </div>
-                                    <div class="posted-date pl-4">
-                                        <p>Dined on July 7, 2020</p>
-                                    </div>
-                                </div>
-                                <div class="post-body">
-                                    <p>Nice time and very sanitary! Definitely will be back again.
-                                        Nice time and very sanitary! Definitely will be back again.
-                                        Nice time and very sanitary! Definitely will be back again.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="comment-item row">
-                            <div class="col-3 comment-author">
-                                <div class="comment-author-profile-img">AS</div>
-                                <div class="username">alexandrav</div>
-                                <div class="address">San Francisco</div>
-                                <div class="user-comments-count">
-                                    <p class="review-text mr-4 ml-4"><i class="far fa-comment"></i> 4 reviews</p>
-                                </div>
-                            </div>
-                            <div class="col-9">
-                                <div class="d-flex">
-                                    <div class="stars d-flex">
-                                        <div class="star"><i class="fas fa-star"></i></div>
-                                        <div class="star"><i class="fas fa-star"></i></div>
-                                        <div class="star"><i class="fas fa-star"></i></div>
-                                        <div class="star"><i class="fas fa-star"></i></div>
-                                        <div class="star"><i class="fas fa-star"></i></div>
-                                    </div>
-                                    <div class="posted-date pl-4">
-                                        <p>Dined on July 7, 2020</p>
-                                    </div>
-                                </div>
-                                <div class="post-body">
-                                    <p>Nice time and very sanitary! Definitely will be back again.
-                                        Nice time and very sanitary! Definitely will be back again.
-                                        Nice time and very sanitary! Definitely will be back again.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -841,6 +632,24 @@
                     $(this).text('Show full menu')
                 }
             });
+            $('.photos').find('.col.photo-box').css('display','block')
+            $('.menu-list li a').click(function(e){
+                e.preventDefault()
+                $('.menu-list li').css('border-bottom','none')
+                $(this).parent('li').css('border-bottom','2px solid red')
+                $(this).parents('.photos').find('.col.photo-box').css('display','none')
+                for(var i=0;i<$(this).parents('.photos').find('.photo-box img').data('type').length;i++){
+                    if( $(this).data('type') == $(this).parents('.photos').find('.photo-box img').eq(i).data('type')){
+                    $(this).parents('.photos').find('.col.photo-box').eq(i).css('display','block')
+                
+                }
+                if( $(this).data('type') == 'all'){
+                        $(this).parents('.photos').find('.col.photo-box').css('display','block')
+                }   
+                }
+                
+
+            })
         });
     </script>
 </body>

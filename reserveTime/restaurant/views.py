@@ -6,8 +6,8 @@ from account.forms import RestaurantRegisterForm, UserEditForm
 from django.urls import reverse_lazy
 from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.views.generic import DetailView, UpdateView, FormView , DeleteView, ListView
-from django.views.generic.edit import FormMixin
+from django.views.generic import DetailView, UpdateView, FormView , DeleteView, ListView , View
+from django.views.generic.edit import FormMixin, FormView
 from restaurant.models import *
 from restaurant.forms import *
 from django.contrib import messages
@@ -237,9 +237,11 @@ class ReservationDetail(DetailView):
         reservation_obj = {}
         reservation_detail = []
         for reserve in reservation:
-            tables_size = Table.objects.filter(pk = int(reserve.table_id)).values_list('size', flat = True)
-            reservation_obj['reservation'] = reservation
-            reservation_obj['table_size'] = tables_size
+            table_size = Table.objects.filter(pk = int(reserve.table_id)).values_list('size', flat = True)
+            reservation_obj = {
+                'reservation' : reservation,
+                'table_size' : table_size
+            }
             reservation_detail.append(reservation_obj)
         portions = reservation.first().portions.all()
         menus_list = []
@@ -256,3 +258,28 @@ class ReservationDetail(DetailView):
         context['menus'] = menus_list
         context['menu_categories'] = MenuCategory.objects.all()
         return context
+
+
+class CommentView(FormMixin, DetailView):
+    template_name = 'write-comment.html'
+    model = Company
+    form_class = CommentForm
+    success_url = '/'
+
+    def post(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return HttpResponseForbidden()
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+            
+    def form_valid(self, form):
+        comment = form.save(commit=False)
+        form.instance.user = self.request.user
+        company =  get_object_or_404(Company, pk=self.kwargs.get('pk'))
+        comment.company = company
+        form.save()
+        return super().form_valid(form)
