@@ -40,7 +40,9 @@ class CompanyProfile(FormMixin, DetailView):
 
         comments = Comment.objects.filter(company = company.first()).distinct('user')
         context['comments'] = comments
-        
+
+        comment_raitings = Comment.objects.filter(company = company.first())
+
         context['users'] = User.objects.all()
 
         saved_restaurant = SavedRestaurant.objects.filter(company=company.first(), user= self.request.user)

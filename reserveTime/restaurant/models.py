@@ -11,7 +11,7 @@ class Company(models.Model):
         ('MasterCard', 'MasterCard'),
         ('Visa', 'Visa'),
     )
-    user = models.OneToOneField("account.User", verbose_name=_(""), on_delete=models.CASCADE)
+    user = models.OneToOneField("account.User", verbose_name=_(""), on_delete=models.CASCADE, related_name = 'company')
     
     company_name = models.CharField(_("Company Name"), max_length=250)
     phone_number = models.CharField(_("Phone Number"), max_length=50)

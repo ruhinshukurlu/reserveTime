@@ -33,10 +33,14 @@
         <div class="container custom-container ">
             <div class="row justify-content-between">
                 <div class="left side">
-                    <img src="images/profile.png" width="60px" alt="Profile photo">
-                    <div class="d-flex flex-direction-column ml-2">
+                    {% if user.profile_img %}
+                        <img src="{{user.profile_img.url}}" width="60px" alt="Profile photo">
+                    {% else %}
+                        <img src="{% static 'images/profile.png' %}" width="60px" alt="Profile photo">
+                    {% endif %}
+                    <div class="d-flex flex-direction-column ml-2" style="color: wheat;">
                         <span class="mt-1">Welcome</span>
-                        <h5 class="bold">Ruhin Shukurlu</h5>
+                        <h5 class="bold">{{user.first_name}} {{user.last_name}}</h5>
                     </div>
                 </div>
                 <div class="right side">
@@ -60,7 +64,7 @@
         <div class="container mt-3 company-admin-container">
             <div class="row">
                 <h3 class="full bottom-border bold pb-3 mb-5">All Comments To Your Company</h3>
-                <div class="row comments-section">
+                <div class="row">
                     <h3 class="full bottom-border pb-3 pl-3">What 6016 people are saying</h3>
                     <div class="comment-sort">
                         <span>Sort By</span>
@@ -69,126 +73,36 @@
                         <span>Filters</span>
                     </div> -->
                     <div class="comments-box inner-container">
-                        <div class="comment-item row">
-                            <div class="col-3 comment-author">
-                                <div class="comment-author-profile-img">AS</div>
-                                <div class="comment-author-username">alexandrav</div>
-                                <div class="comment-author-address">San Francisco</div>
-                                <div class="user-comments-count">
-                                    <p class="review-text mr-4 ml-4"><i class="far fa-comment"></i> 4 reviews</p>
-                                </div>
-                            </div>
-                            <div class="col-9">
-                                <div class="d-flex">
-                                    <div class="stars d-flex">
-                                        <div class="star"><i class="fas fa-star"></i></div>
-                                        <div class="star"><i class="fas fa-star"></i></div>
-                                        <div class="star"><i class="fas fa-star"></i></div>
-                                        <div class="star"><i class="fas fa-star"></i></div>
-                                        <div class="star"><i class="fas fa-star"></i></div>
-                                    </div>
-                                    <div class="posted-date pl-4">
-                                        <p>Dined on July 7, 2020</p>
+                        {% for comment in comments %}
+                            <div class="comment-item row">
+                                <div class="col-3 comment-author">
+                                    <div class="comment-author-profile-img">{{comment.user.first_name|capfirst|first}}{{comment.user.last_name|capfirst|first}}</div>
+                                    <div class="comment-author-username">{{comment.user}}</div>
+                                    <div class="comment-author-address">San Francisco</div>
+                                    <div class="user-comments-count">
+                                        <p class="review-text mr-4 ml-4"><i class="far fa-comment"></i> 4 reviews</p>
                                     </div>
                                 </div>
-                                <div class="post-body">
-                                    <p>Nice time and very sanitary! Definitely will be back again.
-                                        Nice time and very sanitary! Definitely will be back again.
-                                        Nice time and very sanitary! Definitely will be back again.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="comment-item row">
-                            <div class="col-3 comment-author">
-                                <div class="comment-author-profile-img">AS</div>
-                                <div class="username">alexandrav</div>
-                                <div class="address">San Francisco</div>
-                                <div class="user-comments-count">
-                                    <p class="review-text mr-4 ml-4"><i class="far fa-comment"></i> 4 reviews</p>
-                                </div>
-                            </div>
-                            <div class="col-9">
-                                <div class="d-flex">
-                                    <div class="stars d-flex">
-                                        <div class="star"><i class="fas fa-star"></i></div>
-                                        <div class="star"><i class="fas fa-star"></i></div>
-                                        <div class="star"><i class="fas fa-star"></i></div>
-                                        <div class="star"><i class="fas fa-star"></i></div>
-                                        <div class="star"><i class="fas fa-star"></i></div>
+                                <div class="col-9">
+                                    <div class="d-flex">
+                                        <div data-type = '{{comment.raiting}}'  class="stars d-flex rating-box">
+                                            <div class="star"><i class="far fa-star"></i></div>
+                                            <div class="star"><i class="far fa-star"></i></div>
+                                            <div class="star"><i class="far fa-star"></i></div>
+                                            <div class="star"><i class="far fa-star"></i></div>
+                                            <div class="star"><i class="far fa-star"></i></div>
+                                        </div>
+                                        <div class="posted-date pl-4">
+                                            <p>Dined on {{comment.commented_at|date:"N d, Y"}}</p>
+                                        </div>
                                     </div>
-                                    <div class="posted-date pl-4">
-                                        <p>Dined on July 7, 2020</p>
+                                    <div class="post-body">
+                                        <p>{{comment.text}}
+                                        </p>
                                     </div>
                                 </div>
-                                <div class="post-body">
-                                    <p>Nice time and very sanitary! Definitely will be back again.
-                                        Nice time and very sanitary! Definitely will be back again.
-                                        Nice time and very sanitary! Definitely will be back again.
-                                    </p>
-                                </div>
                             </div>
-                        </div>
-                        <div class="comment-item row">
-                            <div class="col-3 comment-author">
-                                <div class="comment-author-profile-img">AS</div>
-                                <div class="username">alexandrav</div>
-                                <div class="address">San Francisco</div>
-                                <div class="user-comments-count">
-                                    <p class="review-text mr-4 ml-4"><i class="far fa-comment"></i> 4 reviews</p>
-                                </div>
-                            </div>
-                            <div class="col-9">
-                                <div class="d-flex">
-                                    <div class="stars d-flex">
-                                        <div class="star"><i class="fas fa-star"></i></div>
-                                        <div class="star"><i class="fas fa-star"></i></div>
-                                        <div class="star"><i class="fas fa-star"></i></div>
-                                        <div class="star"><i class="fas fa-star"></i></div>
-                                        <div class="star"><i class="fas fa-star"></i></div>
-                                    </div>
-                                    <div class="posted-date pl-4">
-                                        <p>Dined on July 7, 2020</p>
-                                    </div>
-                                </div>
-                                <div class="post-body">
-                                    <p>Nice time and very sanitary! Definitely will be back again.
-                                        Nice time and very sanitary! Definitely will be back again.
-                                        Nice time and very sanitary! Definitely will be back again.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="comment-item row">
-                            <div class="col-3 comment-author">
-                                <div class="comment-author-profile-img">AS</div>
-                                <div class="username">alexandrav</div>
-                                <div class="address">San Francisco</div>
-                                <div class="user-comments-count">
-                                    <p class="review-text mr-4 ml-4"><i class="far fa-comment"></i> 4 reviews</p>
-                                </div>
-                            </div>
-                            <div class="col-9">
-                                <div class="d-flex">
-                                    <div class="stars d-flex">
-                                        <div class="star"><i class="fas fa-star"></i></div>
-                                        <div class="star"><i class="fas fa-star"></i></div>
-                                        <div class="star"><i class="fas fa-star"></i></div>
-                                        <div class="star"><i class="fas fa-star"></i></div>
-                                        <div class="star"><i class="fas fa-star"></i></div>
-                                    </div>
-                                    <div class="posted-date pl-4">
-                                        <p>Dined on July 7, 2020</p>
-                                    </div>
-                                </div>
-                                <div class="post-body">
-                                    <p>Nice time and very sanitary! Definitely will be back again.
-                                        Nice time and very sanitary! Definitely will be back again.
-                                        Nice time and very sanitary! Definitely will be back again.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -218,6 +132,11 @@
                     width : '250px'
                     })
             })
+            for(var index = 0; index < $('.rating-box').length; index++ ){
+                for(var i = 0; i< parseInt($('.rating-box').eq(index).data('type'));i++){
+                    $('.rating-box').eq(index).find('i').eq(i).removeClass('far').addClass('fas')
+            }
+            }
         });
     </script>
 </body>

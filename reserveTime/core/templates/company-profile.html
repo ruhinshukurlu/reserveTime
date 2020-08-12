@@ -473,15 +473,15 @@
                                 </div>
                                 <div class="col-9">
                                     <div class="d-flex">
-                                        <div class="stars d-flex">
-                                            <div class="star"><i class="fas fa-star"></i></div>
-                                            <div class="star"><i class="fas fa-star"></i></div>
-                                            <div class="star"><i class="fas fa-star"></i></div>
-                                            <div class="star"><i class="fas fa-star"></i></div>
-                                            <div class="star"><i class="fas fa-star"></i></div>
+                                        <div data-type = '{{comment.raiting}}'  class="stars d-flex rating-box">
+                                            <div class="star"><i class="far fa-star"></i></div>
+                                            <div class="star"><i class="far fa-star"></i></div>
+                                            <div class="star"><i class="far fa-star"></i></div>
+                                            <div class="star"><i class="far fa-star"></i></div>
+                                            <div class="star"><i class="far fa-star"></i></div>
                                         </div>
                                         <div class="posted-date pl-4">
-                                            <p>Dined on {{comment.commented_at}}</p>
+                                            <p>Dined on {{comment.commented_at|date:"N d, Y"}}</p>
                                         </div>
                                     </div>
                                     <div class="post-body">
@@ -616,7 +616,6 @@
 
     <script>
         $(document).ready(function(){
-            console.log($('.header-btn'))
             $(document).click(function(e){
                 if(e.target.className != "header-btn")
                 {
@@ -625,7 +624,6 @@
             });
             $('.header-btn').click(function(){
                 $('.custom-drop-down').hide()
-                console.log('pl')
                 $(this).siblings('.custom-drop-down').slideToggle()
             });
 
@@ -655,9 +653,14 @@
                         $(this).parents('.photos').find('.col.photo-box').css('display','block')
                 }   
                 }
-                
-
             })
+            
+            for(var index = 0; index < $('.rating-box').length; index++ ){
+                for(var i = 0; i< parseInt($('.rating-box').eq(index).data('type'));i++){
+                    $('.rating-box').eq(index).find('i').eq(i).removeClass('far').addClass('fas')
+            }
+            }
+          
         });
     </script>
 </body>

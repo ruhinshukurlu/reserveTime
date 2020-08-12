@@ -264,7 +264,7 @@ class CommentView(FormMixin, DetailView):
     template_name = 'write-comment.html'
     model = Company
     form_class = CommentForm
-    success_url = '/'
+    # success_url = '/'
 
     def post(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -285,3 +285,20 @@ class CommentView(FormMixin, DetailView):
         comment.raiting = self.request.POST.get('rating')
         form.save()
         return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('core:company-profile', kwargs={'pk': self.object.pk})
+
+
+class CompanyReviews(ListView):
+    model = Comment
+    context_object_name = 'comments'
+    template_name='company-comments.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        company = Company.objects.filter(pk=self.kwargs.get('pk'))
+        comments = Comment.objects.filter(company = company.first())
+        
+        context["comments"] = comments
+        return context

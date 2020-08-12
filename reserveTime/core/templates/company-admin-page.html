@@ -73,7 +73,7 @@
                             <i class="fas fa-images"></i>
                             <div class="ml-2 d-flex flex-direction-column">
                                 <span class="bold">Photos</span>
-                                <span class="bold">56</span>
+                                <span class="bold">{{user.photo_owner.all.count}}</span>
                             </div>
                         </div>
                     </a>
@@ -95,12 +95,12 @@
                     </a>
                 </div>
                 <div class="col-lg-6 d-flex justify-content-center">
-                    <a href="company-comments.html">
+                    <a href="{% url 'restaurant:company-reviews' user.company.pk %}">
                         <div class="link-box" style="background-color: #fbb168;">
                             <i class="fas fa-comment-alt"></i>
                             <div class="ml-2 d-flex flex-direction-column">
                                 <span class="bold">Reviews</span>
-                                <span class="bold">56</span>
+                                <span class="bold">{{user.company.company_comment.all.count}}</span>
                             </div>
                         </div>
                     </a>
@@ -122,7 +122,7 @@
                             <i class="fas fa-clock"></i>
                             <div class="ml-2 d-flex flex-direction-column">
                                 <span class="bold">Reservations</span>
-                                <span class="bold">56</span>
+                                <span class="bold">{{user.company.reservation.all.count}}</span>
                             </div>
                         </div>
                     </a>
@@ -133,7 +133,7 @@
                             <i class="fas fa-table"></i>
                             <div class="ml-2 d-flex flex-direction-column">
                                 <span class="bold">Tables</span>
-                                <span class="bold">56</span>
+                                <span class="bold">{{user.company_table.all.count}}</span>
                             </div>
                         </div>
                     </a>
