@@ -166,5 +166,5 @@ class CommentForm(forms.ModelForm):
                 'rows' : "5",
                 'placeholder':"Please, write your review about foods and service in the restaurant"
             })
-          
+
         }

@@ -30,7 +30,7 @@ class CommentAdmin(admin.ModelAdmin):
 
 @admin.register(Table)
 class TableAdmin(admin.ModelAdmin):
-    list_display = ['company','size','table_place']
+    list_display = ['company','size','table_place','id']
 
 @admin.register(Time)
 class TimeAdmin(admin.ModelAdmin):

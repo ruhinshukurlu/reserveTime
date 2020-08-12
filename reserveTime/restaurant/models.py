@@ -95,6 +95,7 @@ class Comment(models.Model):
     text = models.TextField(_("Comment Text"))
     comment_img = models.ImageField(_("Comment Image"), upload_to='comment-images/')
     commented_at = models.DateTimeField(_("Written Date"), auto_now_add=True)
+    raiting = models.IntegerField(_("Raiting"), blank=True, null=True)
 
     class Meta:
         verbose_name = _("Comment")
@@ -163,13 +164,13 @@ class Portion(models.Model):
 
     
 class Reservation(models.Model):
+    
 
     user = models.ForeignKey("account.User", verbose_name=_("User"), on_delete=models.CASCADE, related_name='reservation')
     company = models.ForeignKey("restaurant.Company", verbose_name=_("Company"), on_delete=models.CASCADE, related_name='reservation')
     table_id = models.IntegerField(_("Table Id"), null=True, blank=True)
     reserved_time = models.TimeField(_("Reserved Time"))
     reserved_date = models.DateField(_("Reserved Date"), blank=True, null=True)
-    # menus = models.ManyToManyField("restaurant.Menu", verbose_name=_("Menus"), related_name='reservation')
     portions = models.ManyToManyField("restaurant.Portion", verbose_name=_("Portions"), related_name='reservation_portions')
     total_price = models.IntegerField(_("Total Price"), null=True, blank=True)
     accessed = models.BooleanField(_("Accessed"), default=False)

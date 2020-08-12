@@ -277,9 +277,11 @@ class CommentView(FormMixin, DetailView):
             return self.form_invalid(form)
             
     def form_valid(self, form):
+        print(self.request.POST)
         comment = form.save(commit=False)
         form.instance.user = self.request.user
         company =  get_object_or_404(Company, pk=self.kwargs.get('pk'))
         comment.company = company
+        comment.raiting = self.request.POST.get('rating')
         form.save()
         return super().form_valid(form)

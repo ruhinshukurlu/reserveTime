@@ -104,15 +104,18 @@ class CompanyProfile(FormMixin, DetailView):
                 
             if request.POST.get('form_id') == 'FindTableForm':
                 company = Company.objects.filter(pk=self.kwargs.get('pk'))
-                print(request.POST)
+               
                 party_size = request.POST.get('size')
                 reserve_date = request.POST.get('date')
                 reserve_time = request.POST.get('time')
                 table_place = request.POST.get('table_place')
-                # print(reserve_date)
+             
                 party_size = int(party_size)
                 reserve_date_obj = datetime.datetime.strptime(reserve_date, '%Y-%m-%d')
                 reserve_time_obj = datetime.datetime.strptime(reserve_time, '%H:%M:%S').time()
+
+                company_start_hour = company.first().work_hours_from
+                print(company_start_hour)
 
                 reserve_start_date = datetime.date.today()
                 reserve_finish_date = (datetime.date.today()+datetime.timedelta(days=30)).isoformat()
@@ -127,12 +130,29 @@ class CompanyProfile(FormMixin, DetailView):
                 date = TableDate.objects.filter(date=reserve_date_obj)
                 tables = Table.objects.filter(company=company.values('user').first().get('user'), dates__in=date, table_place=table_place, size=party_size)   
 
-                # print(tables)   
-                
+                # print(tables) 
+                thirty_minutes_less = (datetime.datetime.combine(datetime.date(1, 1, 1),reserve_time_obj) - datetime.timedelta(minutes=30)).time()
+                thirty_minutes_great = (datetime.datetime.combine(datetime.date(1, 1, 1),reserve_time_obj) + datetime.timedelta(minutes=30)).time()
+
+
                 for table in tables:
                     times = table.times.filter(reserved=False)
+                    
                     for time in times:
-                        if reserve_time_obj == time.free_time:
+                        if reserve_time_obj != company_start_hour and thirty_minutes_less == time.free_time :
+                            found_result = {
+                                'table' : table,
+                                'time' : reserve_time_obj,
+                                'time_id' : time.id,
+                                'table_size' : party_size,
+                                'table_id' : table.id,
+                                'table_place' : table.table_place,
+                                'reserved_date' : reserve_date_obj
+                            }
+                            response_data['found_result'] = found_result
+                            break
+
+                        elif reserve_time_obj == company_start_hour and reserve_time_obj == time.free_time:
                             found_result = {
                                 'table' : table,
                                 'time' : time.free_time,
@@ -143,8 +163,8 @@ class CompanyProfile(FormMixin, DetailView):
                                 'reserved_date' : reserve_date_obj
                             }
                             response_data['found_result'] = found_result
-                            
                             break
+
                         else:
                             response_data['not_found'] = 'We dont have any table in the particular time...'
 
