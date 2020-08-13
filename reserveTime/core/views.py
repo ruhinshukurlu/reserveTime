@@ -38,7 +38,7 @@ class CompanyProfile(FormMixin, DetailView):
         menus = Menu.objects.filter(company = company.first().user)
         context['menus'] = menus
 
-        comments = Comment.objects.filter(company = company.first()).distinct('user')
+        comments = Comment.objects.filter(company = company.first())
         context['comments'] = comments
 
         comment_raitings = Comment.objects.filter(company = company.first())
