@@ -72,3 +72,38 @@ class PhotoViewSet(viewsets.ModelViewSet):
     """
     queryset = Photo.objects.all()
     serializer_class = PhotoSerializer
+
+class CommentViewSet(viewsets.ModelViewSet):
+    """
+        This viewset automatically provides `list` and `detail` actions.
+    """
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+
+class ReservationViewSet(viewsets.ModelViewSet):
+    """
+        This viewset automatically provides `list` and `detail` actions.
+    """
+    queryset = Reservation.objects.all()
+    serializer_class = ReservationSerializer
+
+class SavedRestaurantViewSet(viewsets.ModelViewSet):
+    """
+        This viewset automatically provides `list` and `detail` actions.
+    """
+    queryset = SavedRestaurant.objects.all()
+    serializer_class = SavedRestaurantSerializer
+
+class PortionViewSet(viewsets.ModelViewSet):
+    """
+        This viewset automatically provides `list` and `detail` actions.
+    """
+    queryset = Portion.objects.all()
+    serializer_class = PortionSerializer
+
+class TimeViewSet(viewsets.ModelViewSet):
+    """
+        This viewset automatically provides `list` and `detail` actions.
+    """
+    queryset = Time.objects.all()
+    serializer_class = TimeSerializer

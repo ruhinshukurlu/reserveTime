@@ -17,13 +17,14 @@ class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(style={'input_type':'password'}, write_only = True)
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'password']
+        fields = ['first_name', 'last_name','username','email', 'password']
 
         def create(self, validated_data):
             user = User.objects.create(
                 first_name = validated_data['first_name'],
                 last_name = validated_data['last_name'],
-                username = validated_data['email']
+                username = validated_data['username'],
+                email = validated_data['email']
             )
             password = validated_data['password']
             user.set_password(password)
@@ -64,3 +65,35 @@ class PhotoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Photo
         fields = ['id', 'owner',"photo",'photo_url','photo_type',]
+
+
+class CommentSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Comment
+        fields = ['id','company','user','text','commented_at','raiting']
+
+
+class ReservationSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Reservation
+        fields = ['id','company','user','table_id','reserved_time','reserved_date', 'total_price', 'accessed', 'denied']
+
+class SavedRestaurantSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = SavedRestaurant
+        fields = ['id','company','user','saved']
+
+class PortionSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Portion
+        fields = ['id','menu_id','portion_count']
+
+class TimeSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Time
+        fields = ['id','free_time','reserved']
