@@ -24,6 +24,8 @@ urlpatterns = [
     path('', include('core.urls', namespace = 'core')),
     path('account/', include(('account.urls', 'django.contrib.auth.urls'))),
     path('company/', include('restaurant.urls', namespace = 'restaurant')),
+    path('api/', include('core.api.urls', namespace = 'api')),
+    path('api-auth/', include('rest_framework.urls')),
     path('social-auth/', include('social_django.urls', namespace="social")), 
 ]
 
