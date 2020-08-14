@@ -111,8 +111,8 @@
 
 .comment-author-profile-img,
 .reserve-author-profile-img{
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     display: flex;
     justify-content: center;
     align-items: center;

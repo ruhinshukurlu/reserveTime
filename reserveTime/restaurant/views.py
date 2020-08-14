@@ -264,7 +264,6 @@ class CommentView(FormMixin, DetailView):
     template_name = 'write-comment.html'
     model = Company
     form_class = CommentForm
-    # success_url = '/'
 
     def post(self, request, *args, **kwargs):
         if not request.user.is_authenticated:

@@ -157,7 +157,7 @@ class CommentForm(forms.ModelForm):
     
     class Meta:
         model = Comment
-        fields = ("text",)
+        fields = ("text",'comment_image',)
 
         widgets = {
             'text' : forms.Textarea(attrs={
@@ -165,6 +165,9 @@ class CommentForm(forms.ModelForm):
                 'cols' : "30",
                 'rows' : "5",
                 'placeholder':"Please, write your review about foods and service in the restaurant"
+            }),
+            'comment_image' : forms.ClearableFileInput(attrs = {
+                'class' : 'form-control'
             })
 
         }

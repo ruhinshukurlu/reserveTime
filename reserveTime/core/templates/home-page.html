@@ -58,12 +58,35 @@
                         </div>
                     </div>
                     <div class="notification">
-                        <button type="button" class="header-btn"><i class="far fa-bell"></i></button>
+                        <button type="button" class="header-btn notification-btn">
+                            {% if notifications %}
+                                <span class="notification-count"></span>
+                            {% endif %}
+                            <i class="far fa-bell"></i>
+                        </button>
                         <div class="custom-drop-down box3 p-3" style="display: none;">
                             <div class="triangle"></div>
                             <span>Notifications</span>
-                            <!-- <p class="pl-2 pr-2">Nothing to see here, you’re all caught up!</p> -->
-                            <a class="pl-2 pr-2"     href="write-comment.html">Please, give your feedback</a>
+                            {% if notifications %}
+                                {% if request.user.is_company %}
+                                    {% for notification in notifications %}
+                                        <a class="pl-2 pr-2" href="{% url 'restaurant:company-reservations' user.company.pk %}">{{notification.text}}</a>
+                                    {% endfor %}
+                                {% else %}
+                                    {% for notification in notifications %}
+                                        <a class="pl-2 pr-2 mb-2" href="{% url 'account:user-profile' request.user.pk %}">{{notification.sender.company.company_name}}</a>
+                                        {% comment %} <p class="pl-2 pr-2">{{notification.sender}}</p> {% endcomment %}
+                                    {% endfor %}
+                                {% endif %}
+                                <form  class="full mt-2 mb-2" id="readNotifications" method="POST">
+                                    {% csrf_token %}
+                                    <input type="submit" class="btn btn-outline-secondary float-r" value="Mark all as read!">
+                                </form>
+                            {% else %}
+                                <p class="pl-2 pr-2">Nothing to see here, you’re all caught up!</p>
+                            {% endif %}
+                            
+                            
                         </div>
                     </div>
                 </div>
@@ -376,6 +399,31 @@
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/owl.carousel.min.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
+    
+    <script>
+        $('#readNotifications').on('submit', function(e){
+            e.preventDefault()  
+            
+            $.ajax({
+                type: "POST",
+                url: $('#readNotifications').attr('action'),
+                data:  {
+                    csrfmiddlewaretoken:$('#readNotifications').find('input[name=csrfmiddlewaretoken]').val(),
+                    form_id : $('#readNotifications').attr('id')
+                },
+                dataType: 'json',
+                success: function (data) {
+                    window.location.replace("{% url 'core:home' %}");
+                    console.log(data);
+                },
+                error: function(data) {
+                    alert("error");
+                    console.log(data);
+                }
+            });
+        });
+    </script>
+
     <script>
         $(document).ready(function(){
             $(document).click(function(e){

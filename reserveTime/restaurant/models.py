@@ -93,9 +93,9 @@ class Comment(models.Model):
     company = models.ForeignKey("restaurant.Company", verbose_name=_("Company"), on_delete=models.CASCADE, related_name='company_comment',blank=True, null=True)
     user = models.ForeignKey("account.User", verbose_name=_("User"), on_delete=models.CASCADE, related_name='user_comment')
     text = models.TextField(_("Comment Text"))
-    comment_img = models.ImageField(_("Comment Image"), upload_to='comment-images/')
     commented_at = models.DateTimeField(_("Written Date"), auto_now_add=True)
     raiting = models.IntegerField(_("Raiting"), blank=True, null=True)
+    comment_image = models.ImageField(_("Comment Image"), upload_to='comment-images/', blank=True, null=True)    
 
     class Meta:
         verbose_name = _("Comment")
@@ -103,6 +103,19 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.text
+
+class CommentImages(models.Model):
+
+    comment = models.ForeignKey("restaurant.Comment", verbose_name=_("comment"), on_delete=models.CASCADE, related_name='comment_photos')
+    photo = models.ImageField(_("Photo"), upload_to='comment-images/')    
+
+    class Meta:
+        verbose_name = _("CommentImages")
+        verbose_name_plural = _("CommentImagess")
+
+    def __str__(self):
+        return self.comment
+
 
 
 class Table(models.Model):
@@ -165,7 +178,6 @@ class Portion(models.Model):
     
 class Reservation(models.Model):
     
-
     user = models.ForeignKey("account.User", verbose_name=_("User"), on_delete=models.CASCADE, related_name='reservation')
     company = models.ForeignKey("restaurant.Company", verbose_name=_("Company"), on_delete=models.CASCADE, related_name='reservation')
     table_id = models.IntegerField(_("Table Id"), null=True, blank=True)
@@ -199,3 +211,17 @@ class SavedRestaurant(models.Model):
 
     
 
+class Notification(models.Model):
+
+    sender = models.ForeignKey("account.User", verbose_name=_("Sender"), on_delete=models.CASCADE, related_name='sender_notification', blank=True, null=True)
+    reciever = models.ForeignKey("account.User", verbose_name=_("Reciever"), on_delete=models.CASCADE, related_name='reciever_notification', blank=True, null=True)
+    text = models.TextField(_("Text"))    
+    read = models.BooleanField(_("Read"), default=False)
+    notified_at = models.DateTimeField(_("Notification date"))
+
+    class Meta:
+        verbose_name = _("Notification")
+        verbose_name_plural = _("Notifications")
+
+    def __str__(self):
+        return self.text

@@ -45,6 +45,10 @@
             color:black;
         }
 
+        .star i{
+            color : #da3743;
+        }
+
     </style>
 </head>
 
@@ -92,18 +96,20 @@
                 </div>
             </div>
             <div class="row" style="position: relative;">
-                <div class="save-restaurant-btn align-center" >
-                    {% if saved_restaurant.saved %}
-                        <i class="fas fa-bookmark pr-2 red" id="saved-icon"></i>
-                    {% else %}    
-                        <i class="fas fa-bookmark pr-2 black" id="saved-icon"></i>
-                    {% endif %}
-                    
-                    <form method="POST" action="{% url 'core:company-profile' company.pk %}" id="saveRestaurantForm">
-                        {% csrf_token %}
-                        <input type="submit" value="Save this restaurant">
-                    </form>
-                </div>
+                {% if request.user.is_authenticated %}
+                    <div class="save-restaurant-btn align-center" >
+                        {% if saved_restaurant.saved %}
+                            <i class="fas fa-bookmark pr-2 red" id="saved-icon"></i>
+                        {% else %}    
+                            <i class="fas fa-bookmark pr-2 black" id="saved-icon"></i>
+                        {% endif %}
+                        
+                        <form method="POST" action="{% url 'core:company-profile' company.pk %}" id="saveRestaurantForm">
+                            {% csrf_token %}
+                            <input type="submit" value="Save this restaurant">
+                        </form>
+                    </div>
+                {% endif %}
                 <div id="custom-retaurant-carousel"  class="owl-carousel owl-theme card-list">
                     <div class="item">
                         <div class="inner p-relative">
@@ -455,7 +461,13 @@
                 <div class="row comments-section" id="4">
                     <h3 class="full bottom-border pb-3 pl-3">What 6016 people are saying</h3>
                     <div class="comment-sort">
-                        <span>Sort By</span>
+                        <form action="">
+                            <select name="" id="" class="form-control">
+                                <option value="1">Newest</option>
+                                <option value="1">Highest Raiting</option>
+                                <option value="1">Lowest Raiting</option>
+                            </select>
+                        </form>
                     </div>
                     <!-- <div class="comment-filter">
                         <span>Filters</span>
@@ -485,8 +497,12 @@
                                         </div>
                                     </div>
                                     <div class="post-body">
-                                        <p>{{comment.text}}
-                                        </p>
+                                        <p>{{comment.text}}</p>
+                                        {% if comment.comment_image %}
+                                            <div class="col-3 mb-2 photo-box">
+                                                <a data-fancybox="gallery" href="{{comment.comment_image.url}}"><img style="width:100%;" src="{{comment.comment_image.url}}"></a>
+                                            </div>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
@@ -616,6 +632,21 @@
 
     <script>
         $(document).ready(function(){
+            var comments_box = $('.comments-box').find('.comment-author-profile-img')
+
+            function generateRandomColors(){
+                var clr_1 = Math.floor(Math.random()*256);
+                var clr_2 = Math.floor(Math.random()*256);
+                var clr_3 = Math.floor(Math.random()*256);
+
+                return `rgb(${clr_1},${clr_2},${clr_3})`;
+            }
+
+            for (var i=0; i<comments_box.length; i++){
+                $(comments_box[i]).css('background-color',`${generateRandomColors()}`)
+            }
+            
+
             $(document).click(function(e){
                 if(e.target.className != "header-btn")
                 {

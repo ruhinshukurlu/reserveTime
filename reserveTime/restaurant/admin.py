@@ -25,7 +25,11 @@ class MenuCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ['company','user','text','comment_img','commented_at']
+    list_display = ['company','user','text','comment_image','commented_at']
+
+@admin.register(CommentImages)
+class CommentImagesAdmin(admin.ModelAdmin):
+    list_display = ['comment', 'photo']
 
 
 @admin.register(Table)
@@ -53,3 +57,6 @@ class PortionAdmin(admin.ModelAdmin):
 class SavedRestaurantAdmin(admin.ModelAdmin):
     list_display = ['user','company', 'saved']
     
+@admin.register(Notification)
+class NotificationAdmin(admin.ModelAdmin):
+    list_display = ['sender','reciever','text','notified_at','read']

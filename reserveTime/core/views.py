@@ -17,8 +17,20 @@ class HomeView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["companies"] = Company.objects.all()
+        context['notifications'] = Notification.objects.filter(reciever=self.request.user, read=False)
         return context
 
+    def post(self, request, *args, **kwargs):
+
+        if request.method == 'POST':
+            if request.POST.get('form_id') == 'readNotifications':
+                notifications = Notification.objects.filter(reciever=request.user, read=False)
+                notifications.update(read=True)
+                response_data = {}
+                return HttpResponse(
+                        json.dumps(response_data, indent=4, sort_keys=True, default=str),
+                        content_type="application/json"
+                    )
     
 class CompanyProfile(FormMixin, DetailView):
     model = Company
@@ -206,6 +218,13 @@ class CompanyProfile(FormMixin, DetailView):
                     reserved_time= reserve_time_obj,
                     reserved_date=reserve_date_obj,
                     total_price = total_price
+                )
+
+                Notification.objects.create(
+                    sender=request.user,
+                    reciever=company.first().user, 
+                    text = 'You have new reservation',
+                    notified_at = datetime.datetime.now()
                 )   
                 
                 for i in range(0,int(request.POST.get('length'))):
@@ -229,7 +248,7 @@ class CompanyProfile(FormMixin, DetailView):
                 if(SavedRestaurant.objects.filter(user=request.user, company=company.first())):
                     saved_restaurant = SavedRestaurant.objects.filter(company=company.first(), user=request.user)
                     if saved_restaurant.first().saved:
-                        saved_restaurant.update(saved=False)
+                        saved_restaurant.update(saved=False)    
                         response_data['saved'] = 'false'
                     else:
                         saved_restaurant.update(saved=True)

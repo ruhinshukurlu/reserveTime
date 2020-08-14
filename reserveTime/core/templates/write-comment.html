@@ -70,7 +70,7 @@
             <h3 class="text-center full pt-3 pb-3 bold bottom-border">Give your feedback to "{{company.company_name}}"</h3>  
             
             <div class="row mt-3">
-                <form  class="full m-auto" style="width: 80%;" method="POST">
+                <form  class="full m-auto" style="width: 80%;" method="POST" enctype="multipart/form-data">
                   {% csrf_token %}
                     <div class="star-rating">
                         <fieldset>
@@ -81,9 +81,11 @@
                             <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="Very Poor">1 star</label>
                         </fieldset>
                     </div>
-                   
                     <div class="form-group">
                         {{form.text}}
+                    </div>
+                    <div class="form-group">
+                        {{form.comment_image}}
                     </div>
                     <input type="submit" class="float-r btn btn-success" value="Send Review">
                 </form>
