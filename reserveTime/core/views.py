@@ -8,8 +8,8 @@ from core.forms import *
 from django.shortcuts import get_list_or_404, get_object_or_404 
 import datetime
 from django.views.decorators.csrf import csrf_exempt
-
-
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Sum, Avg
 
 class HomeView(TemplateView):
     template_name = "home-page.html"
@@ -17,7 +17,17 @@ class HomeView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["companies"] = Company.objects.all()
-        context['notifications'] = Notification.objects.filter(reciever=self.request.user, read=False)
+        companies = Company.objects.all().distinct('city_location')
+        city_list = []
+        for company in companies:
+            city_groups= {
+                'city_location' : company.city_location,
+                'count' : Company.objects.filter(city_location = company.city_location).count()
+            }
+            city_list.append(city_groups)
+        context['company_groups'] = city_list
+        if self.request.user.is_authenticated:
+            context['notifications'] = Notification.objects.filter(reciever=self.request.user, read=False)
         return context
 
     def post(self, request, *args, **kwargs):
@@ -278,5 +288,29 @@ class SavedRestaurantsView(ListView):
     
     def get_queryset(self):
         return SavedRestaurant.objects.filter(user=self.request.user, saved=True)
-    
 
+
+class CompanyCategoryList(ListView):
+    context_object_name = 'companies'
+    template_name='company-list.html'
+    model = Company
+    paginate_by = 6
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        companies = Company.objects.all()
+        companies_list = []
+        for company in companies:
+            company_obj = {
+                'company' : company,
+                'rating' : company.company_comment.all().aggregate(Avg('raiting'))
+            }
+            companies_list.append(company_obj)
+        print(companies_list)
+        context["comments"] = companies_list
+        return context
+
+    def get_queryset(self):
+        self.category = Company.objects.distinct('city_location').get(city_location=self.kwargs['city_location'])
+        return Company.objects.filter(city_location=self.category.city_location)
+        

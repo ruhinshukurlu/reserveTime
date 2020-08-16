@@ -33,7 +33,20 @@ $(document).ready(function() {
       dots : false,
       autoPlay: 3000, //Set AutoPlay to 3 seconds
  
-      items : 4,
+      responsive: {
+        1: {
+            items: 1,
+        },
+        600: {
+            items: 3
+        },
+        800: {
+            items: 4
+        },
+        1000: {
+            items: 5
+        }
+      },
       itemsDesktop : [1199,3],
       itemsDesktopSmall : [979,3]
  
@@ -45,7 +58,20 @@ $(document).ready(function() {
     dots : false,
     autoPlay: 3000, //Set AutoPlay to 3 seconds
 
-    items : 5,
+    responsive: {
+      1: {
+          items: 2,
+      },
+      600: {
+          items: 3
+      },
+      800: {
+          items: 4
+      },
+      1000: {
+          items: 5
+      }
+    },
     itemsDesktop : [1199,3],
     itemsDesktopSmall : [979,3]
 

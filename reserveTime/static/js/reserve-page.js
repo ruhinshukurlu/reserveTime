@@ -34,7 +34,7 @@ $('.menu-items-style').click(function(){
        
        total_price += parseInt($(this).find('.menu-price-get span').text())
        $('.total-price').text(total_price)
-
+       choosen_item_box = $('<div class = "col-lg-6" ></div>') 
        choosen_item = $('<div></div>') 
        choosen_item.addClass(`card choosen-item item${count}`)
        meal_count = $('<div class=""></div>')
@@ -67,7 +67,8 @@ $('.menu-items-style').click(function(){
        decrease_btn.prop('disabled', true)
        decrease_btn.animate({opacity: 0.6}, 200)
        choosen_item.append(price,meal_count)
-        $('.choosen-items-container').append(choosen_item)
+       choosen_item_box.append(choosen_item)
+        $('.choosen-items-container').append(choosen_item_box)
         meal_pp = parseInt($(this).find('.menu-price-get span').text())
         price_span.parents('.choosen-item').find('.original-price').text(meal_pp)
         $(increase_btn).click(function(){

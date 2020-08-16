@@ -127,11 +127,14 @@
     flex-wrap: wrap;
     transition: .5s all ease-in-out;
 }
+.card{
+    margin: 0 0 10px 0 !important;
+}
 .choosen-item{
-    margin-bottom: 10px;
-    width: 264px;
+    width: 100%;
     padding: 10px;
 }
+
 .meal-count{
     /* display: flex; */
 }
@@ -221,3 +224,8 @@
     align-items: center;
 }
 
+@media (max-width : 768px) {
+    .choosen-menu-list{
+        flex-direction: column;
+    }
+}

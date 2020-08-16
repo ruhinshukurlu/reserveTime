@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/reset.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+
     <title>Home Page</title>
 </head>
 <body>
@@ -129,32 +131,34 @@
                     <h3 class="full bold bottom-border pb-3">Recently viewed</h3>
                     <div class="card-list d-flex">
                         {% for company in companies %}
-                            <div class="card">
-                                <a href="{% url 'core:company-profile' company.pk %}">
-                                    <div class="card-img">
-                                        <img src="{% static 'images/img3.jpg' %}" alt="Restauran image" >
-                                    </div>
-                                    <div class="card-body">
-                                        <p class="name">{{company.company_name}}</p>
-                                        <div class="review-box d-flex">
-                                            <div class="stars d-flex">
-                                                <div class="star"><i class="fas fa-star star-active"></i></div>
-                                                <div class="star"><i class="fas fa-star star-active"></i></div>
-                                                <div class="star"><i class="fas fa-star star-active"></i></div>
-                                                <div class="star"><i class="fas fa-star star-deactive"></i></div>
-                                                <div class="star"><i class="fas fa-star star-deactive"></i></div>
-                                            </div>
-                                            <p class="review-text ml-2">1875 reviews</p>
+                            <div class="col-lg-3 col-md-6 card-box">
+                                <div class="card">
+                                    <a href="{% url 'core:company-profile' company.pk %}">
+                                        <div class="card-img">
+                                            <img src="{% static 'images/img3.jpg' %}" alt="Restauran image" >
                                         </div>
-                                        <p class="location">{{company.city_location}}, {{company.province_location}}</p>
-                                        <span class="booking-count">
-                                            <span>
-                                                <svg width = 20 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M15.5,5 C15.2239,5 15,5.223846 15,5.5 L15,6.5 C15,6.77615 15.2239,7 15.5,7 L17.5858,7 L14,10.58578 L12.70711,9.29291 L12.35355,8.93933 C12.15829,8.74408 11.84171,8.74408 11.64645,8.93933 L11.29289,9.29291 L5,15.5858 L5,7 L11.5,7 C11.77614,7 12,6.77615 12,6.5 L12,5.5 C12,5.22385 11.77614,5 11.5,5 L5,5 C3.89543,5 3,5.89542 3,7 L3,17 C3,18.1046 3.89543,19 5,19 L19,19 C20.1046,19 21,18.1046 21,17 L21,14.5 C21,14.2238 20.7761,14 20.5,14 L19.5,14 C19.2239,14 19,14.2238 19,14.5 L19,17 L6.4142,17 L12,11.41422 L13.2929,12.70709 L13.6464,13.06067 C13.8417,13.25592 14.1583,13.25592 14.3536,13.06067 L14.7071,12.70709 L19,8.41422 L19,10.5 C19,10.77615 19.2239,11 19.5,11 L20.5,11 C20.7761,11 21,10.77615 21,10.5 L21,6 L21,5.5 C21,5.223846 20.7761,5 20.5,5 L20,5 L15.5,5 Z" fill="#2D333F" fill-rule="nonzero"></path></g></svg>
+                                        <div class="card-body">
+                                            <p class="name">{{company.company_name}}</p>
+                                            <div class="review-box d-flex">
+                                                <div class="stars d-flex">
+                                                    <div class="star"><i class="fas fa-star star-active"></i></div>
+                                                    <div class="star"><i class="fas fa-star star-active"></i></div>
+                                                    <div class="star"><i class="fas fa-star star-active"></i></div>
+                                                    <div class="star"><i class="fas fa-star star-deactive"></i></div>
+                                                    <div class="star"><i class="fas fa-star star-deactive"></i></div>
+                                                </div>
+                                                <p class="review-text ml-2">1875 reviews</p>
+                                            </div>
+                                            <p class="location">{{company.city_location}}, {{company.province_location}}</p>
+                                            <span class="booking-count">
+                                                <span>
+                                                    <svg width = 20 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M15.5,5 C15.2239,5 15,5.223846 15,5.5 L15,6.5 C15,6.77615 15.2239,7 15.5,7 L17.5858,7 L14,10.58578 L12.70711,9.29291 L12.35355,8.93933 C12.15829,8.74408 11.84171,8.74408 11.64645,8.93933 L11.29289,9.29291 L5,15.5858 L5,7 L11.5,7 C11.77614,7 12,6.77615 12,6.5 L12,5.5 C12,5.22385 11.77614,5 11.5,5 L5,5 C3.89543,5 3,5.89542 3,7 L3,17 C3,18.1046 3.89543,19 5,19 L19,19 C20.1046,19 21,18.1046 21,17 L21,14.5 C21,14.2238 20.7761,14 20.5,14 L19.5,14 C19.2239,14 19,14.2238 19,14.5 L19,17 L6.4142,17 L12,11.41422 L13.2929,12.70709 L13.6464,13.06067 C13.8417,13.25592 14.1583,13.25592 14.3536,13.06067 L14.7071,12.70709 L19,8.41422 L19,10.5 C19,10.77615 19.2239,11 19.5,11 L20.5,11 C20.7761,11 21,10.77615 21,10.5 L21,6 L21,5.5 C21,5.223846 20.7761,5 20.5,5 L20,5 L15.5,5 Z" fill="#2D333F" fill-rule="nonzero"></path></g></svg>
+                                                </span>
+                                                <span>34 times today</span>
                                             </span>
-                                            <span>34 times today</span>
-                                        </span>
-                                    </div>
-                                </a>
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
                         {% endfor %}
                     </div>
@@ -263,91 +267,24 @@
                     </div>
                 </div>
     
-                <div class="row">
+                <div class="row flex-column">
                     <h3>Featured Areas</h3>
                     <div class="row justify-content-center card-list" >
-                        <div class="row mb-30" >
-                            <div class="col-4">
-                                <a href="company-list.html">
+                        {% for company in company_groups %}
+                            <div class="col-4 city-category-items">
+                                <a href="{% url 'core:city-categories' company.city_location %}">
                                     <div class="inner p-relative">
                                         <div class="overlay">
                                             <div class="overlay-text">
-                                                <p>London, UK</p>
-                                                <span>12 122 restaurants</span>
-                                            </div>
-                                        </div>
-                                        <img src="{% static 'images/city1.jpg' %}" alt="Owl Image">
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-4">
-                                <a href="company-list.html">
-                                    <div class="inner p-relative">
-                                        <div class="overlay">
-                                            <div class="overlay-text">
-                                                <p>London, UK</p>
-                                                <span>12 122 restaurants</span>
+                                                <p>{{company.city_location}}</p>
+                                                <span>{% if company.count == 1 %}{{company.count}} restaurant {% else %}{{company.count}} restaurants{% endif %}</span>
                                             </div>
                                         </div>
                                         <img src="{% static 'images/city2.jpg' %}" alt="Owl Image">
                                     </div>
                                 </a>
                             </div>
-                            <div class="col-4">
-                                <a href="company-list.html">
-                                    <div class="inner p-relative">
-                                        <div class="overlay">
-                                            <div class="overlay-text">
-                                                <p>London, UK</p>
-                                                <span>12 122 restaurants</span>
-                                            </div>
-                                        </div>
-                                        <img src="{% static 'images/city3.jpg' %}" alt="Owl Image">
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-4">
-                                <a href="company-list.html">
-                                    <div class="inner p-relative">
-                                        <div class="overlay">
-                                            <div class="overlay-text">
-                                                <p>London, UK</p>
-                                                <span>12 122 restaurants</span>
-                                            </div>
-                                        </div>
-                                        <img src="{% static 'images/city4.jpg' %}" alt="Owl Image">
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-4">
-                                <a href="company-list.html">
-                                    <div class="inner p-relative">
-                                        <div class="overlay">
-                                            <div class="overlay-text">
-                                                <p>London, UK</p>
-                                                <span>12 122 restaurants</span>
-                                            </div>
-                                        </div>
-                                        <img src="{% static 'images/city1.jpg' %}" alt="Owl Image">
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-4">
-                                <a href="company-list.html">
-                                    <div class="inner p-relative">
-                                        <div class="overlay">
-                                            <div class="overlay-text">
-                                                <p>London, UK</p>
-                                                <span>12 122 restaurants</span>
-                                            </div>
-                                        </div>
-                                        <img src="{% static 'images/city2.jpg' %}" alt="Owl Image">
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
+                        {% endfor %}
                     </div>    
                 </div>
     
@@ -374,7 +311,7 @@
         </div>
     </main>
 
-    <footer>
+    <!-- <footer>
         <div class="container">
             
             <div class="row footer-row">
@@ -393,7 +330,7 @@
             </div>
         </div>
     </footer>
-    
+     -->
 
     <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>

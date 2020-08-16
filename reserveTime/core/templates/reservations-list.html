@@ -75,17 +75,23 @@
                         {% if reservations %}
                             {% for reservation in reservations %}
                                 <div class="comment-item row">
-                                    <div class="col-3 comment-author">
+                                    <div class="col-12 col-sm-3 comment-author">
                                         <div class="comment-author-profile-img">{{reservation.reservation.user.first_name|capfirst|first}}{{reservation.reservation.user.last_name|capfirst|first}}</div>
                                         <div class="comment-author-username"></div>
                                         <div class="comment-author-address">{{reservation.reservation.user.first_name|capfirst}} {{reservation.reservation.user.last_name|capfirst}}</div>                           
                                     </div>
-                                    <div class="col-9 d-flex">
-                                        <div class="col-lg-10">
+                                    <div class="col-12 col-sm-9 mt-2 d-flex padding">
+                                        <div class="col-12 col-lg-12 padding">
                                             <div class="d-flex">
                                                 <div class="d-flex ">
-                                                    <span class="bold mr-2">Reserve Date and Time : </span>
-                                                    <p>{{reservation.reservation.reserved_date}}, {{reservation.reservation.reserved_time|time:'H:i:s'}}</p>
+                                                    <span class="bold mr-2">Reserve Date : </span>
+                                                    <p>{{reservation.reservation.reserved_date}}</p>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex">
+                                                <div class="d-flex ">
+                                                    <span class="bold mr-2">Reserve Time : </span>
+                                                    <p>{{reservation.reservation.reserved_time|time:'H:i:s'}}</p>
                                                 </div>
                                             </div>
                                             <div class="d-flex">
@@ -94,14 +100,18 @@
                                                     <p> {{size}} people</p>
                                                 {% endfor %}
                                             </div>
-                                            <div class="d-flex">
-                                                <span class="bold mr-2">Total Price : </span>
-                                                <p> {{reservation.reservation.total_price}} $</p>
+                                            <div class="d-flex justify-content-between">
+                                                <div class="total-price-box d-flex">
+                                                    <span class="bold mr-2">Total Price : </span>
+                                                    <p> {{reservation.reservation.total_price}} $</p>
+                                                </div>
+                                                 <div class="d-flex align-items-end pb-2">
+                                                    <a href="{% url 'restaurant:reservation-detail' reservation.reservation.pk %}" class="btn btn-primary">View Detail</a>
+                                                </div>
                                             </div> 
+                                           
                                         </div> 
-                                        <div class="col-lg-3 d-flex align-items-end pb-2">
-                                            <a href="{% url 'restaurant:reservation-detail' reservation.reservation.pk %}" class="btn btn-primary">View Detail</a>
-                                        </div>
+                                        
                                     </div>
                                 </div>
                             {% endfor %}   

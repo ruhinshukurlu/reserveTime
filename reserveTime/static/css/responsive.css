@@ -57,6 +57,12 @@
     .reserve-header{
         top: 20%;
     }
+    .company-profile-img{
+        margin-bottom: 20px !important;
+    }
+    .company-profile-img img{
+        height: 100%;
+    }
 }
 @media (max-width : 450px) {
     .date-time-size-container{
@@ -67,5 +73,40 @@
     }
     .reserve-header{
         top: 0;
+    }
+    .custom-container{
+        max-width: 100% ;
+        margin-top: 0 !important;
+    }
+    .card-img{
+        height: 200px;
+    }
+    .owl-nav{
+        left: -17px;
+        width: 111%;
+    }
+    .city-category-items{
+        max-width: 100%;
+        flex: none;
+        margin-bottom: 20px;
+    }
+    .menu-section{
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+    }
+    .table-items{
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .company-admin-container{
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .padding{
+        padding-left: 5px !important;
+        padding-right: 5px !important;
+    }
+    .content{
+        padding: 10px 5px;
     }
 }
