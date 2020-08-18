@@ -78,3 +78,15 @@ $(document).ready(function() {
 });
  
 });
+
+
+$(document).mouseup(function (e) { 
+  console.log($(e.target).closest(".custom-drop-down").length);
+      if ($(e.target).closest(".custom-drop-down").length === 0) { 
+          $(".custom-drop-down").hide(); 
+      } 
+  }); 
+  $('.header-btn').click(function(){
+      $('.custom-drop-down').hide()
+      $(this).siblings('.custom-drop-down').toggle()
+  });

@@ -2,6 +2,13 @@
     .custom-container{
         max-width: 85%;
     }
+    .user-profile button {
+        width: 35px;
+        height: 35px;
+    }
+    .right i {
+        font-size: 20px;
+    }
 }
 
 @media (max-width: 1500px) {
@@ -9,7 +16,7 @@
         max-width: 90%;
     }
     .inner-container{
-        max-width: 95%;
+        max-width: 90%;
     }
     .header-img{
         height: 400px;
@@ -19,6 +26,20 @@
     }
     .col-4 img {
         height: 200px;
+    }
+    .right i,
+    span{
+        font-size: 15px;
+    }
+    .company-header-img{
+        height: 450px;
+    }
+    .save-restaurant-btn{
+        padding: 15px 30px;
+    }
+    .order-box, .reserve-box {
+        margin: 20px 0px;
+        padding: 15px;
     }
 }
 
@@ -37,6 +58,9 @@
     }
     .col-4 img {
         height: 170px;
+    }
+    .company-header-img{
+        height: 350px;
     }
 }
 

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-{% load static %}
+    {% load custom-filters %}
+    {% load static %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css">
@@ -29,12 +30,9 @@
             }
         }
 
-        .custom-container{
-            background-color: transparent;
-        }
-
         .inner-container{
-            background-color: #fff;
+            position: relative;
+            top: -45px;
         }
 
         .red{
@@ -50,102 +48,30 @@
         }
 
     </style>
+    
+    
+
+
 </head>
 
 
 <body id="profile-body">
     
-    <header>
-        <div class="container custom-container header-container shadow">
-            <div class="row justify-content-between">
-                <div class="left side">
-                    <a href="{% url 'core:home' %}">
-                        <img src="{% static 'images/logo.png' %}" width="250px" alt="">
-                    </a>
-                </div>
-                <div class="right side">
-                    <div class="user-profile left-border">
-                        <span> Hi, User <i class="fas fa-chevron-down" id="arrow-down"></i></span>
-                        <div class="custom-drop-down shadow" style="display: none;">
-                            <div class="triangle"></div>
-                            <span>Hello, User</span>
-                            <ul>
-                                <li><a href="#">My Profile</a></li>
-                                <li><a href="#">My Dining History</a></li>
-                                <li><a href="#">My Saved Restaurants</a></li>
-                                <li><a href="#">Sign out</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="reserve-table">
-                        <button type="button" class="header-btn"><i class="far fa-calendar"></i></button>
-                        <div class="custom-drop-down p-3" style="display: none;">
-                            <div class="triangle"></div>
-                            <span>Upcoming reservations</span>
-                            <p class="pl-2 pr-2">You have no upcoming reservations</p>
-                        </div>
-                    </div>
-                    <div class="notification">
-                        <button type="button" class="header-btn"><i class="far fa-bell"></i></button>
-                        <div class="custom-drop-down shadow p-3" style="display: none;">
-                            <div class="triangle"></div>
-                            <span>Notifications</span>
-                            <p class="pl-2 pr-2">Nothing to see here, you’re all caught up!</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row" style="position: relative;">
-                {% if request.user.is_authenticated %}
-                    <div class="save-restaurant-btn align-center" >
-                        {% if saved_restaurant.saved %}
-                            <i class="fas fa-bookmark pr-2 red" id="saved-icon"></i>
-                        {% else %}    
-                            <i class="fas fa-bookmark pr-2 black" id="saved-icon"></i>
-                        {% endif %}
-                        
-                        <form method="POST" action="{% url 'core:company-profile' company.pk %}" id="saveRestaurantForm">
-                            {% csrf_token %}
-                            <input type="submit" value="Save this restaurant">
-                        </form>
-                    </div>
+    {% include 'partials/header.html' %}
+
+    <section>
+        <div class="container custom-container">
+            <div class="row">
+                {% if company.cover_photo %}
+                    <img class="company-header-img" src="{{company.cover_photo.url}}" alt="">
+                {% else %}
+                    <img class="company-header-img" src="{% static 'images/cover.jpg' %}" alt="">
                 {% endif %}
-                <div id="custom-retaurant-carousel"  class="owl-carousel owl-theme card-list">
-                    <div class="item">
-                        <div class="inner p-relative">
-                            <div class="overlay">
-                            </div>
-                            <img src="{% static 'images/img1.jpg' %}" alt="Owl Image">
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="inner p-relative">
-                            <div class="overlay">
-                            </div>
-                            <img src="{% static 'images/img2.jpg' %}" alt="Owl Image">
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="inner p-relative">
-                            <div class="overlay">
-                            </div>
-                            <img src="{% static 'images/img3.jpg' %}" alt="Owl Image">
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="inner p-relative">
-                            <div class="overlay">
-                            </div>
-                            <img src="{% static 'images/img4.jpg' %}" alt="Owl Image">
-                        </div>  
-                    </div>
-                </div>
             </div>
         </div>
-       
-    </header>
+    </section>
 
-    <main class="pt-5 mb-5">
+    <main class="mb-5">
         <div class="container custom-container main-container" >
             <div class="inner-container bg-white">
                 <div class="row">
@@ -153,26 +79,29 @@
                         <div class="row menu-box">
                             <div class="menu">
                                 <ul class="menu-list">
-                                    <li><a href="#1">Overview</a></li>
-                                    <li><a href="#2">Photos</a></li>
+                                    <li><a href="#overview">Overview</a></li>
+                                    <li><a href="#photos">Photos</a></li>
                                     <li><a href="#3">Menu</a></li>
                                     <li><a href="#4">Review</a></li>
                                 </ul>
                             </div>
                         </div>
-                        <div class="row overview" id="1">
+                        <div class="row overview" id="overview">
                             <h1 class="company-name bold">{{company.company_name}}</h1>
                             <div style="display: none;" id="company_id">{{company.pk}}</div>
                             <div class="d-flex pl-3">
-                                <div class="stars d-flex">
-                                    <div class="star"><i class="fas fa-star"></i></div>
-                                    <div class="star"><i class="fas fa-star"></i></div>
-                                    <div class="star"><i class="fas fa-star"></i></div>
-                                    <div class="star"><i class="fas fa-star"></i></div>
-                                    <div class="star"><i class="fas fa-star"></i></div>
+                                <div data-type="{{company_overall}}" class="stars rating-box d-flex">
+                                    <div class="star"><i class="far fa-star"></i></div>
+                                    <div class="star"><i class="far fa-star"></i></div>
+                                    <div class="star"><i class="far fa-star"></i></div>
+                                    <div class="star"><i class="far fa-star"></i></div>
+                                    <div class="star"><i class="far fa-star"></i></div>
                                 </div>
-                                <p class="review-text mr-4 ml-4"><i class="far fa-comment"></i> 1875 reviews</p>
-                                <p class="company-type"><i class="fas fa-utensils"></i> Global, International</p>
+                                <p class="review-text mr-4 ml-4"><i class="far fa-comment"></i> {{comments|length}} reviews</p>
+                                <p class="company-type">
+                                    <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" style="background:#FFFFFF"><title>icon/ic_cuisine</title><desc>Created with Sketch.</desc><defs></defs><g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="icon/ic_cuisine"><g id="ic_cuisine"><rect id="boundary" x="0" y="0" width="24" height="24"></rect><path d="M14.55,2 C14.2462434,2 14,2.24624339 14,2.55 L14,21 C14,21.5522847 14.4477153,22 15,22 L16,22 C16.5522847,22 17,21.5522847 17,21 L17,17 L18,17 C19.1045695,17 20,16.1045695 20,15 L20,7.45 C20,4.44004811 17.5599519,2 14.55,2 L14.55,2 Z M18,15 L16,15 L16,4.32 C17.2176535,4.88673047 17.9973291,6.10692278 18,7.45 L18,15 Z" id="Shape" fill="#333333" fill-rule="nonzero"></path><path d="M11,2 L6,2 C4.8954305,2 4,2.8954305 4,4 L4,11 C4,12.1045695 4.8954305,13 6,13 L7,13 L7,21 C7,21.5522847 7.44771525,22 8,22 L9,22 C9.55228475,22 10,21.5522847 10,21 L10,13 L11,13 C12.1045695,13 13,12.1045695 13,11 L13,4 C13,2.8954305 12.1045695,2 11,2 Z M11,11 L6,11 L6,4 L7,4 L7,8.5 C7,8.77614237 7.22385763,9 7.5,9 C7.77614237,9 8,8.77614237 8,8.5 L8,4 L9,4 L9,8.5 C9,8.77614237 9.22385763,9 9.5,9 C9.77614237,9 10,8.77614237 10,8.5 L10,4 L11,4 L11,11 Z" id="Shape" fill="#333333" fill-rule="nonzero"></path></g></g></g></svg>
+                                    Global, International
+                                </p>
                             </div>
                             <p class="description p-3">
                                 {{company.description}}
@@ -290,7 +219,7 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-8">
-                        <div class="row photos pb-3" id="2">
+                        <div class="row photos pb-3" name="photos">
                             <h3 class="full pl-3 pb-3 bottom-border">{{photos.count}} Photos</h3>
                             <div class="menu-box full mb-3">
                                 <div class="photo-menu pl-3">
@@ -303,7 +232,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="photo-gallery d-flex row row-cols-4 m-auto">
+                            <div class="row photo-gallery row-cols-4 m-auto" id="photos">
                                 {% for photo in photos %}
                                     <div class="col mb-2 photo-box">
                                         <a data-fancybox="gallery" href="{{photo.photo.url}}"><img data-type="{{photo.photo_type}}" src="{{photo.photo.url}}"></a>
@@ -347,7 +276,7 @@
                             <h3 class="full pl-3 pb-3 bottom-border">Company Information</h3>
                             <div class="col-6 d-flex">
                                 <div class="icon-block">
-                                    <i class="fas fa-road"></i>
+                                    <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" style="background:#FFFFFF"><title>icon/ic_cross_street</title><desc>Created with Sketch.</desc><defs></defs><g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="icon/ic_cross_street"><g id="ic_cross_street"><rect id="boundry" x="0" y="0" width="24" height="24"></rect><rect id="Rectangle-42" fill="#333333" x="9" y="3" width="2" height="5" rx="0.5"></rect><rect id="Rectangle-42" fill="#333333" x="9" y="16" width="2" height="5" rx="0.5"></rect><rect id="Rectangle-42" fill="#333333" x="14" y="3" width="2" height="3" rx="0.5"></rect><rect id="Rectangle-42" fill="#333333" x="14" y="8" width="2" height="3" rx="0.5"></rect><rect id="Rectangle-42" fill="#333333" x="14" y="13" width="2" height="3" rx="0.5"></rect><rect id="Rectangle-42" fill="#333333" x="14" y="18" width="2" height="3" rx="0.5"></rect><rect id="Rectangle-42" fill="#333333" x="19" y="3" width="2" height="18" rx="0.5"></rect><rect id="Rectangle-57" fill="#333333" x="3" y="6" width="7" height="2" rx="0.5"></rect><rect id="Rectangle-57" fill="#333333" x="8" y="11" width="3" height="2" rx="0.5"></rect><rect id="Rectangle-57" fill="#333333" x="3" y="11" width="3" height="2" rx="0.5"></rect><rect id="Rectangle-57" fill="#333333" x="3" y="16" width="7" height="2" rx="0.5"></rect></g></g></g></svg>
                                 </div>
                                 <div class="info-text">
                                     <span>Cross street</span>
@@ -374,7 +303,11 @@
                             </div>
                             <div class="col-6 d-flex">
                                 <div class="icon-block">
-                                    <i class="fas fa-utensils"></i>
+                                    <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" style="background:#FFFFFF">
+                                        <title>icon/ic_cuisine</title><desc>Created with Sketch.</desc><defs></defs>
+                                        <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="icon/ic_cuisine">
+                                        <g id="ic_cuisine"><rect id="boundary" x="0" y="0" width="24" height="24"></rect>
+                                        <path d="M14.55,2 C14.2462434,2 14,2.24624339 14,2.55 L14,21 C14,21.5522847 14.4477153,22 15,22 L16,22 C16.5522847,22 17,21.5522847 17,21 L17,17 L18,17 C19.1045695,17 20,16.1045695 20,15 L20,7.45 C20,4.44004811 17.5599519,2 14.55,2 L14.55,2 Z M18,15 L16,15 L16,4.32 C17.2176535,4.88673047 17.9973291,6.10692278 18,7.45 L18,15 Z" id="Shape" fill="#333333" fill-rule="nonzero"></path><path d="M11,2 L6,2 C4.8954305,2 4,2.8954305 4,4 L4,11 C4,12.1045695 4.8954305,13 6,13 L7,13 L7,21 C7,21.5522847 7.44771525,22 8,22 L9,22 C9.55228475,22 10,21.5522847 10,21 L10,13 L11,13 C12.1045695,13 13,12.1045695 13,11 L13,4 C13,2.8954305 12.1045695,2 11,2 Z M11,11 L6,11 L6,4 L7,4 L7,8.5 C7,8.77614237 7.22385763,9 7.5,9 C7.77614237,9 8,8.77614237 8,8.5 L8,4 L9,4 L9,8.5 C9,8.77614237 9.22385763,9 9.5,9 C9.77614237,9 10,8.77614237 10,8.5 L10,4 L11,4 L11,11 Z" id="Shape" fill="#333333" fill-rule="nonzero"></path></g></g></g></svg>
                                 </div>
                                 <div class="info-text">
                                     <span>Cuisines</span>
@@ -457,35 +390,73 @@
                     </div>
                 </div>
                 
+               
     
                 <div class="row comments-section" id="4">
-                    <h3 class="full bottom-border pb-3 pl-3">What 6016 people are saying</h3>
-                    <div class="comment-sort">
-                        <form action="">
-                            <select name="" id="" class="form-control">
-                                <option value="1">Newest</option>
-                                <option value="1">Highest Raiting</option>
-                                <option value="1">Lowest Raiting</option>
-                            </select>
-                        </form>
+                    <h3 class="full bottom-border bold pl-5 pb-2 mt-5">What 6016 people are saying</h3>
+                    <div class="row mb-5">
+                        <div class="d-column pl-5">
+                            <span class="bold">Overall ratings and reviews</span>
+                            <p>Reviews can only be made by diners who have eaten at this restaurant</p>
+                            <span style="color: #6f737b;"><i class="far fa-thumbs-up mr-2"></i><small>{{liked_users_count|percentage:all_likes}} % of people would recommend it to a friend</small></span>
+                        </div>
                     </div>
-                    <!-- <div class="comment-filter">
-                        <span>Filters</span>
-                    </div> -->
-                    <div class="comments-box inner-container">
+                    <div class="row mt-3 mb-5 pr-5">
+                        <div class="col-4">
+                            <canvas id="likeChart"></canvas>
+                            <div class="full text-center">
+                                <p>Based on {{liked_users_count|add:disliked_users_count}} recomendations</p>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <canvas id="ratingChart"></canvas>
+                        </div>
+                        <div class="col-4">
+                            <canvas id="userRatingChart"></canvas>
+                        </div>
+                    </div>
+
+                    <style>
+                        .sort-form{
+                            width: 30%;
+                        }
+                        .comment-sort{
+                            padding-left: 100px;
+                        }
+                        .comments-box{
+                            width: 80%;
+                            margin: auto;
+                        }
+                    </style>
+                    
+
+                    <div class="comment-sort mb-5 mt-5">
+                        <strong>Sort by</strong><br>
+                        <div class="d-flex mt-3">
+                            <form id="commentFilter" class="sort-form">
+                                <select name="commentSort" class="form-control">
+                                    <option value="newest">Newest</option>
+                                    <option value="highest">Highest Raiting</option>
+                                    <option value="lowest">Lowest Raiting</option>
+                                </select>
+                            </form>
+                        </div>
+                    </div>
+                   
+                    <div class="comments-box" id="commentBox">
                         {% for comment in comments %}
                             <div class="comment-item row">
-                                <div class="col-3 comment-author">
-                                    <div class="comment-author-profile-img">{{comment.user.first_name|capfirst|first}}{{comment.user.last_name|capfirst|first}}</div>
-                                    <div class="username">{{comment.user.username}}</div>
+                                <div class="col-md-3 comment-author">
+                                    <div class="comment-author-profile-img">{{comment.comment.user.first_name|capfirst|first}}{{comment.comment.user.last_name|capfirst|first}}</div>
+                                    <div class="username">{{comment.comment.user.username}}</div>
                                     <div class="address">San Francisco</div>
                                     <div class="user-comments-count">
-                                        <p class="review-text mr-4 ml-4"><i class="far fa-comment"></i> {% for user in users %}{% if user == comment.user %}{{user.user_comment.all.count}}{% endif %}{% endfor %} reviews</p>
+                                        <p class="review-text mr-4 ml-4"><i class="far fa-comment"></i> {% for user in users %}{% if user == comment.comment.user %}{{user.user_comment.all.count}}{% endif %}{% endfor %} reviews</p>
                                     </div>
                                 </div>
-                                <div class="col-9">
+                                <div class="col-md-9">
                                     <div class="d-flex">
-                                        <div data-type = '{{comment.raiting}}'  class="stars d-flex rating-box">
+                                        <div data-type = '{{comment.overall}}'  class="stars d-flex rating-box">
                                             <div class="star"><i class="far fa-star"></i></div>
                                             <div class="star"><i class="far fa-star"></i></div>
                                             <div class="star"><i class="far fa-star"></i></div>
@@ -493,14 +464,46 @@
                                             <div class="star"><i class="far fa-star"></i></div>
                                         </div>
                                         <div class="posted-date pl-4">
-                                            <p>Dined on {{comment.commented_at|date:"N d, Y"}}</p>
+                                            <p>Dined on {{comment.comment.commented_at|date:"N d, Y"}}</p>
                                         </div>
                                     </div>
+
+                                    <style>
+                                        .rating-menu-list strong{
+                                            margin-right: 5px;
+                                        }
+                                        .rating-menu-list span{
+                                            color: red;
+                                            font-size: 15px;
+                                            font-weight: bold;
+                                        }
+                                    </style>
+
+                                    <div class="d-flex">
+                                        <ul class="d-flex rating-menu-list">
+                                            <li class="d-flex ml-2">
+                                                <strong>Overall</strong>
+                                                <span>{{comment.overall}}.</span>
+                                            </li>
+                                            <li class="d-flex ml-2">
+                                                <strong>Food</strong>
+                                                <span>{{comment.comment.ratingFood}}.</span>
+                                            </li>
+                                            <li class="d-flex ml-2">
+                                                <strong>Service</strong>
+                                                <span>{{comment.comment.ratingService}}.</span>
+                                            </li>
+                                            <li class="d-flex ml-2">
+                                                <strong>Ambience</strong>
+                                                <span>{{comment.comment.ratingAmbience}}.</span>
+                                            </li>
+                                        </ul>
+                                    </div>
                                     <div class="post-body">
-                                        <p>{{comment.text}}</p>
-                                        {% if comment.comment_image %}
+                                        <p>{{comment.comment.text}}</p>
+                                        {% if comment.comment.comment_image %}
                                             <div class="col-3 mb-2 photo-box">
-                                                <a data-fancybox="gallery" href="{{comment.comment_image.url}}"><img style="width:100%;" src="{{comment.comment_image.url}}"></a>
+                                                <a data-fancybox="gallery" href="{{comment.comment.comment_image.url}}"><img style="width:100%;" src="{{comment.comment.comment_image.url}}"></a>
                                             </div>
                                         {% endif %}
                                     </div>
@@ -518,6 +521,8 @@
         </div>
     </main>
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
     <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
@@ -525,6 +530,100 @@
     <script src="{% static 'js/main.js' %}"></script>
     <script src="{% static 'js/reserve-page.js' %}"></script>
 
+    
+
+    <script >
+        var ctx = document.getElementById("likeChart").getContext('2d');
+        let colorHex = ['#60BD47 ', '#F76C5E ']
+        let labels = ['Liked','Disliked']
+
+        var ctx_1 = new Chart(ctx, {
+            type: 'pie',
+
+            data: {
+                datasets: [{
+                    data: ['{{liked_users_count}}', '{{disliked_users_count}}'],
+                    backgroundColor: colorHex,
+                }],
+                labels : labels
+            },
+
+            options: {
+                responsive : true,
+                legend: {
+                    position: 'bottom',
+                }
+            }
+        });
+        
+        var ctx_2 = document.getElementById("ratingChart").getContext('2d');
+        let data = ['{{food_avg}}','{{service_avg}}','{{ambience_avg}}']
+
+        var data_2 = {
+            datasets: [{
+                data: data,
+                backgroundColor: [
+                    '#45B39D',
+                    '#9B59B6',
+                    '#BFC9CA',
+                ],
+            }],
+            labels: [
+                'Food',
+                'Service',
+                'Ambience'
+            ]
+        };
+        var myDoughnutChart_2 = new Chart(ctx_2, {
+            type: 'doughnut',
+            data: data_2,
+            options: {
+                legend: {
+                    position: 'bottom',
+                }
+            }
+        });
+
+
+       
+        
+        let colorHex_3 = ['pink ', 'purple', 'yellow','red','blue']
+        var chartdata = {
+            type: 'horizontalBar',
+            data: {
+                labels: ["Point 5", "Point 4", "Point 3", "Point 2", "Point 1"],
+                // labels: month,
+                datasets: [
+                    {
+                        label: 'UserRating',
+                        backgroundColor: colorHex_3,
+                        data: ['{{overall_count_5}}','{{overall_count_4}}','{{overall_count_3}}','{{overall_count_2}}','{{overall_count_1}}']
+                    },
+                    
+                ],
+                
+            },
+            options: {
+                animation: {
+                    easing: "easeOutQuart"
+                },
+                legend: {
+                    position: "bottom",
+                    responsive : true
+                },
+                scales: {
+                    xAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                        }
+                    }]
+                }
+            }
+        }
+
+        var ctx_3 = document.getElementById('userRatingChart').getContext('2d');
+        new Chart(ctx_3, chartdata);
+     </script>
 
     <script>
         $('#FindTableForm').on('submit', function(e){
@@ -615,8 +714,11 @@
                 success: function (data) {
                     if(data.saved == 'true'){
                         $('#saved-icon').css('color','red')
+                        console.log($('#save-restaurant-input').text());
+                        $('#save-restaurant-input').val(data.text)
                     }else if( data.saved == 'false'){
                         $('#saved-icon').css('color','black')
+                        $('#save-restaurant-input').val(data.text)
                     }
                     console.log(data);
                 },
@@ -632,6 +734,25 @@
 
     <script>
         $(document).ready(function(){
+
+            function getRandomSize(min, max) {
+                return Math.round(Math.random() * (max - min) + min);
+            }
+
+            var allImages = "";
+
+            
+            
+            
+            for (var i = 0; i < '{{photos|length}}'; i++) {
+                var width = getRandomSize(200, 400);
+                var height =  getRandomSize(200, 400);
+                allImages += '<a data-fancybox="gallery" href="{{photo.photo.url}}"><img data-type="{{photo.photo_type}}" src="{{photo.photo.url}}"></a>';
+            }
+
+            // $('#photos').append(allImages);
+
+
             var comments_box = $('.comments-box').find('.comment-author-profile-img')
 
             function generateRandomColors(){
@@ -647,16 +768,7 @@
             }
             
 
-            $(document).click(function(e){
-                if(e.target.className != "header-btn")
-                {
-                $(".custom-drop-down").hide();
-                }
-            });
-            $('.header-btn').click(function(){
-                $('.custom-drop-down').hide()
-                $(this).siblings('.custom-drop-down').slideToggle()
-            });
+           
 
             $('.show-menu-btn').click(function(){
                 $('.menu-container').toggleClass('collapse-menu')
@@ -686,13 +798,42 @@
                 }
             })
             
-            for(var index = 0; index < $('.rating-box').length; index++ ){
-                for(var i = 0; i< parseInt($('.rating-box').eq(index).data('type'));i++){
-                    $('.rating-box').eq(index).find('i').eq(i).removeClass('far').addClass('fas')
+            function makeStar(box){
+                for(var index = 0; index < box.length; index++ ){
+                    for(var i = 0; i< parseInt(box.eq(index).data('type'));i++){
+                        box.eq(index).find('i').eq(i).removeClass('far').addClass('fas')
+                    }
+                }
             }
-            }
+
+            makeStar($('.rating-box'))
           
         });
+    </script>
+
+
+
+    <script>
+        document.querySelectorAll('form#commentFilter > select').forEach(select_element => {
+            select_element.addEventListener('change', ()=>{
+                console.log(select_element.value);
+                const filterData = $('#commentFilter').serialize();
+                console.log(filterData);
+                    $.ajax({
+                        url: `{% url 'core:comment-filter' company.pk %}?${filterData}`,
+                        // data : filterData,
+                        success: function(data){
+                            document.querySelector('#commentBox').innerHTML = data;
+                            console.log(data);
+                        },
+                        error: function(data){
+                            alert('error');
+                        }
+                    });
+                    
+                    
+            })
+        })
     </script>
 </body>
 </html>

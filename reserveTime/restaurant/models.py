@@ -15,6 +15,7 @@ class Company(models.Model):
     
     company_name = models.CharField(_("Company Name"), max_length=250)
     phone_number = models.CharField(_("Phone Number"), max_length=50)
+    cover_photo = models.ImageField(_("Photo"), upload_to='company-photos/', blank=True, null=True)
 
     city_location = models.CharField(_("City"), max_length=150)
     province_location = models.CharField(_("Province"), max_length=150)
@@ -94,7 +95,15 @@ class Comment(models.Model):
     user = models.ForeignKey("account.User", verbose_name=_("User"), on_delete=models.CASCADE, related_name='user_comment')
     text = models.TextField(_("Comment Text"))
     commented_at = models.DateTimeField(_("Written Date"), auto_now_add=True)
-    raiting = models.IntegerField(_("Raiting"), blank=True, null=True)
+
+    ratingFood = models.IntegerField(_("ratingFood"), blank=True, null=True)
+    ratingService = models.IntegerField(_("ratingService"), blank=True, null=True)
+    ratingAmbience = models.IntegerField(_("ratingAmbience"), blank=True, null=True)
+
+    overall = models.IntegerField(_("Overall"))
+
+    liked = models.IntegerField(_("Like"), blank=True, null=True)
+
     comment_image = models.ImageField(_("Comment Image"), upload_to='comment-images/', blank=True, null=True)    
 
     class Meta:
@@ -103,6 +112,7 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.text
+
 
 class CommentImages(models.Model):
 

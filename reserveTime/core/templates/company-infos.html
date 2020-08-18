@@ -75,7 +75,7 @@
                     Company Informations
                 </h3>
                 <p class="bold">These fields will help users to get basic informations about restaurant, that is why it is recomended to fill all fields correctly.</p>
-                <form method = "POST"  class="full mt-3 mb-3 company-infos-form">
+                <form method = "POST"  class="full mt-3 mb-3 company-infos-form" enctype="multipart/form-data">
                     {% csrf_token %}
                    <div class="row">
                         <div class="col-lg-6">
@@ -197,6 +197,15 @@
                             </div>
                        </div>
                    </div>
+                   <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="exampleFormControlTextarea1">Cover Photo</label>
+                                {{form.cover_photo}}
+                                {{form.cover_photo.errors}}
+                            </div>
+                        </div>
+                    </div>
                     <input type="submit" value="Save" class="save-btn float-r ">
                 </form>
             </div>

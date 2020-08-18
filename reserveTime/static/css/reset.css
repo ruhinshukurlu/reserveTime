@@ -120,3 +120,7 @@ ol li{
 	display: flex;
 	align-items: center;
 }
+
+.border-right{
+	border-right: 1px solid #ccc;
+}

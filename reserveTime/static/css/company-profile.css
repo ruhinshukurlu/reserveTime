@@ -2,6 +2,12 @@
     font-size: 16px;
 }
 
+.company-header-img{
+    width: 100%;
+    height: 550px;
+    object-fit: cover;
+}
+
 .image-gallery img{
     /* width: 400px; */
     margin-bottom: 10px;
@@ -118,22 +124,28 @@
     align-items: center;
     background-color: aqua;
     border-radius: 50%;
+    color: #fff;
+    font-weight: 600;
+    font-size: 20px;
 }
 
 .comment-item{
-    margin-bottom: 20px;
+    margin-bottom: 50px;
     border-bottom: 1px solid #ccc;
 }
 
 .save-restaurant-btn{
     position: absolute;
     z-index: 10;
-    background-color: #F0ECEC;
+    background-color: #fff;
     color: black;
-    padding: 15px;
-    border-radius: 10px;
+    padding: 20px 40px;
     right: 40px;
     top: 40px;
+}
+
+.save-restaurant-btn input{
+    background: transparent;
 }
 
 .save-restaurant-btn:hover{
@@ -228,3 +240,8 @@
     border-radius: 15px;
     outline: none !important;
 }
+
+.photo-gallery .col{
+    padding: 3px;
+}
+

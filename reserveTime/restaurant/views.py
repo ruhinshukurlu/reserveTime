@@ -13,6 +13,7 @@ from restaurant.forms import *
 from django.contrib import messages
 import datetime
 from django.shortcuts import get_object_or_404
+from django.core.mail import send_mail
 
 
 class RestaurantRegisterView(CreateView):
@@ -27,6 +28,13 @@ class RestaurantRegisterView(CreateView):
     def form_valid(self, form):
         user = form.save()
         login(self.request, user, backend='django.contrib.auth.backends.ModelBackend')
+        send_mail(
+            'New User in Website',
+            'New company registered and wait allowing',
+            'reservetimealligator@gmail.com',
+            ['ruhinshukurlu@gmail.com'],
+            fail_silently=False,
+        )
         return redirect('core:home')
 
 
@@ -281,7 +289,12 @@ class CommentView(FormMixin, DetailView):
         form.instance.user = self.request.user
         company =  get_object_or_404(Company, pk=self.kwargs.get('pk'))
         comment.company = company
-        comment.raiting = self.request.POST.get('rating')
+        comment.ratingFood = self.request.POST.get('ratingFood')
+        comment.ratingService = self.request.POST.get('ratingService')
+        comment.ratingAmbience = self.request.POST.get('ratingAmbience')
+        comment.overall = int((int(self.request.POST.get('ratingFood')) + int(self.request.POST.get('ratingService')) + int(self.request.POST.get('ratingAmbience')))/3)
+        comment.liked = self.request.POST.get('like')
+
         form.save()
         return super().form_valid(form)
 

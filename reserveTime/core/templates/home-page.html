@@ -14,6 +14,20 @@
     <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
 
     <title>Home Page</title>
+
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(pos) {
+                //You have your locaton here
+                console.log("Latitude: " + pos.coords.latitude +
+                    "Longitude: " + pos.coords.longitude);
+                });
+            } else {
+                console.log("Geolocation is not supported by this browser.");
+            }
+        }
+    </script>
 </head>
 <body>
     
@@ -127,7 +141,13 @@
     <main class="pb-3">
         <div class="custom-container container main-container shadow">
             <div class="inner-container">
-                <div class="row" style="margin-bottom: 50px;">
+                <div class="row pt-3 pb-3 bottom-border">
+                    <div class="location d-flex">
+                        <span>It looks like you're in Baku. Not correct?</span>
+                        <button onclick="getLocation()" style="color: #da3743; outline: none;"><i class="fas fa-location-arrow mr-2 ml-2"></i>Get current location</button>
+                    </div>
+                </div>
+                <div class="row mt-3" style="margin-bottom: 50px;">
                     <h3 class="full bold bottom-border pb-3">Recently viewed</h3>
                     <div class="card-list d-flex">
                         {% for company in companies %}
@@ -135,7 +155,12 @@
                                 <div class="card">
                                     <a href="{% url 'core:company-profile' company.pk %}">
                                         <div class="card-img">
-                                            <img src="{% static 'images/img3.jpg' %}" alt="Restauran image" >
+                                            {% if company.cover_photo %}
+                                                <img src="{{company.cover_photo.url}}" alt="Restauran image" >
+                                            {% else %}
+                                                <img src="{% static 'images/img3.jpg' %}" alt="Restauran image" >
+                                            {% endif %}
+                                            
                                         </div>
                                         <div class="card-body">
                                             <p class="name">{{company.company_name}}</p>
@@ -268,8 +293,8 @@
                 </div>
     
                 <div class="row flex-column">
-                    <h3>Featured Areas</h3>
-                    <div class="row justify-content-center card-list" >
+                    <h3 class="bold mb-3 pb-2 bottom-border">Featured Areas</h3>
+                    <div class="row card-list" >
                         {% for company in company_groups %}
                             <div class="col-4 city-category-items">
                                 <a href="{% url 'core:city-categories' company.city_location %}">
@@ -362,20 +387,7 @@
     </script>
 
     <script>
-        $(document).ready(function(){
-            $(document).click(function(e){
-                if(e.target.className != "header-btn")
-                {
-                $(".custom-drop-down").hide();
-                }
-            });
-            $('.header-btn').click(function(){
-                $('.custom-drop-down').hide()
-                $(this).siblings('.custom-drop-down').slideToggle()
-            });
-            
-          
-        });
+       
     </script>
 </body>
 </html>

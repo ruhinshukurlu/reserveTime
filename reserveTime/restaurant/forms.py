@@ -84,10 +84,16 @@ class CompanyInfosForm(forms.ModelForm):
     
     class Meta:
         model = Company
-        fields = ['company_name','phone_number','city_location','province_location','country_location','work_hours_from','work_hours_to','cuisines','dining_style','parking_details','public_transit','payment_options','executive_chef','website','private_party_contact','description']
+        fields = ['company_name','phone_number','city_location','province_location',
+                  'country_location','work_hours_from','work_hours_to','cuisines',
+                  'dining_style','parking_details','public_transit','payment_options',
+                  'executive_chef','website','private_party_contact','description','cover_photo']
 
         widgets = {
             'company_name' : forms.TextInput(attrs={
+                'class' : 'form-control'
+            }),
+            'cover_photo' : forms.ClearableFileInput(attrs={
                 'class' : 'form-control'
             }),
             'phone_number' : forms.TextInput(attrs={
@@ -167,7 +173,8 @@ class CommentForm(forms.ModelForm):
                 'placeholder':"Please, write your review about foods and service in the restaurant"
             }),
             'comment_image' : forms.ClearableFileInput(attrs = {
-                'class' : 'form-control'
+                'class' : 'form-control',
+                'id' : 'upload-img'
             })
 
         }

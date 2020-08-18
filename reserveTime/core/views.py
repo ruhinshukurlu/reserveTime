@@ -11,6 +11,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Sum, Avg
 
+from core.tasks import complete_reserve
+
 class HomeView(TemplateView):
     template_name = "home-page.html"
 
@@ -41,11 +43,35 @@ class HomeView(TemplateView):
                         json.dumps(response_data, indent=4, sort_keys=True, default=str),
                         content_type="application/json"
                     )
+
+
+class CommentFilterView(ListView):
+    model = Comment
+    template_name = "comment-filter.html"
+    context_object_name = 'comments'
     
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        company = Company.objects.filter(pk=self.kwargs.get('pk'))
+        queryset = queryset.filter(company = company.first())
+
+        sort_data = self.request.GET.get('commentSort')
+
+        if sort_data == 'newest':
+            return queryset.order_by('-commented_at')
+        elif sort_data == 'highest':
+            return queryset.order_by('-overall')
+        elif sort_data == 'lowest':
+            return queryset.order_by('overall')
+        
+        return queryset
+
+
 class CompanyProfile(FormMixin, DetailView):
     model = Company
     template_name = 'company-profile.html'
     form_class = FindTableForm
+    
    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -61,14 +87,46 @@ class CompanyProfile(FormMixin, DetailView):
         context['menus'] = menus
 
         comments = Comment.objects.filter(company = company.first())
-        context['comments'] = comments
+        
+        company_overall = comments.aggregate(Avg('overall'))
+        context['company_overall'] = int(company_overall.get('overall__avg', 0))
 
-        comment_raitings = Comment.objects.filter(company = company.first())
+        liked_users_count = Comment.objects.filter(company = company.first(), liked=1).count()
+        disliked_users_count = Comment.objects.filter(company = company.first(), liked=0).count()
+        context['liked_users_count'] = liked_users_count
+        context['disliked_users_count'] = disliked_users_count
+        context['all_likes'] = liked_users_count + disliked_users_count
+
+        food = comments.aggregate(Avg('ratingFood'))
+        context['food_avg'] = "{:.1f}".format(food.get('ratingFood__avg', 0))
+
+        service = comments.aggregate(Avg('ratingService'))
+        context['service_avg'] = "{:.1f}".format(service.get('ratingService__avg', 0))
+
+        ambience = comments.aggregate(Avg('ratingAmbience'))
+        context['ambience_avg'] = "{:.1f}".format(ambience.get('ratingAmbience__avg', 0))
+
+        context['overall_count_5'] = comments.filter(overall=5).count()
+        context['overall_count_4'] = comments.filter(overall=4).count()
+        context['overall_count_3'] = comments.filter(overall=3).count()
+        context['overall_count_2'] = comments.filter(overall=2).count()
+        context['overall_count_1'] = comments.filter(overall=1).count()
+
+        comment_list = []
+        for comment in comments:
+            comment_dict = {
+                'comment' : comment,
+                'overall' : int((comment.ratingFood + comment.ratingService + comment.ratingAmbience)/3)
+            }
+            comment_list.append(comment_dict)
+
+        context['comments'] = comment_list
 
         context['users'] = User.objects.all()
 
-        saved_restaurant = SavedRestaurant.objects.filter(company=company.first(), user= self.request.user)
-        context['saved_restaurant'] = saved_restaurant.first()            
+        if self.request.user.is_authenticated:
+            saved_restaurant = SavedRestaurant.objects.filter(company=company.first(), user= self.request.user)
+            context['saved_restaurant'] = saved_restaurant.first()            
 
         company_start_hour = company.values('work_hours_from').first().get('work_hours_from')
         company_finish_hour = company.values('work_hours_to').first().get('work_hours_to')
@@ -139,7 +197,6 @@ class CompanyProfile(FormMixin, DetailView):
                 reserve_time_obj = datetime.datetime.strptime(reserve_time, '%H:%M:%S').time()
 
                 company_start_hour = company.first().work_hours_from
-                print(company_start_hour)
 
                 reserve_start_date = datetime.date.today()
                 reserve_finish_date = (datetime.date.today()+datetime.timedelta(days=30)).isoformat()
@@ -154,16 +211,16 @@ class CompanyProfile(FormMixin, DetailView):
                 date = TableDate.objects.filter(date=reserve_date_obj)
                 tables = Table.objects.filter(company=company.values('user').first().get('user'), dates__in=date, table_place=table_place, size=party_size)   
 
-                # print(tables) 
                 thirty_minutes_less = (datetime.datetime.combine(datetime.date(1, 1, 1),reserve_time_obj) - datetime.timedelta(minutes=30)).time()
                 thirty_minutes_great = (datetime.datetime.combine(datetime.date(1, 1, 1),reserve_time_obj) + datetime.timedelta(minutes=30)).time()
 
 
                 for table in tables:
                     times = table.times.filter(reserved=False)
-                    
+
                     for time in times:
-                        if reserve_time_obj != company_start_hour and thirty_minutes_less == time.free_time :
+                        if reserve_time_obj != company_start_hour and thirty_minutes_less in times.values_list('free_time', flat=True) and thirty_minutes_great in times.values_list('free_time', flat=True) and reserve_time_obj == time.free_time:
+                            print('okk')
                             found_result = {
                                 'table' : table,
                                 'time' : reserve_time_obj,
@@ -209,6 +266,8 @@ class CompanyProfile(FormMixin, DetailView):
                 table = Table.objects.filter(pk=table_id)
 
                 reserve_date_obj = datetime.datetime.strptime(reserve_date, '%Y-%m-%d')
+                               
+
                 reserve_time_obj = datetime.datetime.strptime(reserve_time, '%H:%M:%S').time()
                 total_price = request.POST.get('total_price')
 
@@ -236,6 +295,8 @@ class CompanyProfile(FormMixin, DetailView):
                     text = 'You have new reservation',
                     notified_at = datetime.datetime.now()
                 )   
+                # tomorrow = datetime.datetime.utcnow() + datetime.timedelta(minutes=5)
+                complete_reserve.apply_async(args=[reserve_time_obj, reserve_date_obj.date(), table_id], countdown=30)
                 
                 for i in range(0,int(request.POST.get('length'))):
                     menu_id = int(request.POST.get(f'selected_menus_list[{i}][menu_id]'))
@@ -255,17 +316,21 @@ class CompanyProfile(FormMixin, DetailView):
 
                 response_data = {}
 
-                if(SavedRestaurant.objects.filter(user=request.user, company=company.first())):
-                    saved_restaurant = SavedRestaurant.objects.filter(company=company.first(), user=request.user)
-                    if saved_restaurant.first().saved:
-                        saved_restaurant.update(saved=False)    
-                        response_data['saved'] = 'false'
+                if request.user.is_authenticated:
+                    if(SavedRestaurant.objects.filter(user=request.user, company=company.first())):
+                        saved_restaurant = SavedRestaurant.objects.filter(company=company.first(), user=request.user)
+                        if saved_restaurant.first().saved:
+                            saved_restaurant.update(saved=False)    
+                            response_data['saved'] = 'false'
+                            response_data['text'] = 'Save this restaurant'
+                        else:
+                            saved_restaurant.update(saved=True)
+                            response_data['saved'] = 'true'
+                            response_data['text'] = 'Restaurant saved!'
                     else:
-                        saved_restaurant.update(saved=True)
+                        saved_restaurant = SavedRestaurant.objects.create(company=company.first(), user=request.user, saved=True)
                         response_data['saved'] = 'true'
-                else:
-                    saved_restaurant = SavedRestaurant.objects.create(company=company.first(), user=request.user, saved=True)
-                    response_data['saved'] = 'true'
+                        response_data['text'] = 'Restaurant saved!'
 
                 
 
@@ -303,7 +368,7 @@ class CompanyCategoryList(ListView):
         for company in companies:
             company_obj = {
                 'company' : company,
-                'rating' : company.company_comment.all().aggregate(Avg('raiting'))
+                'rating' : company.company_comment.all().aggregate(Avg('overall'))
             }
             companies_list.append(company_obj)
         print(companies_list)

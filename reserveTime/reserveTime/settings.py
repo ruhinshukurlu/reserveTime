@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'account',
     'restaurant',
     'rest_framework',
+    'django_celery_results',
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -89,6 +90,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'reserveTime.wsgi.application'
 
 AUTH_USER_MODEL = "account.User"
+
 
 
 # Database
@@ -182,3 +184,16 @@ SITE_ID = 1
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '941585526331-gmejg73f1etjlr72m34e19f2trgml1gr.apps.googleusercontent.com' # Google Consumer Key
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'GKlRzaLHHkRb3ZriAVmSChsq'
+
+
+# STRIPE_PUBLISHABLE_KEY = 'pk_test_51HGewRGdwSoA84C6FFFL1KMOQ3yqZLMR9Htbu6uKujXUcsplKwIrcylme2FrB9BjTRun5BGAaes4lOy0PHKnmtPU00speaPqsp'
+# STRIPE_SECRET_KEY = 'sk_test_51HGewRGdwSoA84C6OD2Xuc3Mc3nM8czUjbfkzXJqCOgmsaCZ3wl3CTlhUZOKZbdiWTQ5Ila1d91uKTkNRkO0mDBM00KXkrNFWo'
+
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_CACHE_BACKEND = 'django-cache'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+# CELERY_TIMEZONE = 'Africa/Nairobi'
+
