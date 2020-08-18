@@ -18,11 +18,7 @@
     <title>Company admin panel</title>
 
     <style>
-        header,
-        header .container{
-            background: linear-gradient(to bottom, rgba(56,59,68,1) 0%,rgba(46,47,52,1) 100%);
-            color: #fff;
-        }
+        
         .modal-dialog {
             margin-top: 250px; 
             max-width: 565px;
@@ -37,95 +33,9 @@
 </head>
 <body id="company-admin-body">
     
-    <header>
-        <div class="container custom-container ">
-            <div class="row justify-content-between">
-                <a href="{% url 'account:company-update' user.pk %}">
-                    <div class="left side">
-                        {% if user.profile_img %}
-                        <img src="{{user.profile_img.url}}" width="60px" alt="Profile photo">
-                        {% else %}
-                        <img src="{% static 'images/profile.png' %}" width="60px" alt="Profile photo">
-                        {% endif %}
-                        <div class="d-flex flex-direction-column ml-2" style="color: wheat;">
-                            <span class="mt-1">Welcome</span>
-                            <h5 class="bold">{{user.first_name}} {{user.last_name}}</h5>
-                        </div>
-                    </div>
-                </a>
-                <div class="right side">
-                    <div class="notification">
-                        <div class="d-flex">
-                            <span>Notifications</span>
-                            <button type="button" class="ml-2 header-btn"><i class="color-w far fa-bell"></i></button>
-                        </div>
-                        <div class="custom-drop-down shadow p-3" style="display: none;">
-                            <div class="triangle"></div>
-                            <span>Notifications</span>
-                            <p class="pl-2 pr-2">Nothing to see here, you’re all caught up!</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-        </div>
-        
-    </header>
-
+    {% include 'partials/company-header.html' %}
    
     
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Reserved Hours</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="row row-cols-5">
-                    <div class="col">
-                        <span class="btn btn-success mb-2">9:00</span>
-                    </div>
-                    <div class="col">
-                        <span class="btn btn-success">10:00</span>
-                    </div>
-                    <div class="col">
-                        <span class="btn btn-danger">11:00</span>
-                    </div>
-                    <div class="col">
-                        <span class="btn btn-danger">12:00</span>
-                    </div>
-                    <div class="col">
-                        <span class="btn btn-success">13:00</span>
-                    </div>
-                    <div class="col">
-                        <span class="btn btn-danger">14:00</span>
-                    </div>
-                    <div class="col">
-                        <span class="btn btn-success">15:00</span>
-                    </div>
-                    <div class="col">
-                        <span class="btn btn-danger">16:00</span>
-                    </div>
-                    <div class="col">
-                        <span class="btn btn-success">17:00</span>
-                    </div>
-                    <div class="col">
-                        <span class="btn btn-success">18:00</span>
-                    </div>
-                </div>
-               
-            </div>
-           
-            </div>
-        </div>
-        </div>
-    
-    
-
     <main>
         <div class="container table-container">
             <div class="row">
@@ -302,10 +212,7 @@
     <script src="{% static 'js/main.js' %}"></script>
     <script>
         $(document).ready(function(){
-            $('.header-btn').click(function(){
-                // $('.custom-drop-down').hide()
-                $(this).siblings('.custom-drop-down').slideToggle()
-            });
+          
             var width = $('.link-box').width()
             $('.link-box').hover(function(){
                 var height = $(this).height()

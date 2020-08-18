@@ -16,50 +16,13 @@
     <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
     <title>Company List</title>
 
-    <style>
-        header,
-        header .container{
-            background: linear-gradient(to bottom, rgba(56,59,68,1) 0%,rgba(46,47,52,1) 100%);
-            color: #fff;
-        }
-
-    </style>
+    
 
 </head>
 <body id="company-admin-body">
     
-    <header>
-        <div class="container custom-container ">
-            <div class="row justify-content-between">
-                <a href="{% url 'account:company-update' user.pk %}">
-                    <div class="left side">
-                        {% if user.profile_img %}
-                        <img src="{{user.profile_img.url}}" width="60px" alt="Profile photo">
-                        {% else %}
-                        <img src="{% static 'images/profile.png' %}" width="60px" alt="Profile photo">
-                        {% endif %}
-                        <div class="d-flex flex-direction-column ml-2" style="color: wheat;">
-                            <span class="mt-1">Welcome</span>
-                            <h5 class="bold">{{user.first_name}} {{user.last_name}}</h5>
-                        </div>
-                    </div>
-                </a>
-                <div class="right side">
-                    <div class="notification">
-                        <div class="d-flex">
-                            <span>Notifications</span>
-                            <button type="button" class="ml-2 header-btn"><i class="color-w far fa-bell"></i></button>
-                        </div>
-                        <div class="custom-drop-down shadow p-3" style="display: none;">
-                            <div class="triangle"></div>
-                            <span>Notifications</span>
-                            <p class="pl-2 pr-2">Nothing to see here, you’re all caught up!</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
+    {% include 'partials/company-header.html' %}
+
 
     <main>
         <div class="container mt-3 company-admin-container">
@@ -140,10 +103,7 @@
     <script src="{% static 'js/main.js' %}"></script>
     <script>
         $(document).ready(function(){
-            $('.header-btn').click(function(){
-                // $('.custom-drop-down').hide()
-                $(this).siblings('.custom-drop-down').slideToggle()
-            });
+        
 
             $('.link-box').hover(function(){
                 height = $(this).height()

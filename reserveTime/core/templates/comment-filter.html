@@ -1,23 +1,6 @@
 
 {% load static %}
 
-<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
-<script>
-    var comments_box = $('.comments-box').find('.comment-author-profile-img')
-
-    function generateRandomColors(){
-        var clr_1 = Math.floor(Math.random()*256);
-        var clr_2 = Math.floor(Math.random()*256);
-        var clr_3 = Math.floor(Math.random()*256);
-
-        return `rgb(${clr_1},${clr_2},${clr_3})`;
-    }
-
-    for (var i=0; i<comments_box.length; i++){
-        $(comments_box[i]).css('background-color',`${generateRandomColors()}`)
-    }
-</script>
-
 
 {% for comment in comments %}
         <div class="comment-item row">

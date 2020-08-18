@@ -32,17 +32,22 @@ class HomeView(TemplateView):
             context['notifications'] = Notification.objects.filter(reciever=self.request.user, read=False)
         return context
 
+    
+
+class ReadNotifications(View):
+
     def post(self, request, *args, **kwargs):
 
-        if request.method == 'POST':
-            if request.POST.get('form_id') == 'readNotifications':
-                notifications = Notification.objects.filter(reciever=request.user, read=False)
-                notifications.update(read=True)
-                response_data = {}
-                return HttpResponse(
-                        json.dumps(response_data, indent=4, sort_keys=True, default=str),
-                        content_type="application/json"
-                    )
+        if request.POST.get('form_id') == 'readNotifications':
+            notifications = Notification.objects.filter(reciever=request.user, read=False)
+            notifications.update(read=True)
+            response_data = {}
+            return HttpResponse(
+                    json.dumps(response_data, indent=4, sort_keys=True, default=str),
+                    content_type="application/json"
+                )
+
+
 
 
 class CommentFilterView(ListView):

@@ -58,9 +58,28 @@
 <body id="profile-body">
     
     {% include 'partials/header.html' %}
-
+   
     <section>
         <div class="container custom-container">
+            <div class="row" style="position: relative;">
+                {% if request.user.is_authenticated %}
+                    <div class="save-restaurant-btn align-center" >
+                        {% if saved_restaurant.saved %}
+                            <i class="fas fa-bookmark pr-2 red" id="saved-icon"></i>
+                            <form method="POST" action="{% url 'core:company-profile' company.pk %}" id="saveRestaurantForm">
+                                {% csrf_token %}
+                                <input type="submit" id="save-restaurant-input" value="Restaurant saved!">
+                            </form>
+                        {% else %}    
+                            <i class="fas fa-bookmark pr-2 black" id="saved-icon"></i>
+                            <form method="POST" action="{% url 'core:company-profile' company.pk %}" id="saveRestaurantForm">
+                                {% csrf_token %}
+                                <input type="submit" id="save-restaurant-input" value="Save this restaurant">
+                            </form>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
             <div class="row">
                 {% if company.cover_photo %}
                     <img class="company-header-img" src="{{company.cover_photo.url}}" alt="">
@@ -246,7 +265,7 @@
                                 <div class="row">
                                     {% for category in menu_categories %}
                                         <div class="menu-section pl-4 pr-4 mb-4 bottom-border">
-                                            <div class="menu-section-header mb-4"><span>{{category}}</span></div>
+                                            <div class="menu-section-header mb-4 text-center"><span>~{{category}}~</span></div>
                                             <div class="row menu-items">
                                                 {% for menu in menus %}
                                                 {% if menu.menu_type == category %}
@@ -393,7 +412,7 @@
                
     
                 <div class="row comments-section" id="4">
-                    <h3 class="full bottom-border bold pl-5 pb-2 mt-5">What 6016 people are saying</h3>
+                    <h3 class="full bottom-border bold pl-5 pb-2 mt-5">What {{comments|length}} people are saying</h3>
                     <div class="row mb-5">
                         <div class="d-column pl-5">
                             <span class="bold">Overall ratings and reviews</span>
@@ -732,6 +751,8 @@
        
     </script>
 
+  
+
     <script>
         $(document).ready(function(){
 
@@ -798,15 +819,11 @@
                 }
             })
             
-            function makeStar(box){
-                for(var index = 0; index < box.length; index++ ){
-                    for(var i = 0; i< parseInt(box.eq(index).data('type'));i++){
-                        box.eq(index).find('i').eq(i).removeClass('far').addClass('fas')
-                    }
+            for(var index = 0; index < $('.rating-box').length; index++ ){
+                for(var i = 0; i< parseInt($('.rating-box').eq(index).data('type'));i++){
+                    $('.rating-box').eq(index).find('i').eq(i).removeClass('far').addClass('fas')
                 }
             }
-
-            makeStar($('.rating-box'))
           
         });
     </script>
@@ -829,6 +846,27 @@
                         error: function(data){
                             alert('error');
                         }
+                    }).then(function(){
+                        var comments_box = $('.comments-box').find('.comment-author-profile-img')
+
+                        function generateRandomColors(){
+                            var clr_1 = Math.floor(Math.random()*256);
+                            var clr_2 = Math.floor(Math.random()*256);
+                            var clr_3 = Math.floor(Math.random()*256);
+
+                            return `rgb(${clr_1},${clr_2},${clr_3})`;
+                        }
+
+                        for (var i=0; i<comments_box.length; i++){
+                            $(comments_box[i]).css('background-color',`${generateRandomColors()}`)
+                        }
+                        
+                        for(var index = 0; index < $('.rating-box').length; index++ ){
+                            for(var i = 0; i< parseInt($('.rating-box').eq(index).data('type'));i++){
+                                $('.rating-box').eq(index).find('i').eq(i).removeClass('far').addClass('fas')
+                            }
+                        }
+
                     });
                     
                     

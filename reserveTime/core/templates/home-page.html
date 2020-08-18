@@ -38,11 +38,9 @@
                     <a href="{% url 'core:home' %}">
                         <img src="{% static 'images/logo.png' %}" width="200px" alt="">
                     </a>
-                    {{request.user}}
                 </div>
                 <div class="right side">
-                    <button type="button" class="btn register-btn mr-2" data-toggle="modal" data-target="#exampleModal">Sign Up</button>
-                    <a href="{% url 'account:login' %}" class="btn login-btn bold">Sign In</a>
+                    
                     {% if request.user.is_authenticated %}
                         <div class="user-profile">
                             <button type="button" class="header-btn"> 
@@ -63,6 +61,9 @@
                                 </ul>
                             </div>
                         </div>
+                    {% else %}
+                        <button type="button" class="btn register-btn mr-2" data-toggle="modal" data-target="#exampleModal">Sign Up</button>
+                        <a href="{% url 'account:login' %}" class="btn login-btn bold">Sign In</a>
                     {% endif %}
                     
                     <div class="reserve-table">
@@ -91,17 +92,16 @@
                                 {% else %}
                                     {% for notification in notifications %}
                                         <a class="pl-2 pr-2 mb-2" href="{% url 'account:user-profile' request.user.pk %}">{{notification.sender.company.company_name}}</a>
-                                        {% comment %} <p class="pl-2 pr-2">{{notification.sender}}</p> {% endcomment %}
                                     {% endfor %}
                                 {% endif %}
-                                <form  class="full mt-2 mb-2" id="readNotifications" method="POST">
+                                <form  class="full mt-2 mb-2" id="readNotifications" action="{% url 'core:read-notifications' %}" method="POST">
                                     {% csrf_token %}
                                     <input type="submit" class="btn btn-outline-secondary float-r" value="Mark all as read!">
                                 </form>
                             {% else %}
-                                <p class="pl-2 pr-2">Nothing to see here, you’re all caught up!</p>
+                                <img src="{% static 'images/animat-bell-color.gif' %}" width="50%" class="m-auto" alt="">
+                                <p class="pl-2 pr-2 bold text-center">Nothing to see here, you’re all caught up!</p>
                             {% endif %}
-                            
                             
                         </div>
                     </div>

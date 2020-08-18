@@ -5,6 +5,7 @@ app_name = 'core'
 
 urlpatterns = [
     path('', HomeView.as_view() , name='home'),
+    path("readNotifications/", ReadNotifications.as_view(), name="read-notifications"),
     path("company/profile/<int:pk>", CompanyProfile.as_view(), name="company-profile"),
     path("company/<int:pk>/filter", CommentFilterView.as_view(), name="comment-filter"),
     path("user/<int:pk>/savedRestaurants", SavedRestaurantsView.as_view(), name="user-saved-restaurants"),
