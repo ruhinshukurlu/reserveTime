@@ -24,7 +24,7 @@ class Company(models.Model):
     work_hours_from = models.TimeField(_("Start Time"), auto_now=False, auto_now_add=False, blank=True, null=True)
     work_hours_to = models.TimeField(_("Finish Time"), auto_now=False, auto_now_add=False, blank=True, null=True)
 
-    cuisines = models.CharField(_("Cuisines"), max_length=50,  blank=True, null=True)
+    cuisine = models.ForeignKey("restaurant.Cuisine", verbose_name=_("Cuisine"), on_delete=models.CASCADE, related_name='company', blank=True, null=True)
     dining_style = models.CharField(_("Dining Style"), max_length=50,  blank=True, null=True)
     parking_details = models.TextField(_("Parking details"), blank=True, null=True)
     public_transit = models.TextField(_("Public transit"), blank=True, null=True)
@@ -40,6 +40,18 @@ class Company(models.Model):
 
     def __str__(self):
         return self.user.email
+
+class Cuisine(models.Model):
+
+    title = models.CharField(_("Cuisine Title"), max_length=50)
+    image = models.ImageField(_("Image"), upload_to='cuisines/', blank=True, null=True)
+
+    class Meta:
+        verbose_name = _("Cuisine")
+        verbose_name_plural = _("Cuisines")
+
+    def __str__(self):
+        return self.title
 
 
 class Photo(models.Model):

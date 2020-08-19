@@ -212,6 +212,7 @@ h3{
 .card-img img{
     width: 100%;
     height: 100%;
+    object-fit: cover;
 }
 
 .card-body{
@@ -243,6 +244,7 @@ h3{
     display: block;
     width: 100%;
     height: 250px;
+    object-fit: cover;
 }
 
 .owl-nav{
@@ -280,7 +282,7 @@ h3{
     position: absolute;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgba(0,0,0,0.3);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -290,7 +292,7 @@ h3{
 .overlay,
 #custom-carousel .item img,
 .col-4 img{
-    border-radius: 10px;
+    border-radius: 4px;
 }
 .overlay-text{
     width: 80%;

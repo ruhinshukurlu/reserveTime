@@ -60,13 +60,13 @@
                 {% for company in companies %}
                    <a href="{% url 'core:company-profile' company.pk %}">
                         <div class="company-item row pt-3 pb-3 mb-5 bottom-border">
-                            <div class="col-12 col-lg-3 company-profile-img">
+                            <div class="col-12 col-lg-4 company-profile-img">
                                 <img src="{% static 'images/img3.jpg' %}" alt="">
                             </div>
-                            <div class="col-12 col-lg-9">
+                            <div class="col-12 col-lg-8">
                                 <p class="name bold mb-2 pb-2">{{company.company_name}} </p>
                                 <div class="review-box d-flex">
-                                    <div data-type = '{% for comment in comments %} {% if comment.company == company %}{{comment.rating.raiting__avg}} {% endif %}{% endfor %}'  class="stars d-flex rating-box">
+                                    <div data-type = '{% for comment in comments %} {% if comment.company == company %}{{comment.rating}} {% endif %}{% endfor %}'  class="stars d-flex rating-box">
                                             <div class="star"><i class="far fa-star"></i></div>
                                             <div class="star"><i class="far fa-star"></i></div>
                                             <div class="star"><i class="far fa-star"></i></div>

@@ -15,6 +15,7 @@ from core.tasks import complete_reserve
 
 class HomeView(TemplateView):
     template_name = "home-page.html"
+    
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -28,6 +29,8 @@ class HomeView(TemplateView):
             }
             city_list.append(city_groups)
         context['company_groups'] = city_list
+        
+        context['cuisines'] = Cuisine.objects.all()
         if self.request.user.is_authenticated:
             context['notifications'] = Notification.objects.filter(reciever=self.request.user, read=False)
         return context
@@ -54,6 +57,7 @@ class CommentFilterView(ListView):
     model = Comment
     template_name = "comment-filter.html"
     context_object_name = 'comments'
+    show_change_link = True
     
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -94,7 +98,18 @@ class CompanyProfile(FormMixin, DetailView):
         comments = Comment.objects.filter(company = company.first())
         
         company_overall = comments.aggregate(Avg('overall'))
-        context['company_overall'] = int(company_overall.get('overall__avg', 0))
+
+        if company_overall.get('overall__avg', 0):
+            context['company_overall'] = int(company_overall.get('overall__avg', 0))
+            food = comments.aggregate(Avg('ratingFood'))
+            context['food_avg'] = "{:.1f}".format(food.get('ratingFood__avg', 0))
+
+            service = comments.aggregate(Avg('ratingService'))
+            context['service_avg'] = "{:.1f}".format(service.get('ratingService__avg', 0))
+
+            ambience = comments.aggregate(Avg('ratingAmbience'))
+            context['ambience_avg'] = "{:.1f}".format(ambience.get('ratingAmbience__avg', 0))
+
 
         liked_users_count = Comment.objects.filter(company = company.first(), liked=1).count()
         disliked_users_count = Comment.objects.filter(company = company.first(), liked=0).count()
@@ -102,15 +117,7 @@ class CompanyProfile(FormMixin, DetailView):
         context['disliked_users_count'] = disliked_users_count
         context['all_likes'] = liked_users_count + disliked_users_count
 
-        food = comments.aggregate(Avg('ratingFood'))
-        context['food_avg'] = "{:.1f}".format(food.get('ratingFood__avg', 0))
-
-        service = comments.aggregate(Avg('ratingService'))
-        context['service_avg'] = "{:.1f}".format(service.get('ratingService__avg', 0))
-
-        ambience = comments.aggregate(Avg('ratingAmbience'))
-        context['ambience_avg'] = "{:.1f}".format(ambience.get('ratingAmbience__avg', 0))
-
+       
         context['overall_count_5'] = comments.filter(overall=5).count()
         context['overall_count_4'] = comments.filter(overall=4).count()
         context['overall_count_3'] = comments.filter(overall=3).count()
@@ -373,7 +380,7 @@ class CompanyCategoryList(ListView):
         for company in companies:
             company_obj = {
                 'company' : company,
-                'rating' : company.company_comment.all().aggregate(Avg('overall'))
+                'rating' : company.company_comment.all().aggregate(Avg('overall')).get('overall__avg', 0)
             }
             companies_list.append(company_obj)
         print(companies_list)
@@ -383,4 +390,28 @@ class CompanyCategoryList(ListView):
     def get_queryset(self):
         self.category = Company.objects.distinct('city_location').get(city_location=self.kwargs['city_location'])
         return Company.objects.filter(city_location=self.category.city_location)
+  
+    
+class CompanyCuisineListView(ListView):
+    context_object_name = 'companies'
+    model = Cuisine
+    template_name = "company-list.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        companies = Company.objects.all()
+        companies_list = []
+        for company in companies:
+            company_obj = {
+                'company' : company,
+                'rating' : company.company_comment.all().aggregate(Avg('overall')).get('overall__avg', 0)
+            }
+            companies_list.append(company_obj)
+        print(companies_list)
+        context["comments"] = companies_list
+        return context
+
+    def get_queryset(self):
+        self.cuisine = get_object_or_404(Cuisine, title=self.kwargs['cuisine'])
+        return Company.objects.filter(cuisine=self.cuisine)
         

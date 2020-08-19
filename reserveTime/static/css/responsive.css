@@ -88,7 +88,34 @@
         height: 100%;
     }
 }
+@media (max-width : 768px){
+    .custom-container{
+        max-width: 100%;
+        margin-top: 0 !important;
+    }
+    .custom-container-mobile{
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .header-img{
+        height: 310px;
+    }
+    .card-img{
+        height: 210px;
+    }
+    #custom-carousel .item img {
+        height: 230px;
+    }
+    .city-category-items {
+        max-width: 50%;
+        flex: none;
+    }
+}
 @media (max-width : 450px) {
+    .container{
+        padding-left: 0;
+        padding-right: 0;
+    }
     .date-time-size-container{
         font-size: 17px;
     }
@@ -98,12 +125,17 @@
     .reserve-header{
         top: 0;
     }
-    .custom-container{
-        max-width: 100% ;
-        margin-top: 0 !important;
+    .header-img{
+        height: 280px;
     }
-    .card-img{
-        height: 200px;
+    .location{
+        width: 100%;
+        justify-content: space-between;
+        padding: 0 5px;
+    }
+    .location,
+    span{
+        font-size: 11px;
     }
     .owl-nav{
         left: -17px;
@@ -111,7 +143,6 @@
     }
     .city-category-items{
         max-width: 100%;
-        flex: none;
         margin-bottom: 20px;
     }
     .menu-section{
@@ -132,5 +163,15 @@
     }
     .content{
         padding: 10px 5px;
+    }
+    .inner-container{
+        max-width: 100%;
+    }
+    .card-box{
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .padding-mobile{
+        padding-left: 10px;
     }
 }

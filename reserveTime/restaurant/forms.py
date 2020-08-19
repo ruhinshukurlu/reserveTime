@@ -85,7 +85,7 @@ class CompanyInfosForm(forms.ModelForm):
     class Meta:
         model = Company
         fields = ['company_name','phone_number','city_location','province_location',
-                  'country_location','work_hours_from','work_hours_to','cuisines',
+                  'country_location','work_hours_from','work_hours_to','cuisine',
                   'dining_style','parking_details','public_transit','payment_options',
                   'executive_chef','website','private_party_contact','description','cover_photo']
 
@@ -108,7 +108,7 @@ class CompanyInfosForm(forms.ModelForm):
             'country_location' : forms.TextInput(attrs={
                 'class' : 'form-control'
             }),
-            'cuisines' : forms.TextInput(attrs={
+            'cuisine' : forms.Select(attrs={
                 'class' : 'form-control'
             }),
             'dining_style' : forms.TextInput(attrs={

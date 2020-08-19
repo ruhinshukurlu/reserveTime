@@ -32,7 +32,7 @@
 <body>
     
     <header > 
-        <div class="custom-container container mt-4 shadow">
+        <div class="custom-container container custom-container-mobile mt-4 shadow">
             <div class="row justify-content-between">
                 <div class="left side">
                     <a href="{% url 'core:home' %}">
@@ -108,7 +108,7 @@
                 </div>
             </div>
             <div class="row">
-                <img src="{% static 'images/city2.jpg' %}" class="header-img" alt="">
+                <img src="{% static 'images/baku-city-tour.jpg' %}" class="header-img" alt="">
             </div>
         </div>
     </header>
@@ -148,10 +148,10 @@
                     </div>
                 </div>
                 <div class="row mt-3" style="margin-bottom: 50px;">
-                    <h3 class="full bold bottom-border pb-3">Recently viewed</h3>
+                    <h3 class="full bold bottom-border pb-3 padding-mobile">Recently viewed</h3>
                     <div class="card-list d-flex">
                         {% for company in companies %}
-                            <div class="col-lg-3 col-md-6 card-box">
+                            <div class="col-12 col-lg-3 col-sm-6 card-box">
                                 <div class="card">
                                     <a href="{% url 'core:company-profile' company.pk %}">
                                         <div class="card-img">
@@ -188,115 +188,35 @@
                         {% endfor %}
                     </div>
                 </div>
-    
                 <div class="row" style="margin-bottom: 50px;">
-                    <h3>Top Cuisines near Baku</h3>
+                    <h3 class='padding-mobile'>Top Cuisines near Baku</h3>
                     <div id="custom-carousel"  class="owl-carousel owl-theme card-list">
-                        <div class="item">
-                            <a href="#">
-                                <div class="inner p-relative">
-                                    <div class="overlay">
-                                        <div class="overlay-text">
-                                            <span>Best European Restaurants Around You</span>
+                        {% for cuisine in cuisines %}
+                            <div class="item">
+                                <a href="{% url 'core:company-cuisine' cuisine.title %}" style="width: 100%;" >
+                                    <div class="inner p-relative">
+                                        <div class="overlay">
+                                            <div class="overlay-text">
+                                                <span>Best {{cuisine.title}}  Restaurants Around You</span>
+                                            </div>
                                         </div>
+                                        {% if cuisine.image %}
+                                        <img src="{{cuisine.image.url}}" alt="Owl Image">
+                                        {% else %}
+                                        <img src="{% static 'images/city1.jpg' %}" alt="Owl Image">
+                                        {% endif %}
                                     </div>
-                                    <img src="{% static 'images/city1.jpg' %}" alt="Owl Image">
-                                </div>
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a href="#">
-                                <div class="inner p-relative">
-                                    <div class="overlay">
-                                        <div class="overlay-text">
-                                            <span>Best European Restaurants Around You</span>
-                                        </div>
-                                    </div>
-                                    <img src="{% static 'images/city2.jpg' %}" alt="Owl Image">
-                                </div>
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a href="#">
-                                <div class="inner p-relative">
-                                    <div class="overlay">
-                                        <div class="overlay-text">
-                                            <span>Best European Restaurants Around You</span>
-                                        </div>
-                                    </div>
-                                    <img src="{% static 'images/city3.jpg' %}" alt="Owl Image">
-                                </div>
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a href="#">
-                                <div class="inner p-relative">
-                                    <div class="overlay">
-                                        <div class="overlay-text">
-                                            <span>Best European Restaurants Around You</span>
-                                        </div>
-                                    </div>
-                                    <img src="{% static 'images/city4.jpg' %}" alt="Owl Image">
-                                </div>
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a href="#">
-                                <div class="inner p-relative">
-                                    <div class="overlay">
-                                        <div class="overlay-text">
-                                            <span>Best European Restaurants Around You</span>
-                                        </div>
-                                    </div>
-                                    <img src="{% static 'images/city1.jpg' %}" alt="Owl Image">
-                                </div>
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a href="#">
-                                <div class="inner p-relative">
-                                    <div class="overlay">
-                                        <div class="overlay-text">
-                                            <span>Best European Restaurants Around You</span>
-                                        </div>
-                                    </div>
-                                    <img src="{% static 'images/city2.jpg' %}" alt="Owl Image">
-                                </div>
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a href="#">
-                                <div class="inner p-relative">
-                                    <div class="overlay">
-                                        <div class="overlay-text">
-                                            <span>Best European Restaurants Around You</span>
-                                        </div>
-                                    </div>
-                                    <img src="{% static 'images/city3.jpg' %}" alt="Owl Image">
-                                </div>
-                            </a>
-                        </div>
-                        <div class="item">
-                            <a href="#">
-                                <div class="inner p-relative">
-                                    <div class="overlay">
-                                        <div class="overlay-text">
-                                            <span>Best European Restaurants Around You</span>
-                                        </div>
-                                    </div>
-                                    <img src="{% static 'images/city4.jpg' %}" alt="Owl Image">
-                                </div>
-                            </a>
-                        </div>
-    
+                                </a>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
     
                 <div class="row flex-column">
-                    <h3 class="bold mb-3 pb-2 bottom-border">Featured Areas</h3>
+                    <h3 class="bold mb-3 pb-2 bottom-border padding-mobile">Featured Areas</h3>
                     <div class="row card-list" >
                         {% for company in company_groups %}
-                            <div class="col-4 city-category-items">
+                            <div class="col-4 city-category-items mb-3">
                                 <a href="{% url 'core:city-categories' company.city_location %}">
                                     <div class="inner p-relative">
                                         <div class="overlay">

@@ -29,7 +29,7 @@ $(document).ready(function() {
  
   $("#custom-carousel").owlCarousel({
       loop: true,
-      nav: true,
+      nav: false,
       dots : false,
       autoPlay: 3000, //Set AutoPlay to 3 seconds
  
@@ -37,14 +37,17 @@ $(document).ready(function() {
         1: {
             items: 1,
         },
+        500: {
+          items: 2
+        },
         600: {
-            items: 3
+            items: 2
         },
         800: {
-            items: 4
+            items: 3
         },
         1000: {
-            items: 5
+            items: 4
         }
       },
       itemsDesktop : [1199,3],
