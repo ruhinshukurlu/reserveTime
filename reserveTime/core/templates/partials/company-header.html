@@ -1,9 +1,22 @@
 {% load static custom_tags %}
+<style>
+    header{
+        background: #f5f5f5;
+    }
+    header .custom-container{
+        background: #f5f5f5;
+    }
+    .header-shadow{
+        -webkit-box-shadow: 0px 0px 14px -8px rgba(0,0,0,0.75);
+        -moz-box-shadow: 0px 0px 14px -8px rgba(0,0,0,0.75);
+        box-shadow: 0px 0px 14px -8px rgba(0,0,0,0.75);
+    }
+</style>
 
-<header class="bg-white shadow" >
+<header class="header-shadow" >
     <div class="container custom-container ">
         <div class="row justify-content-between">
-            <div class="left side">
+            <div class="left side m-2">
                 <a href="{% url 'core:home' %}">
                     <img src="{% static 'images/logo.png' %}" width="230px" alt="">
                 </a>

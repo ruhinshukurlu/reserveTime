@@ -17,7 +17,27 @@
 
     <title>Company admin panel</title>
 
-    
+    <style>
+        /* #company-admin-body{
+            background: #e5e5e5;
+        } */
+        .company-admin-container{
+            max-width: 80%;
+            margin: auto;
+        }
+        .compamy-admin-item{
+            position: relative;
+        }
+        canvas{
+            height: 250px;
+        }
+        .canvas-block{
+            background-color: #fff;
+            padding: 15px;
+            margin: 10px;
+            border-radius: 10px;
+        }
+    </style>
 
 </head>
 <body id="company-admin-body">
@@ -25,33 +45,25 @@
     {% include 'partials/company-header.html' %}
   
     <main>
-        <div class="custom-container mt-5 company-admin-container">
-            <h3 class="bottom-border bold full text-center pb-3 mb-5">Welcome to the personal page of your company</h3>
-
-            <div class="row">
-                <h4 class="full bold bottom-border m-3 pb-3">Retaurant Performance for 1 month</h4>
-                <div class="row">
-                    <div class="col-4">
-
-                    </div>
-                </div>
-            </div>
-
+        <div class="mt-5 company-admin-container">
             <div class="row">
                 <div class="col-lg-4 d-flex justify-content-center">
                     <a href="{% url 'restaurant:photo' %}">
-                        <div class="link-box" style="background-color: #a285c5;">
-                            <i class="fas fa-images"></i>
-                            <div class="ml-2 d-flex flex-direction-column">
-                                <span class="bold">Photos</span>
-                                <span class="bold">{{user.photo_owner.all.count}}</span>
+                        <div class="compamy-admin-item">
+                            <div class="link-box" style="background-image: -webkit-linear-gradient(90deg, #3f5efb 0%, #fc466b 100%);">
+                                <i class="fas fa-images"></i>
+                                <div class="ml-2 d-flex flex-direction-column">
+                                    <span class="bold">Photos</span>
+                                    <span class="bold">{{user.photo_owner.all.count}}</span>
+                                </div>
                             </div>
+                            
                         </div>
                     </a>
                 </div>
                 <div class="col-lg-4 d-flex justify-content-center">
                     <a href="{% url 'restaurant:menu' %}">
-                        <div class="link-box" style="background-color: #68cab6;">
+                        <div class="link-box" style="background-image: -webkit-linear-gradient(90deg, #11998e 0%, #38ef7d 100%);">
                             <i class="fas fa-hamburger"></i>
                             <span class="ml-2 bold">Menus</span>
                         </div>
@@ -59,7 +71,7 @@
                 </div>
                 <div class="col-lg-4 d-flex justify-content-center">
                     <a href="{% url 'restaurant:company-infos' user.company.pk %}">
-                        <div class="link-box" style="background-color: #22ba9b;">
+                        <div class="link-box" style="background-image: -webkit-linear-gradient(90deg, #ee0979 0%, #ff6a00 100%);">
                             <i class="fas fa-info-circle"></i>
                             <span class="ml-2 bold">Informations</span>
                         </div>
@@ -67,7 +79,7 @@
                 </div>
                 <div class="col-lg-4 d-flex m-auto justify-content-center">
                     <a href="{% url 'restaurant:company-tables' user.company.pk %}">
-                        <div class="link-box" style="background-color: #fbb168 ;">
+                        <div class="link-box" style="background-image: -webkit-linear-gradient(90deg, #ee9439 0%, #fffb00 100%);background-color: #fbb168 ;">
                             <i class="fas fa-table"></i>
                             <div class="ml-2 d-flex flex-direction-column">
                                 <span class="bold">Tables</span>
@@ -76,20 +88,10 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-lg-4 d-flex justify-content-center">
-                    <a href="{% url 'restaurant:company-users' user.company.pk %}">
-                        <div class="link-box" style="background-color: #666981;">
-                            <i class="fas fa-users"></i>
-                            <div class="ml-2 d-flex flex-direction-column">
-                                <span class="bold">Users</span>
-                                <span class="bold">56</span>
-                            </div>
-                        </div>
-                    </a>
-                </div>
+                
                 <div class="col-lg-4 d-flex justify-content-center">
                     <a href="{% url 'restaurant:company-reservations' user.company.pk %}">
-                        <div class="link-box" style="background-color: #e17695;">
+                        <div class="link-box" style="background-image: -webkit-linear-gradient(90deg, #ff0048 0%, #e17695 100%);background-color: #e17695;">
                             <i class="fas fa-clock"></i>
                             <div class="ml-2 d-flex flex-direction-column">
                                 <span class="bold">Reservations</span>
@@ -98,10 +100,46 @@
                         </div>
                     </a>
                 </div>
+                <div class="col-lg-4 d-flex justify-content-center">
+                    <a href="{% url 'restaurant:company-users' user.company.pk %}">
+                        <div class="link-box" style="background-image: -webkit-linear-gradient(90deg, #45b649 0%, #dce35b 100%);">
+                            <i class="fas fa-users"></i>
+                            <div class="ml-2 d-flex flex-direction-column">
+                                <span class="bold">Users</span>
+                                <span class="bold">56</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
                 
+            </div>
+            <div class="row mt-5">
+                <div class="col-6">
+                    <div class="canvas-block">
+                        <div class="chart-content">
+                            <h4 >Recent Reports for reservations</h4>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="widgetChart1"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="canvas-block">
+                        <div class="chart-content">
+                            <h4>Chart Pie</h4>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="PieChart"></canvas>
+                        </div>
+                    </div>
+                </div>                
             </div>
         </div>
     </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
    <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
@@ -126,5 +164,78 @@
             })
         });
     </script>
+     <script >
+        var ctx = document.getElementById("widgetChart1");
+        if (ctx) {
+            // ctx.height = 170;
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                type: 'line',
+                datasets: [{
+                    data: [32, 65, 51, 45, 34, 12, 40],
+                    label: 'Dataset',
+                    backgroundColor: 'rgba(35, 155, 86, .7)',
+                    borderColor: 'rgba(255,255,255,.55)',
+                },
+                {
+                    data: [78, 45, 65, 32, 45, 18, 45],
+                    label: 'Dataset2',
+                    backgroundColor: 'rgba(52, 152, 219 , .7)',
+                },]
+                },
+                options: {
+                    maintainAspectRatio: true,
+                    legend: {
+                        // display: false
+                },
+                layout: {
+                    padding: {
+                        left: 0,
+                        right: 0,
+                        top: 0,
+                        bottom: 0
+                    }
+                },
+                responsive: true,
+                
+                elements: {
+                    line: {
+                        borderWidth: 0
+                    },
+                    point: {
+                        radius: 0,
+                        hitRadius: 10,
+                        hoverRadius: 4
+                    }
+                }
+                }
+            });
+        }
+
+        var ctx_1 = document.getElementById("PieChart").getContext('2d');
+        let colorHex = ['#60BD47 ', '#F76C5E', '#F76C3D']
+        let labels = ['Food','Service', 'Ambience']
+
+        var ctx_1 = new Chart(ctx_1, {
+            type: 'pie',
+
+            data: {
+                datasets: [{
+                    data: [30, 40,50],
+                    backgroundColor: colorHex,
+                }],
+                labels : labels
+            },
+
+            options: {
+                responsive : true,
+                legend: {
+                    position: 'bottom',
+                }
+            }
+        });
+     </script>
 </body>
 </html>

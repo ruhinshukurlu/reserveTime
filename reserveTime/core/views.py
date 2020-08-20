@@ -29,11 +29,17 @@ class HomeView(TemplateView):
                 company_overall = comments.aggregate(Avg('overall'))
                 if company_overall.get('overall__avg', 0):
                     company_rating = int(company_overall.get('overall__avg', 0))
-                company_dict = {
-                    'company' : company,
-                    'reservation_count' : company.reservation.filter(reserved_at=datetime.date.today()).count(),
-                    'company_overall' : company_rating
-                }
+                    company_dict = {
+                        'company' : company,
+                        'reservation_count' : company.reservation.filter(reserved_at=datetime.date.today()).count(),
+                        'company_overall' : company_rating
+                    }
+                else:
+                    company_dict = {
+                        'company' : company,
+                        'reservation_count' : company.reservation.filter(reserved_at=datetime.date.today()).count(),
+                        'company_overall' : 0
+                    }
                 company_list.append(company_dict)
         
         context['companies'] = company_list
