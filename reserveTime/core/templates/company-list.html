@@ -18,40 +18,7 @@
 </head>
 <body id="profile-body">
     
-    <header>
-        <div class="container custom-container header-container shadow">
-            <div class="row justify-content-between">
-                <div class="left side">
-                    <a href="{% url 'core:home' %}">
-                        <img src="{% static 'images/logo.png' %}" width="250px" alt="">
-                    </a>
-                </div>
-                <div class="right side">
-                    <div class="user-profile left-border">
-                        <span> Hi, User <i class="fas fa-chevron-down" id="arrow-down"></i></span>
-                        <div class="custom-drop-down shadow" style="display: none;">
-                            <div class="triangle"></div>
-                            <span>Hello, User</span>
-                            <ul>
-                                <li><a href="#">My Profile</a></li>
-                                <li><a href="#">My Dining History</a></li>
-                                <li><a href="#">My Saved Restaurants</a></li>
-                                <li><a href="#">Sign out</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="notification">
-                        <button type="button" class="header-btn"><i class="far fa-bell"></i></button>
-                        <div class="custom-drop-down shadow p-3" style="display: none;">
-                            <div class="triangle"></div>
-                            <span>Notifications</span>
-                            <p class="pl-2 pr-2">Nothing to see here, you’re all caught up!</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
+    {% include 'partials/header.html' %}
 
     <main class="pt-5 mb-5">
         <div class="container main-container">

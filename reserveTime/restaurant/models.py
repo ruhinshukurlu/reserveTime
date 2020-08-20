@@ -41,6 +41,7 @@ class Company(models.Model):
     def __str__(self):
         return self.user.email
 
+
 class Cuisine(models.Model):
 
     title = models.CharField(_("Cuisine Title"), max_length=50)
@@ -207,9 +208,10 @@ class Reservation(models.Model):
     reserved_date = models.DateField(_("Reserved Date"), blank=True, null=True)
     portions = models.ManyToManyField("restaurant.Portion", verbose_name=_("Portions"), related_name='reservation_portions')
     total_price = models.IntegerField(_("Total Price"), null=True, blank=True)
-    accessed = models.BooleanField(_("Accessed"), default=False)
+    accept = models.BooleanField(_("Accept"), default=False)
     denied = models.BooleanField(_("Denied"), default=False)
-    
+    reserved_at = models.DateField(_("Reserved at"), auto_now_add=True, blank=True, null=True)
+
     class Meta:
         verbose_name = _("Reservation")
         verbose_name_plural = _("Reservations")

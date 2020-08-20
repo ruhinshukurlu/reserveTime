@@ -19,10 +19,28 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["companies"] = Company.objects.all()
-        companies = Company.objects.all().distinct('city_location')
-        city_list = []
+        companies = Company.objects.all()
+        
+        company_list = []
+
         for company in companies:
+            if company.user.is_active:
+                comments = company.company_comment.all()
+                company_overall = comments.aggregate(Avg('overall'))
+                if company_overall.get('overall__avg', 0):
+                    company_rating = int(company_overall.get('overall__avg', 0))
+                company_dict = {
+                    'company' : company,
+                    'reservation_count' : company.reservation.filter(reserved_at=datetime.date.today()).count(),
+                    'company_overall' : company_rating
+                }
+                company_list.append(company_dict)
+        
+        context['companies'] = company_list
+
+        companies_by_city = Company.objects.all().distinct('city_location')
+        city_list = []
+        for company in companies_by_city:
             city_groups= {
                 'city_location' : company.city_location,
                 'count' : Company.objects.filter(city_location = company.city_location).count()

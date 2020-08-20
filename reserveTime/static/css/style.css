@@ -404,7 +404,7 @@ footer{
 }
 
 .link-box{
-    width: 300px;
+    width: 350px;
     height: 190px;
     color: #fff;
     display: flex;
@@ -668,4 +668,15 @@ box-shadow: 0px 3px 19px -7px rgba(0,0,0,0.75);
 
 .company-info-block p{
     margin-bottom: 0;
+}
+
+.sort-form{
+    width: 30%;
+}
+.comment-sort{
+    padding-left: 100px;
+}
+.comments-box{
+    width: 80%;
+    margin: auto;
 }

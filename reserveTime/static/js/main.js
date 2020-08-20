@@ -26,6 +26,7 @@ $('.carousel').carousel({
 });
 
 $(document).ready(function() {
+
  
   $("#custom-carousel").owlCarousel({
       loop: true,

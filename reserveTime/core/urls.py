@@ -10,5 +10,5 @@ urlpatterns = [
     path("company/<int:pk>/filter", CommentFilterView.as_view(), name="comment-filter"),
     path("user/<int:pk>/savedRestaurants", SavedRestaurantsView.as_view(), name="user-saved-restaurants"),
     path("companies/<city_location>", CompanyCategoryList.as_view(), name="city-categories"),
-    path("company/<cuisine>", CompanyCuisineListView.as_view(), name="company-cuisine"),
+    path("company_list/<cuisine>", CompanyCuisineListView.as_view(), name="company-cuisine"),
 ]

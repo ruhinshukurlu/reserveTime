@@ -1,6 +1,6 @@
 {% load static custom_tags %}
 
-<header class="mt-4">
+<header >
     <div class="container custom-container">
         <div class="row justify-content-between">
             <div class="left side">
@@ -28,57 +28,80 @@
                             </ul>
                         </div>
                     </div>
+                    <div class="reserve-table ">
+                        <button type="button" class="header-btn"><i class="far fa-calendar"></i></button>
+                        <div class="custom-drop-down p-3 shadow" style="display: none;">
+                            <div class="triangle"></div>
+                            <span>Upcoming reservations</span>
+                            <p class="pl-2 pr-2">You have no upcoming reservations</p>
+                        </div>
+                    </div>
+                    {% notification request.user as notifications %} 
+                    <div class="notification">
+                        <button type="button" class="header-btn notification-btn">
+                            {% if notifications %}
+                                <span class="notification-count"></span>
+                            {% endif %}
+                            <i class="far fa-bell"></i>
+                        </button>
+                        <div class="custom-drop-down box3 p-3 shadow" style="display: none;">
+                            <div class="triangle"></div>
+                            <span class="pb-3">Notifications</span>
+                            
+                            {% if notifications %}
+                                {% if request.user.is_company %}
+                                    {% for notification in notifications %}
+                                        <a class="pl-2 pr-2" href="{% url 'restaurant:company-reservations' user.company.pk %}">{{notification.text}}</a>
+                                    {% endfor %}
+                                {% else %}
+                                    {% for notification in notifications %}
+                                        <a class="pl-2 pr-2 mb-2" href="{% url 'account:user-profile' request.user.pk %}">{{notification.sender.company.company_name}}</a>
+                                    {% endfor %}
+                                {% endif %}
+                                <form  class="full mt-2 mb-2" id="readNotifications" action="{% url 'core:read-notifications' %}" method="POST">
+                                    {% csrf_token %}
+                                    <input type="submit" class="btn btn-outline-secondary float-r" value="Mark all as read!">
+                                </form>
+                            {% else %}
+                                <img src="{% static 'images/animat-bell-color.gif' %}" width="50%" class="m-auto" alt="">
+                                <p class="pl-2 pr-2 bold text-center">Nothing to see here, you’re all caught up!</p>
+                            {% endif %}
+                        </div>
+                    </div>
                 {% else %}
                     <button type="button" class="btn register-btn mr-2" data-toggle="modal" data-target="#exampleModal">Sign Up</button>
                     <a href="{% url 'account:login' %}" class="btn login-btn bold">Sign In</a>
                 {% endif %}
                 
-                <div class="reserve-table">
-                    <button type="button" class="header-btn"><i class="far fa-calendar"></i></button>
-                    <div class="custom-drop-down p-3" style="display: none;">
-                        <div class="triangle"></div>
-                        <span>Upcoming reservations</span>
-                        <p class="pl-2 pr-2">You have no upcoming reservations</p>
-                    </div>
-                </div>
-                {% notification request.user as notifications %} 
-                <div class="notification">
-                    <button type="button" class="header-btn notification-btn">
-                        {% if notifications %}
-                            <span class="notification-count"></span>
-                        {% endif %}
-                        <i class="far fa-bell"></i>
-                    </button>
-                    <div class="custom-drop-down box3 p-3" style="display: none;">
-                        <div class="triangle"></div>
-                        <span class="pb-3">Notifications</span>
-                        
-                        {% if notifications %}
-                            {% if request.user.is_company %}
-                                {% for notification in notifications %}
-                                    <a class="pl-2 pr-2" href="{% url 'restaurant:company-reservations' user.company.pk %}">{{notification.text}}</a>
-                                {% endfor %}
-                            {% else %}
-                                {% for notification in notifications %}
-                                    <a class="pl-2 pr-2 mb-2" href="{% url 'account:user-profile' request.user.pk %}">{{notification.sender.company.company_name}}</a>
-                                {% endfor %}
-                            {% endif %}
-                            <form  class="full mt-2 mb-2" id="readNotifications" action="{% url 'core:read-notifications' %}" method="POST">
-                                {% csrf_token %}
-                                <input type="submit" class="btn btn-outline-secondary float-r" value="Mark all as read!">
-                            </form>
-                        {% else %}
-                            <img src="{% static 'images/animat-bell-color.gif' %}" width="50%" class="m-auto" alt="">
-                            <p class="pl-2 pr-2 bold text-center">Nothing to see here, you’re all caught up!</p>
-                        {% endif %}
-                    </div>
-                </div>
+               
             </div>
         </div>
         
     </div>
-   
+    
 </header>
+<section>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Sign Up</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body d-column">
+                <a href="{% url 'account:user-register' %}" class="btn register-btn mb-2">Sign Up for User</a>
+                <a href="{% url 'restaurant:company-regsiter' %}" class="btn register-btn">Sign Up for Company</a>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        </div>
+    </div>
+</section>
 <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
 <script>
     $('#readNotifications').on('submit', function(e){
