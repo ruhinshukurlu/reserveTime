@@ -39,7 +39,6 @@
                         {{form.photo}}
                         {{form.photo.errors}}
                     </div>
-                    {{form.photo_url}}
                     {{form.photo_type}}
                     {{form.photo_type.errors}}
                     <input type="submit" value="Save" class="save-btn">
@@ -49,15 +48,11 @@
                     <!-- <p>You don't have any photo</p> -->
                     {% if photos %}
                         {% for photo in photos %}
-                            <div class="col">
-                                <a href="{% url 'restaurant:photo-update' photo.pk %}">
-                                    {% if photo.photo %}
+                                <div class="col">
+                                    <a href="{% url 'restaurant:photo-update' photo.pk %}">
                                         <img class="photo-list-item" src="{{photo.photo.url}}" data-type='{{photo.photo_type}}' alt="">
-                                    {% else %}
-                                        <img class="photo-list-item" src="{{photo.photo_url}}" alt="">
-                                    {% endif %}
-                                </a>
-                            </div>
+                                    </a>
+                                </div>
                         {% endfor %}
                     {% else %}
                         <p class="bold m-auto">You don't have any photo</p>
