@@ -16,7 +16,7 @@ $('.menu-items-style').click(function(){
         if($(this).data('clicked', false))
         {   
             menu_list_classes = $(this).attr('class').split(' ')[$(this).attr('class').split(' ').length -1]
-            $(`.choosen-item.${menu_list_classes}`).remove()
+            $(`.choosen-item.${menu_list_classes}`).parents('.col-lg-6').remove()
             if(!$.trim( $(".choosen-items-container").html() ).length ){
                 $('.choosen-items-container').css('display', 'none')
             }
@@ -75,9 +75,6 @@ $('.menu-items-style').click(function(){
 
             meal_price = parseInt($(this).parents('.choosen-item').find('.price-span').text())
             meal_price += parseInt($(this).parents('.card').find('.original-price').text())
-            console.log(meal_price)
-            console.log(parseInt($(this).parents('.card').find('.original-price').text()))
-            console.log('---------------')
             $(this).parents('.choosen-item').find('.price-span').text(meal_price)
             $(this).parents('.meal-count').find('.porsion').text(meal_price/parseInt($(this).parents('.card').find('.original-price').text()))
             if(meal_price > parseInt($(this).parents('.card').find('.original-price').text())){
