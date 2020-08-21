@@ -221,7 +221,7 @@ class CompanyReservations(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         company = Company.objects.filter(pk=self.kwargs.get('pk'))
-        reservations = Reservation.objects.filter(company = company.first(),accessed = False, denied=False)
+        reservations = Reservation.objects.filter(company = company.first(),accept = False, denied=False)
         reservations_list = []
         for reservation in reservations:
             tables_size = Table.objects.filter(pk = int(reservation.table_id)).values_list('size', flat = True)

@@ -27,6 +27,10 @@ $('.carousel').carousel({
 
 $(document).ready(function() {
 
+  $('.admin-menu-btn').click(function(){
+    console.log('okk');
+    $('.admin-menu-col').toggle(300)
+  })
  
   $("#custom-carousel").owlCarousel({
       loop: true,

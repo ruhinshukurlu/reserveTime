@@ -245,3 +245,26 @@
     padding: 3px;
 }
 
+.admin-menu-list{
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-menu-list a{
+    width: 100%;
+    padding: 25px;
+    color: #000;
+    text-decoration: none;
+}
+
+.admin-menu-list li{
+    transition: .4s;
+}
+
+.admin-menu-list li:hover{
+    background-color: #E8E8E8;
+}
+
+.admin-menu-list .d-flex{
+    align-items: center;
+}

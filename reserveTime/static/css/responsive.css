@@ -41,6 +41,28 @@
         margin: 20px 0px;
         padding: 15px;
     }
+    .link-box{
+        width: 300px;
+        height: 170px;
+    }
+    .admin-header-logo{
+        width: 200px;
+    }
+    .admin-header{
+        margin: 0em !important;
+    }
+    .user-profile-link span{
+        font-size: 13px;
+    }
+    .user-profile-link h5{
+        font-size: 15px;
+    }
+    .user-profile-link img{
+        width: 40px;
+    }
+    .admin-header .left{
+        margin: 0;
+    }
 }
 
 @media (max-width: 1200px) {
@@ -64,6 +86,16 @@
     }
     #FindTableForm .d-flex{
         margin: 10px 0px !important;
+    }
+    .link-box {
+        width: 250px;
+        height: 150px;
+    }
+    .admin-menu-col{
+        display: none;
+    }
+    .admin-menu-btn{
+        display: block !important;
     }
 }
 
@@ -142,7 +174,14 @@
     .profile-menu-list li{
         margin: 0;
     }
-   
+    .add-img-form{
+        flex-direction: column;
+    }
+    .add-img-label{
+        width: 100%;
+        margin: 0;
+        height: 40px;
+    }
 }
 
 @media (max-width : 577px){
@@ -176,7 +215,35 @@
     } 
     .name, .content {
         padding: 10px;
-    }   
+    } 
+    .link-box{
+        width: 350px;
+        height: 200px;
+    }
+    .company-menu-block {
+        padding: 0px 10px;
+    }  
+    .save-btn, .delete-btn{
+        width: 130px;
+        height: 40px !important;
+        margin-right: 10px;
+    }
+    .table-form{
+        width: 100%;
+        padding: 0 15px;
+        flex-direction: column;
+    }
+
+    .table-form .form-group{
+        width: 100%;
+    }
+    .fa-arrow-alt-circle-left{
+        margin-left: 10px;
+    }
+
+    .company-admin-container{
+        max-width: 100%;
+    }
 }
 
 

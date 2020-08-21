@@ -1,24 +1,18 @@
 {% load static custom_tags %}
-<style>
-    header{
-        background: #f5f5f5;
-    }
-    header .custom-container{
-        background: #f5f5f5;
-    }
-    .header-shadow{
-        -webkit-box-shadow: 0px 0px 14px -8px rgba(0,0,0,0.75);
-        -moz-box-shadow: 0px 0px 14px -8px rgba(0,0,0,0.75);
-        box-shadow: 0px 0px 14px -8px rgba(0,0,0,0.75);
-    }
-</style>
 
-<header class="header-shadow" >
-    <div class="container custom-container ">
+<header class="admin-header header-shadow" >
+    <div class="container-fluid ">
         <div class="row justify-content-between">
-            <div class="left side m-2">
+            <div class="left side">
+                <button type="button" class="admin-menu-btn">
+                    <div class="d-column line-box">
+                        <div class="line"></div>
+                        <div class="line"></div>
+                        <div class="line"></div>
+                    </div>
+                </button>
                 <a href="{% url 'core:home' %}">
-                    <img src="{% static 'images/logo.png' %}" width="230px" alt="">
+                    <img src="{% static 'images/logo.png' %}" class="admin-header-logo" width="230px" alt="">
                 </a>
             </div>
             <div class="right side">
@@ -28,9 +22,9 @@
                         {% if user.profile_img %}
                         <img src="{{user.profile_img.url}}" width="50px" alt="Profile photo">
                         {% else %}
-                        <img src="{% static 'images/profile.png' %}" width="50px" alt="Profile photo">
+                        <img src="{% static 'images/profile2.png' %}" width="50px" alt="Profile photo">
                         {% endif %}
-                        <div class="d-flex flex-direction-column ml-2">
+                        <div class="d-flex flex-direction-column ml-2" style="color: #5B5B5B ;">
                             <span class="mt-1">Welcome</span>
                             <h5 class="bold">{{user.first_name}} {{user.last_name}}</h5>
                         </div>

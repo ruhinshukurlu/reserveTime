@@ -25,71 +25,141 @@
     {% include 'partials/company-header.html' %}
 
 
-    <main>
-        <div class="container mt-3 company-admin-container">
-            <div class="row">
-                <h3 class="full bottom-border text-center bold pb-3 mb-5">All Reservations to {{user.company.company_name}}</h3>
-                <div class="reservations full">
-                    <div class="name">
-                        <h3>Upcoming Reservations</h3>
-                    </div>
-                    <div class="content">
-                        <!-- <p>No Upcoming Reservations</p> -->
-                        {% if reservations %}
-                            {% for reservation in reservations %}
-                                <div class="comment-item row">
-                                    <div class="col-12 col-sm-3 comment-author">
-                                        <div class="comment-author-profile-img">{{reservation.reservation.user.first_name|capfirst|first}}{{reservation.reservation.user.last_name|capfirst|first}}</div>
-                                        <div class="comment-author-username"></div>
-                                        <div class="comment-author-address">{{reservation.reservation.user.first_name|capfirst}} {{reservation.reservation.user.last_name|capfirst}}</div>                           
-                                    </div>
-                                    <div class="col-12 col-sm-9 mt-2 d-flex padding">
-                                        <div class="col-12 col-lg-12 padding">
-                                            <div class="d-flex">
-                                                <div class="d-flex ">
-                                                    <span class="bold mr-2">Reserve Date : </span>
-                                                    <p>{{reservation.reservation.reserved_date}}</p>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex">
-                                                <div class="d-flex ">
-                                                    <span class="bold mr-2">Reserve Time : </span>
-                                                    <p>{{reservation.reservation.reserved_time|time:'H:i:s'}}</p>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex">
-                                                <span class="bold mr-2">Party Size : </span>
-                                                {% for size in reservation.table_size %}
-                                                    <p> {{size}} people</p>
-                                                {% endfor %}
-                                            </div>
-                                            <div class="d-flex justify-content-between">
-                                                <div class="total-price-box d-flex">
-                                                    <span class="bold mr-2">Total Price : </span>
-                                                    <p> {{reservation.reservation.total_price}} $</p>
-                                                </div>
-                                                 <div class="d-flex align-items-end pb-2">
-                                                    <a href="{% url 'restaurant:reservation-detail' reservation.reservation.pk %}" class="btn btn-primary">View Detail</a>
-                                                </div>
-                                            </div> 
-                                           
-                                        </div> 
-                                        
-                                    </div>
-                                </div>
-                            {% endfor %}   
-                        {% else %}
-                            <p>No Upcoming Reservations</p>
-                        {% endif %}
-                            
+    <main class="full-h">
+        <div class="full full-h">
+            <div class="row full-h  justify-content-center">
+                <div class="col-3 col-lg-2 bg-white p-0 admin-menu-col header-shadow">
+                    <div class="admin-menu-box mt-5">
+                        <nav>
+                            <ul class="admin-menu-list">
+                                <li>
+                                    <a href="{% url 'account:company-profile' user.company.pk %}">
+                                        <div class="d-flex">
+                                            <i class="fas fa-home"></i>
+                                            <span class="ml-2 bold">Home</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'restaurant:photo' %}">
+                                        <div class="d-flex">
+                                            <i class="fas fa-images"></i>
+                                            <span class="ml-2 bold">Photos</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'restaurant:menu' %}">
+                                        <div class="d-flex">
+                                            <i class="fas fa-hamburger"></i>
+                                            <span class="ml-2 bold">Menus</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'restaurant:company-infos' user.company.pk %}">
+                                        <div class="d-flex">
+                                            <i class="fas fa-info-circle"></i>
+                                            <span class="ml-2 bold">Informations</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'restaurant:company-tables' user.company.pk %}">
+                                        <div class="d-flex">
+                                            <i class="fas fa-table"></i>
+                                            <span class="ml-2 bold">Tables</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'restaurant:company-reservations' user.company.pk %}">
+                                        <div class="d-flex">
+                                            <i class="fas fa-clock"></i>
+                                            <span class="ml-2 bold">Reservations</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'restaurant:company-users' user.company.pk %}">
+                                        <div class="d-flex">
+                                            <i class="fas fa-users"></i>
+                                            <span class="ml-2 bold">Users</span>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
                     </div>
                 </div>
-                <div class="reservations full">
-                    <div class="name">
-                        <h3>Past Reservations</h3>
-                    </div>
-                    <div class="content">
-                        <p>No Past Reservations</p>
+                <div class="col-9 col-lg-10">
+                    <div class="container mt-3">
+                        <div class="row">
+                            <h3 class="full bottom-border text-center bold pb-3 mb-5">All Reservations to {{user.company.company_name}}</h3>
+                            <div class="reservations full">
+                                <div class="name">
+                                    <h3>Upcoming Reservations</h3>
+                                </div>
+                                <div class="content">
+                                    <!-- <p>No Upcoming Reservations</p> -->
+                                    {% if reservations %}
+                                        {% for reservation in reservations %}
+                                            <div class="comment-item row">
+                                                <div class="col-12 col-sm-3 comment-author">
+                                                    <div class="comment-author-profile-img">{{reservation.reservation.user.first_name|capfirst|first}}{{reservation.reservation.user.last_name|capfirst|first}}</div>
+                                                    <div class="comment-author-username"></div>
+                                                    <div class="comment-author-address">{{reservation.reservation.user.first_name|capfirst}} {{reservation.reservation.user.last_name|capfirst}}</div>                           
+                                                </div>
+                                                <div class="col-12 col-sm-9 mt-2 d-flex padding">
+                                                    <div class="col-12 col-lg-12 padding">
+                                                        <div class="d-flex">
+                                                            <div class="d-flex ">
+                                                                <span class="bold mr-2">Reserve Date : </span>
+                                                                <p>{{reservation.reservation.reserved_date}}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="d-flex">
+                                                            <div class="d-flex ">
+                                                                <span class="bold mr-2">Reserve Time : </span>
+                                                                <p>{{reservation.reservation.reserved_time|time:'H:i:s'}}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="d-flex">
+                                                            <span class="bold mr-2">Party Size : </span>
+                                                            {% for size in reservation.table_size %}
+                                                                <p> {{size}} people</p>
+                                                            {% endfor %}
+                                                        </div>
+                                                        <div class="d-flex justify-content-between">
+                                                            <div class="total-price-box d-flex">
+                                                                <span class="bold mr-2">Total Price : </span>
+                                                                <p> {{reservation.reservation.total_price}} $</p>
+                                                            </div>
+                                                             <div class="d-flex align-items-end pb-2">
+                                                                <a href="{% url 'restaurant:reservation-detail' reservation.reservation.pk %}" class="btn btn-primary">View Detail</a>
+                                                            </div>
+                                                        </div> 
+                                                       
+                                                    </div> 
+                                                    
+                                                </div>
+                                            </div>
+                                        {% endfor %}   
+                                    {% else %}
+                                        <p>No Upcoming Reservations</p>
+                                    {% endif %}
+                                        
+                                </div>
+                            </div>
+                            <div class="reservations full">
+                                <div class="name">
+                                    <h3>Past Reservations</h3>
+                                </div>
+                                <div class="content">
+                                    <p>No Past Reservations</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -39,6 +39,10 @@ ol li{
 	width: 100%;
 }
 
+.full-h{
+	height: 100%;
+}
+
 .full-r{
 	position: relative;
     float: right;

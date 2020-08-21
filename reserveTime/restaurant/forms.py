@@ -66,7 +66,7 @@ class PhotoForm(forms.ModelForm):
                 'id' : 'upload-img'
             }),
             'photo_type' : forms.Select(attrs={
-                'class' : 'select-img-type',
+                'class' : 'select-img-type form-control',
                 'placeholder' : 'Type'
             })
         }

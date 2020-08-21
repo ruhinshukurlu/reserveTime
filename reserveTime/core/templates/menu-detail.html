@@ -25,49 +25,118 @@
 
 
     <main>
-        <div class="container mt-3 company-admin-container">
-            <div class="row">
-                <h3 class="full bottom-border bold pb-3 mb-5">
-                    <a href="{% url 'account:company-profile' user.company.pk %}"><i class="fas fa-arrow-alt-circle-left"></i></a>
-                    Edit menu
-                </h3>
-                <form class="full mb-3 menu-form" method='POST'>
-                {% csrf_token %}
-                   <div class="row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="formGroupExampleInput">Title</label>
-                                {{form.title}}
-                            </div>
+        <div class="full">
+            <div class="row justify-content-center">
+                <div class="col-3 col-lg-2 bg-white p-0 admin-menu-col header-shadow">
+                    <div class="admin-menu-box mt-5">
+                        <nav>
+                            <ul class="admin-menu-list">
+                                <li>
+                                    <a href="{% url 'account:company-profile' user.company.pk %}">
+                                        <div class="d-flex">
+                                            <i class="fas fa-home"></i>
+                                            <span class="ml-2 bold">Home</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'restaurant:photo' %}">
+                                        <div class="d-flex">
+                                            <i class="fas fa-images"></i>
+                                            <span class="ml-2 bold">Photos</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'restaurant:menu' %}">
+                                        <div class="d-flex">
+                                            <i class="fas fa-hamburger"></i>
+                                            <span class="ml-2 bold">Menus</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'restaurant:company-infos' user.company.pk %}">
+                                        <div class="d-flex">
+                                            <i class="fas fa-info-circle"></i>
+                                            <span class="ml-2 bold">Informations</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'restaurant:company-tables' user.company.pk %}">
+                                        <div class="d-flex">
+                                            <i class="fas fa-table"></i>
+                                            <span class="ml-2 bold">Tables</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'restaurant:company-reservations' user.company.pk %}">
+                                        <div class="d-flex">
+                                            <i class="fas fa-clock"></i>
+                                            <span class="ml-2 bold">Reservations</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'restaurant:company-users' user.company.pk %}">
+                                        <div class="d-flex">
+                                            <i class="fas fa-users"></i>
+                                            <span class="ml-2 bold">Users</span>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-9 col-lg-10">
+                    <div class="container mt-3">
+                        <div class="row">
+                            <h3 class="full bottom-border bold pb-3 mb-5">
+                                Edit menu
+                            </h3>
+                            <form class="full mb-3 menu-form" method='POST'>
+                            {% csrf_token %}
+                               <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="formGroupExampleInput">Title</label>
+                                            {{form.title}}
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="selectType">Type</label>
+                                            {{form.menu_type}}
+                                        </div>
+                                    </div>
+                                     <div class="col">
+                                        <div class="form-group">
+                                            <label for="selectType">Price</label>
+                                            {{form.price}}
+                                        </div>
+                                    </div>
+                               </div>
+                               <div class="row">
+                                   <div class="col">
+                                        <div class="form-group">
+                                            <label for="exampleFormControlTextarea1">Description</label>
+                                            {{form.description}}
+                                        </div>
+                                   </div>
+                               </div>  
+                                <div class="d-flex justify-content-end">
+                                    <input type="submit" value="Save Changes" class="save-btn">
+                                    <button type='button' class="delete-btn" data-toggle="modal" data-target="#exampleModal">Delete</button>   
+                                </div>  
+                            </form>
+                            
+                            
                         </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="selectType">Type</label>
-                                {{form.menu_type}}
-                            </div>
-                        </div>
-                         <div class="col">
-                            <div class="form-group">
-                                <label for="selectType">Price</label>
-                                {{form.price}}
-                            </div>
-                        </div>
-                   </div>
-                   <div class="row">
-                       <div class="col">
-                            <div class="form-group">
-                                <label for="exampleFormControlTextarea1">Description</label>
-                                {{form.description}}
-                            </div>
-                       </div>
-                   </div>  
-                    <div class="d-flex justify-content-end">
-                        <input type="submit" value="Save Changes" class="save-btn">
-                        <button type='button' class="delete-btn" data-toggle="modal" data-target="#exampleModal">Delete</button>   
-                    </div>  
-                </form>
-                
-                
+                    </div>
+                </div>
             </div>
         </div>
     </main>

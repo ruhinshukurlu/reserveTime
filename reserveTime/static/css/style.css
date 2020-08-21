@@ -61,7 +61,7 @@ body{
     align-items: center;
 }
 .side img{
-    border-radius: 50%;
+    margin-right: 5px;
 }
 .right i{
     color: rgb(53, 52, 52);
@@ -136,14 +136,16 @@ body{
 .custom-drop-down a{
     text-decoration: none;
     color: #000;
+    width: 100%;
+    height: 100%;
+    padding: 15px;
 }
 .custom-drop-down li{
-    padding: 5px 20px;
     transition: .4s;
 }
 
 .custom-drop-down li:hover{
-    background-color: #ccc;
+    background-color: #E8E8E8;
 }
 
 .custom-drop-down span{
@@ -404,8 +406,8 @@ footer{
 }
 
 .link-box{
-    width: 250px;
-    height: 170px;
+    width: 400px;
+    height: 250px;
     color: #fff;
     display: flex;
     justify-content: center;
@@ -427,7 +429,7 @@ footer{
 }
 
 #company-admin-body{
-    background-color: #f7f7f7;
+    background-color: #E9E9E9;
 }
 .color-w{
     color: white !important;
@@ -476,7 +478,7 @@ footer{
 }
 
 .select-img-type{
-    width: 250px;
+    /* width: 250px; */
     background-color: #fff;
     border-radius: 10px;
     cursor: pointer;
@@ -491,6 +493,7 @@ footer{
 
  .add-img-label{
     width: 250px;
+    height: 40px;
     margin: 0 10px;
     background-color: #fff ;
     border-radius: 10px;
@@ -678,5 +681,60 @@ box-shadow: 0px 3px 19px -7px rgba(0,0,0,0.75);
 }
 .comments-box{
     width: 80%;
+    margin: auto;
+}
+
+.admin-header{
+    background: #fff;
+}
+
+.header-shadow{
+    -webkit-box-shadow: 0px 0px 14px -8px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 14px -8px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 14px -8px rgba(0,0,0,0.75);
+}
+
+.admin-header .left{
+    margin: 5px;
+}
+
+
+.company-admin-container{
+    max-width: 80%;
+    margin: auto;
+}
+.compamy-admin-item{
+    position: relative;
+}
+canvas{
+    height: 250px;
+}
+.canvas-block{
+    background-color: #fff;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 10px;
+}
+
+
+.admin-header .line-box{
+    height: 100%;
+    justify-content: space-around;
+}
+.line{
+    border: 1px solid #000;
+    width: 100%;
+}
+.admin-header .admin-menu-btn{
+    width: 45px;
+    height: 40px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    outline: none;
+    display: none;
+}
+
+.user-box{
+    max-width: 90%;
     margin: auto;
 }
