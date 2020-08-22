@@ -26,12 +26,38 @@ $('.carousel').carousel({
 });
 
 $(document).ready(function() {
+    var users_box = $('.reserve-author-profile-img')
+    console.log(users_box);
+    function generateRandomColors(){
+        var clr_1 = Math.floor(Math.random()*256);
+        var clr_2 = Math.floor(Math.random()*256);
+        var clr_3 = Math.floor(Math.random()*256);
 
-  $('.admin-menu-btn').click(function(){
-    console.log('okk');
-    $('.admin-menu-col').toggle(300)
-  })
+        return `rgb(${clr_1},${clr_2},${clr_3})`;
+    }
+
+    for (var i=0; i<users_box.length; i++){
+        $(users_box[i]).css('background-color',`${generateRandomColors()}`)
+    }
  
+  $('.admin-menu-btn').click(function(){
+    $('.menu-box-in').stop().animate({
+        width : 'toggle'
+    },500);
+  });
+  
+  $('.admin-menu-btn').click(function(){
+    $('.menu-box-left').css("display","block");
+    $('body').css("overflow","hidden");
+  });
+  $('.right, .menu-box-left').click(function(){
+    $('.menu-box-left').css("display","none");
+    $('.menu-box-in').stop().animate({
+        width : 'toggle'
+    },500);
+    $('body').css("overflow","auto");
+  });
+
   $("#custom-carousel").owlCarousel({
       loop: true,
       nav: false,

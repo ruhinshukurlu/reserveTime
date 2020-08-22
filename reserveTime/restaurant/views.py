@@ -14,6 +14,7 @@ from django.contrib import messages
 import datetime
 from django.shortcuts import get_object_or_404
 from django.core.mail import send_mail
+from django.db.models import Sum, Avg
 
 
 class RestaurantRegisterView(CreateView):
@@ -203,11 +204,18 @@ class ResevedUserList(DetailView):
         reservations = Reservation.objects.filter(company__in=company)
 
         reserved_user_list = []
-
+        first_user = reservations.first().user
         for reservation in reservations:
-            if reservation.user not in reserved_user_list:
-                reserved_user_list.append(reservation.user)
-
+            if reservation.user != first_user:
+                reserved_user_obj = {
+                    'user' : reservation.user,
+                    'reservation_count' : reservations.filter(user = reservation.user).count(),
+                    'total_price' : reservations.filter(user = reservation.user).aggregate(Sum('total_price')).get('total_price__sum' , 0),
+                    'last_reserved_date' : reservations.filter(user = reservation.user).last().reserved_date,
+                    'reviews' : reservation.user.user_comment.all().count()
+                }
+                reserved_user_list.append(reserved_user_obj)
+                first_user = reservation.user
         context['reserved_users'] = reserved_user_list
 
         return context

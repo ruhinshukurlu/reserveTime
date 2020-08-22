@@ -60,7 +60,6 @@ class HomeView(TemplateView):
         return context
 
     
-
 class ReadNotifications(View):
 
     def post(self, request, *args, **kwargs):
@@ -73,8 +72,6 @@ class ReadNotifications(View):
                     json.dumps(response_data, indent=4, sort_keys=True, default=str),
                     content_type="application/json"
                 )
-
-
 
 
 class CommentFilterView(ListView):

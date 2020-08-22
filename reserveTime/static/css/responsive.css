@@ -97,6 +97,12 @@
     .admin-menu-btn{
         display: block !important;
     }
+    .admin-menu-list li a{
+        padding: 20px 25px;
+    }
+    .admin-menu-list li:hover {
+        background-color: #E8E8E8;
+    }
 }
 
 @media (max-width : 1025px){
@@ -247,7 +253,7 @@
 }
 
 
-@media (max-width : 450px) {
+@media (max-width : 453px) {
     .container{
         padding-left: 0;
         padding-right: 0;
@@ -309,5 +315,8 @@
     }
     .padding-mobile{
         padding-left: 10px;
+    }
+    .admin-menu-btn{
+        width: 40px !important;
     }
 }

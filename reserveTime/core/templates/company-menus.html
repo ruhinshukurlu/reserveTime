@@ -23,6 +23,7 @@
 <body id="company-admin-body">
     
     {% include 'partials/company-header.html' %}
+    {% include 'partials/mobile-menu.html' %}
 
     <main>
         <div class="full">
@@ -168,10 +169,10 @@
         </div>
     </main>
 
-    <script src="js/jquery-3.4.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
     <script>
         $(document).ready(function(){
             

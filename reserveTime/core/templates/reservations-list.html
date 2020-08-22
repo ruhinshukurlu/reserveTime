@@ -23,7 +23,7 @@
 <body id="company-admin-body">
     
     {% include 'partials/company-header.html' %}
-
+    {% include 'partials/mobile-menu.html' %}
 
     <main class="full-h">
         <div class="full full-h">
@@ -106,7 +106,7 @@
                                         {% for reservation in reservations %}
                                             <div class="comment-item row">
                                                 <div class="col-12 col-sm-3 comment-author">
-                                                    <div class="comment-author-profile-img">{{reservation.reservation.user.first_name|capfirst|first}}{{reservation.reservation.user.last_name|capfirst|first}}</div>
+                                                    <div class="reserve-author-profile-img">{{reservation.reservation.user.first_name|capfirst|first}}{{reservation.reservation.user.last_name|capfirst|first}}</div>
                                                     <div class="comment-author-username"></div>
                                                     <div class="comment-author-address">{{reservation.reservation.user.first_name|capfirst}} {{reservation.reservation.user.last_name|capfirst}}</div>                           
                                                 </div>
