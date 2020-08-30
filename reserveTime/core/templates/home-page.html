@@ -114,7 +114,7 @@
                                 {% if notifications %}
                                     {% if request.user.is_company %}
                                         {% for notification in notifications %}
-                                            <a class="pl-2 pr-2 d-column" href="{% url 'restaurant:company-reservations' user.company.pk %}">
+                                            <a class="pl-2 pr-2 d-column" href="{{notification.url}}">
                                                 {{notification.text}}
                                                 <small>From {{notification.sender.email}}</small>
                                             </a>

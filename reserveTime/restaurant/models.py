@@ -149,9 +149,8 @@ class Table(models.Model):
 
     company = models.ForeignKey("account.User", verbose_name=_("Company"), on_delete=models.CASCADE, related_name='company_table')
     size = models.IntegerField(_("Size"))
-    times = models.ManyToManyField("restaurant.Time", verbose_name=_("Time"))
     table_place = models.CharField(_("Table Place"), max_length=50, choices=TABLE_PLACES)
-    dates = models.ManyToManyField("restaurant.TableDate", verbose_name=_("Dates"), related_name='table')
+    dates = models.ManyToManyField("restaurant.TableDate", verbose_name=_("Dates"), related_name='tables')
     
     class Meta:
         verbose_name = _("Table")
@@ -177,6 +176,7 @@ class Time(models.Model):
 class TableDate(models.Model):
 
     date = models.DateField(_("Date"), blank=True, null=True)
+    times = models.ManyToManyField("restaurant.Time", verbose_name=_("Time"), related_name='tableDates')
 
     class Meta:
         verbose_name = _("TableDate")
@@ -244,7 +244,8 @@ class Notification(models.Model):
 
     sender = models.ForeignKey("account.User", verbose_name=_("Sender"), on_delete=models.CASCADE, related_name='sender_notification', blank=True, null=True)
     reciever = models.ForeignKey("account.User", verbose_name=_("Reciever"), on_delete=models.CASCADE, related_name='reciever_notification', blank=True, null=True)
-    text = models.TextField(_("Text"))    
+    text = models.TextField(_("Text"))
+    url = models.URLField(_("Url"), max_length=200, blank=True, null=True)    
     read = models.BooleanField(_("Read"), default=False)
     notified_at = models.DateTimeField(_("Notification date"), auto_now_add=True)
 

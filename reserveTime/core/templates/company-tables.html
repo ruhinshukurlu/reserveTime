@@ -144,18 +144,17 @@
                                 {% if inside_tables or outside_tables %}
                                     <h3 class="bottom-border full bold pb-3 mb-5">Inside Tables</h3>
                                     <div class="row row-cols-4">
-                                        
                                         {% for table in inside_tables %}
                                             <div class="col-6 col-sm-3 d-flex justify-content-center table-items">
                                                 <span class="table-span">
                                                     <div class="icon-box d-flex">
-                                                        <i class="far fa-clock" data-toggle="modal" data-target="#time{{table.pk}}"></i>
-                                                        <i class="fas fa-trash-alt" data-toggle="modal" data-target="#table{{table.pk}}"></i>
+                                                        <i class="far fa-clock" data-toggle="modal" data-target="#time{{table.table.pk}}"></i>
+                                                        <i class="fas fa-trash-alt" data-toggle="modal" data-target="#table{{table.table.pk}}"></i>
                                                     </div>
-                                                    {{table.size}} people
+                                                    {{table.table.size}} people
                                                 </span>
                 
-                                                <div class="modal fade" id="time{{table.pk}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal fade" id="time{{table.table.pk}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog times-list-box" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
@@ -166,7 +165,7 @@
                                                             </div>
                                                             <div class="modal-body">
                                                                 <div class="row row-cols-5 time-items-box">
-                                                                    {% for time in table.times.all %}
+                                                                    {% for time in table.times %}
                                                                         {% if time.reserved %}
                                                                             <div class="col-6 col-lg-3 mb-2">
                                                                                 <span class="btn btn-danger mb-2 reserve-times">{{time.free_time}}</span>
@@ -183,7 +182,7 @@
                                                     </div>
                                                 </div>
                 
-                                                <div class="modal fade" id="table{{table.pk}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal fade" id="table{{table.table.pk}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog" role="document">
                                                         <div class="modal-content">
                                                         <div class="modal-header">
@@ -197,7 +196,7 @@
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                            <form method="POST" action="{% url 'restaurant:table-delete' table.pk %}">
+                                                            <form method="POST" action="{% url 'restaurant:table-delete' table.table.pk %}">
                                                                 {% csrf_token %}<input type="submit" class="btn btn-primary" value="Delete">
                                                             </form>
                                                         </div>
@@ -214,13 +213,13 @@
                                             <div class="col-6 col-sm-3 d-flex justify-content-center table-items">
                                                 <span class="table-span">
                                                     <div class="icon-box d-flex">
-                                                        <i class="far fa-clock" data-toggle="modal" data-target="#time{{table.pk}}"></i>
-                                                        <i class="fas fa-trash-alt" data-toggle="modal" data-target="#table{{table.pk}}"></i>
+                                                        <i class="far fa-clock" data-toggle="modal" data-target="#time{{table.table.pk}}"></i>
+                                                        <i class="fas fa-trash-alt" data-toggle="modal" data-target="#table{{table.table.pk}}"></i>
                                                     </div>
-                                                    {{table.size}} people
+                                                    {{table.table.size}} people
                                                 </span>
                 
-                                                <div class="modal fade" id="time{{table.pk}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal fade" id="time{{table.table.pk}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog times-list-box" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
@@ -231,7 +230,7 @@
                                                             </div>
                                                             <div class="modal-body">
                                                                 <div class="row row-cols-5 time-items-box">
-                                                                    {% for time in table.times.all %}
+                                                                    {% for time in table.times %}
                                                                         {% if time.reserved %}
                                                                             <div class="col-6 col-lg-3 mb-2">
                                                                                 <span class="btn btn-danger mb-2 reserve-times">{{time.free_time}}</span>
@@ -248,7 +247,7 @@
                                                     </div>
                                                 </div>
                 
-                                                <div class="modal fade" id="table{{table.pk}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal fade" id="table{{table.table.pk}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog" role="document">
                                                         <div class="modal-content">
                                                         <div class="modal-header">
@@ -262,7 +261,7 @@
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                            <form method="POST" action="{% url 'restaurant:table-delete' table.pk %}">
+                                                            <form method="POST" action="{% url 'restaurant:table-delete' table.table.pk %}">
                                                                 {% csrf_token %}<input type="submit" class="btn btn-primary" value="Delete">
                                                             </form>
                                                         </div>

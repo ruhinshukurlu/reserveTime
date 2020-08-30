@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% load static %}
+    {% load static custom_tags %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css">
@@ -78,13 +78,18 @@
                                                     <span class="bold mr-2">Reserve Date and Time : </span>
                                                     <p>{{reservation.reserved_date}}, {{reservation.reserved_time|time:'H:i:s'}}</p>
                                                 </div>
+                                                {% get_party_size reservation.table_id as party_size %}
+                                                <div class="d-flex">
+                                                    <span class="bold mr-2">Party Size : </span>
+                                                    <p> {{party_size}}</p>
+                                                </div> 
                                                 <div class="d-flex">
                                                     <span class="bold mr-2">Total Price : </span>
                                                     <p> {{reservation.total_price}} $</p>
                                                 </div> 
                                                 <div class="d-flex align-items-center">
                                                     <span class="bold mr-2">Location : </span>
-                                                    <p class="location">{{reservation.company.country_location}}, {{reservation.company.city_location}}</p>
+                                                    <p class="location">{{reservation.company.city_location}}, {{reservation.company.province_location}}</p>
                                                 </div>
                                                 <div class="d-flex align-items-center mt-2">
                                                     <span>TakeOut : </span>
@@ -101,7 +106,7 @@
                                         </div>
                                     {% endfor %}   
                                 {% else %}
-                                   <p>No Upcoming Reservations <a href="#">Book a Table</a>.</p>
+                                   <p>No Upcoming Reservations <a href="{% url 'core:home' %}">Book a Table</a>.</p>
                                 {% endif %}
                             </div>
                         </div>
@@ -132,7 +137,8 @@
                                                 <div class="d-flex">
                                                     <span class="bold mr-2">Total Price : </span>
                                                     <p> {{reservation.total_price}} $</p>
-                                                </div> 
+                                                </div>
+
                                                 <div class="d-flex align-items-center">
                                                     <span class="bold mr-2">Location : </span>
                                                     <p class="location">{{reservation.company.country_location}}, {{reservation.company.city_location}}</p>

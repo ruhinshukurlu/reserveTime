@@ -140,12 +140,37 @@ class CompanyTablesView(CreateView):
         if company_start_hour and company_finish_hour:
 
             today = TableDate.objects.filter(date=datetime.datetime.today())
-            inside_tables = Table.objects.filter(table_place = 'inside', company=self.request.user, dates__in=today).order_by('size')
+
+            inside_tables = Table.objects.filter(table_place = 'inside', company=self.request.user).order_by('size')
             outside_tables = Table.objects.filter(table_place = 'outside', company=self.request.user).order_by('size')
+            print(outside_tables.dates)
+
+            outside_table_list = []
+            inside_table_list=[]
+            table_obj = {}
+
+            for table in outside_tables:
+                for date in table.dates.filter(date=datetime.datetime.today()):
+
+                    table_obj = {
+                        'table' : table,
+                        'times' : date.times.all()
+                    }
+                    outside_table_list.append(table_obj)
+
+            for table in inside_tables:
+                for date in table.dates.filter(date=datetime.datetime.today()):
+
+                    table_obj = {
+                        'table' : table,
+                        'times' : date.times.all()
+                    }
+                    inside_table_list.append(table_obj)
+
             return render(request, self.template_name, {
                     'form' : form, 
-                    'inside_tables' : inside_tables, 
-                    'outside_tables' : outside_tables,
+                    'inside_tables' : inside_table_list, 
+                    'outside_tables' : outside_table_list,
                 })
         else:
             return render(request, self.template_name, {
@@ -186,13 +211,15 @@ class CompanyTablesView(CreateView):
 
                 for i in range(amount): 
                     table = Table.objects.create(size = size, table_place = place, company = self.request.user)
-                    for free_time in free_times:
-                        time = Time.objects.create(free_time = free_time, reserved = False)
-                        table.times.add(time)
+                    
                     for free_date in reserve_dates:
                         date = TableDate.objects.create(date=free_date)
-                        table.dates.add(date)
+                        for free_time in free_times:
+                            time = Time.objects.create(free_time = free_time, reserved = False)
+                            date.times.add(time)
 
+                        table.dates.add(date)
+                        
             else:
                 pass
             
@@ -247,9 +274,11 @@ class CompanyReservations(ListView):
         context = super().get_context_data(**kwargs)
         company = Company.objects.filter(pk=self.kwargs.get('pk'))
         upcoming_reservations = Reservation.objects.filter(company = company.first(),accept = False, denied=False)
-        past_reservations = Reservation.objects.filter(company = company.first(),accept = True, denied=False)
+        accepted_reservations = Reservation.objects.filter(company = company.first(),accept = True, denied=False, reserved_date__gte=datetime.datetime.today())
+        past_reservations = Reservation.objects.filter(company = company.first(),accept = True, denied=False, reserved_date__lt=datetime.datetime.today())
         
         context["upcoming_reservations"] = upcoming_reservations
+        context["accepted_reservations"] = accepted_reservations
         context["past_reservations"] = past_reservations
 
         return context
@@ -301,7 +330,8 @@ class ReservationDetail(DetailView):
             Notification.objects.create(
                 sender = request.user,
                 reciever = reservation.first().user,
-                text = 'Your reservation accepted'
+                text = 'Your reservation accepted',
+                # url = {% url 'account:user-profile' reservation.first().user.pk %}
             )
 
             return HttpResponse(

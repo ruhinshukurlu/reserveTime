@@ -97,38 +97,42 @@
                         <div class="row bg-white header-shadow p-3">
                             <h3 class="full bottom-border bold pb-3 mb-5 text-center">All users reserved your restaurant</h3>
                             <div class="user-box full">
-                                {% for user in reserved_users %}
-                                    {% ifchanged user.user %}
-                                        <div class="user-item row">
-                                            <div class="col-lg-3 comment-author">
-                                                <div class="reserve-author-profile-img">{{user.user.first_name|slice:"1"}}{{user.user.last_name|slice:"1"}}</div>
-                                                <div class="user-username">{{user.user.username}}</div>
-                                                <div class="user-address">San Francisco</div>
-                                                <div class="user-comments-count">
-                                                    <p class="review-text mr-4 ml-4"><i class="far fa-comment"></i> {% if user.reviews > 1 %}{{user.reviews}} reviews {% else %} {{user.reviews}} review{% endif %}</p>
+                                {% if reserved_users %}
+                                    {% for user in reserved_users %}
+                                        {% ifchanged user.user %}
+                                            <div class="user-item row">
+                                                <div class="col-lg-3 comment-author">
+                                                    <div class="reserve-author-profile-img">{{user.user.first_name|slice:"1"}}{{user.user.last_name|slice:"1"}}</div>
+                                                    <div class="user-username">{{user.user.username}}</div>
+                                                    <div class="user-address">San Francisco</div>
+                                                    <div class="user-comments-count">
+                                                        <p class="review-text mr-4 ml-4"><i class="far fa-comment"></i> {% if user.reviews > 1 %}{{user.reviews}} reviews {% else %} {{user.reviews}} review{% endif %}</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-9">
+                                                    <div class="d-flex">
+                                                        <div class="posted-date pl-4">
+                                                            <p>Last Reservation on {{user.last_reserved_date}}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex">
+                                                        <div class="posted-date pl-4">
+                                                            <p>Number of reservations : {{user.reservation_count}} </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex">
+                                                        <div class="posted-date pl-4">
+                                                            <p>Total money for all reservations : {{user.total_price}}$</p>
+                                                        </div>
+                                                    </div>
+                                                    
                                                 </div>
                                             </div>
-                                            <div class="col-lg-9">
-                                                <div class="d-flex">
-                                                    <div class="posted-date pl-4">
-                                                        <p>Last Reservation on {{user.last_reserved_date}}</p>
-                                                    </div>
-                                                </div>
-                                                <div class="d-flex">
-                                                    <div class="posted-date pl-4">
-                                                        <p>Number of reservations : {{user.reservation_count}} </p>
-                                                    </div>
-                                                </div>
-                                                <div class="d-flex">
-                                                    <div class="posted-date pl-4">
-                                                        <p>Total money for all reservations : {{user.total_price}}$</p>
-                                                    </div>
-                                                </div>
-                                                
-                                            </div>
-                                        </div>
-                                    {% endifchanged %}
-                                {% endfor %}
+                                        {% endifchanged %}
+                                    {% endfor %}
+                                {% else %}
+                                    <p class="full text-center bold">No Users Yet</p>
+                                {% endif %}
                             </div>
                         </div>
                     </div>

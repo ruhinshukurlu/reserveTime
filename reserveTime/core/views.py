@@ -257,46 +257,45 @@ class CompanyProfile(FormMixin, DetailView):
 
                 response_data = {}
                 
-                date = TableDate.objects.filter(date=reserve_date_obj)
-                tables = Table.objects.filter(company=company.values('user').first().get('user'), dates__in=date, table_place=table_place, size=party_size)   
-
+                tables = Table.objects.filter(company=company.values('user').first().get('user'), table_place=table_place, size=party_size)   
                 thirty_minutes_less = (datetime.datetime.combine(datetime.date(1, 1, 1),reserve_time_obj) - datetime.timedelta(minutes=30)).time()
                 thirty_minutes_great = (datetime.datetime.combine(datetime.date(1, 1, 1),reserve_time_obj) + datetime.timedelta(minutes=30)).time()
 
 
                 for table in tables:
-                    times = table.times.filter(reserved=False)
+                    dates = table.dates.filter(date=reserve_date_obj)
+                    for date in dates:
+                        times = date.times.filter(reserved=False)
+                        for time in times:
+                            if reserve_time_obj != company_start_hour and thirty_minutes_less in times.values_list('free_time', flat=True) and thirty_minutes_great in times.values_list('free_time', flat=True) and reserve_time_obj == time.free_time:
+                                print('okk')
+                                found_result = {
+                                    'table' : table,
+                                    'time' : reserve_time_obj,
+                                    'time_id' : time.id,
+                                    'table_size' : party_size,
+                                    'table_id' : table.id,
+                                    'table_place' : table.table_place,
+                                    'reserved_date' : reserve_date_obj
+                                }
+                                response_data['found_result'] = found_result
+                                break
 
-                    for time in times:
-                        if reserve_time_obj != company_start_hour and thirty_minutes_less in times.values_list('free_time', flat=True) and thirty_minutes_great in times.values_list('free_time', flat=True) and reserve_time_obj == time.free_time:
-                            print('okk')
-                            found_result = {
-                                'table' : table,
-                                'time' : reserve_time_obj,
-                                'time_id' : time.id,
-                                'table_size' : party_size,
-                                'table_id' : table.id,
-                                'table_place' : table.table_place,
-                                'reserved_date' : reserve_date_obj
-                            }
-                            response_data['found_result'] = found_result
-                            break
+                            elif reserve_time_obj == company_start_hour and reserve_time_obj == time.free_time:
+                                found_result = {
+                                    'table' : table,
+                                    'time' : time.free_time,
+                                    'time_id' : time.id,
+                                    'table_size' : party_size,
+                                    'table_id' : table.id,
+                                    'table_place' : table.table_place,
+                                    'reserved_date' : reserve_date_obj
+                                }
+                                response_data['found_result'] = found_result
+                                break
 
-                        elif reserve_time_obj == company_start_hour and reserve_time_obj == time.free_time:
-                            found_result = {
-                                'table' : table,
-                                'time' : time.free_time,
-                                'time_id' : time.id,
-                                'table_size' : party_size,
-                                'table_id' : table.id,
-                                'table_place' : table.table_place,
-                                'reserved_date' : reserve_date_obj
-                            }
-                            response_data['found_result'] = found_result
-                            break
-
-                        else:
-                            response_data['not_found'] = 'We dont have any table in the particular time...'
+                            else:
+                                response_data['not_found'] = 'We dont have any table in the particular time...'
 
                
 
@@ -308,22 +307,19 @@ class CompanyProfile(FormMixin, DetailView):
             elif request.POST.get('form_id') == 'selectMenuForm':
                 company = Company.objects.filter(pk=self.kwargs.get('pk'))
 
-                # print(request.POST)
                 reserve_date = request.POST.get('reserve_date')
                 reserve_time = request.POST.get('reserve_time')
                 table_id = request.POST.get('table_id')
                 table = Table.objects.filter(pk=table_id)
 
                 reserve_date_obj = datetime.datetime.strptime(reserve_date, '%Y-%m-%d')
-                               
-
                 reserve_time_obj = datetime.datetime.strptime(reserve_time, '%H:%M:%S').time()
                 total_price = request.POST.get('total_price')
 
-                date = TableDate.objects.filter(date=reserve_date_obj)
-                table = Table.objects.filter(pk=table_id, dates__in=date)
-                
-                table.first().times.filter(free_time=reserve_time_obj).update(reserved = True)
+                table = Table.objects.filter(pk=table_id)
+
+                for date in table.first().dates.filter(date=reserve_date_obj):
+                    date.times.filter(free_time=reserve_time_obj).update(reserved=True)
 
                 response_data = {
                    
@@ -403,35 +399,35 @@ class CompanyProfile(FormMixin, DetailView):
 
         
 class SavedRestaurantsView(ListView):
+    model = SavedRestaurant
     template_name = "user-saved-restaurants.html"
     context_object_name = 'saved_restaurants'
     
-    def get_queryset(self):
-        return SavedRestaurant.objects.filter(user=self.request.user, saved=True)
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     companies = SavedRestaurant.objects.filter(user=self.request.user, saved=True)
-    #     for company in companies:
-    #         comments = company.company.company_comment.all()
-    #         company_overall = comments.aggregate(Avg('overall'))
-    #         if company_overall.get('overall__avg', 0):
-    #             company_rating = int(company_overall.get('overall__avg', 0))
-    #             company_dict = {
-    #                 'company' : company,
-    #                 'reservation_count' : company.reservation.filter(reserved_at=datetime.date.today()).count(),
-    #                 'company_overall' : company_rating
-    #             }
-    #         else:
-    #             company_dict = {
-    #                 'company' : company,
-    #                 'reservation_count' : company.reservation.filter(reserved_at=datetime.date.today()).count(),
-    #                 'company_overall' : 0
-    #             }
-    #         company_list.append(company_dict)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        saved_restaurants = SavedRestaurant.objects.filter(user=self.request.user, saved=True)
+        company_list = []
+        for saved_restaurant in saved_restaurants:
+            comments = saved_restaurant.company.company_comment.all()
+            company_overall = comments.aggregate(Avg('overall'))
+
+            if company_overall.get('overall__avg', 0):
+                company_rating = int(company_overall.get('overall__avg', 0))
+                company_dict = {
+                    'saved_restaurant' : saved_restaurant,
+                    'reservation_count' : saved_restaurant.company.reservation.filter(reserved_at=datetime.date.today()).count(),
+                    'company_overall' : company_rating
+                }
+            else:
+                company_dict = {
+                    'saved_restaurant' : saved_restaurant,
+                    'reservation_count' : saved_restaurant.company.reservation.filter(reserved_at=datetime.date.today()).count(),
+                    'company_overall' : 0
+                }
+            company_list.append(company_dict)
         
-    #     context['companies'] = company_list
-        # context[""] = 
+        context['saved_restaurants'] = company_list
         return context
     
 
@@ -464,7 +460,7 @@ class CompanyCategoryList(ListView):
 class CompanyCuisineListView(ListView):
     context_object_name = 'companies'
     model = Cuisine
-    template_name = "company-list.html"
+    template_name = "cuisines-list.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -473,11 +469,12 @@ class CompanyCuisineListView(ListView):
         for company in companies:
             company_obj = {
                 'company' : company,
-                'rating' : company.company_comment.all().aggregate(Avg('overall')).get('overall__avg', 0)
+                'rating' : company.company_comment.all().aggregate(Avg('overall')).get('overall__avg', 0),
             }
             companies_list.append(company_obj)
-        print(companies_list)
+
         context["comments"] = companies_list
+        context['cuisine'] = self.kwargs['cuisine']
         return context
 
     def get_queryset(self):
