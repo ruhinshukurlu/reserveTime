@@ -50,7 +50,7 @@ $(document).ready(function() {
     $('.menu-box-left').css("display","block");
     $('body').css("overflow","hidden");
   });
-  $('.right, .menu-box-left').click(function(){
+  $('.menu-box-left').click(function(){
     $('.menu-box-left').css("display","none");
     $('.menu-box-in').stop().animate({
         width : 'toggle'

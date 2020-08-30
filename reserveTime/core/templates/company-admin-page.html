@@ -29,7 +29,7 @@
     {% include 'partials/mobile-menu.html' %}
     
     <main>
-        <div class="mt-5 mb-5 company-admin-container">
+        <div class="mt-5 mb-5 company-admin-container main-admin-menus">
             <div class="row">
                 <div class="col-lg-4 col-md-6 d-flex justify-content-center">
                     <a href="{% url 'restaurant:photo' %}">
@@ -111,16 +111,32 @@
                 <div class="col-lg-6">
                     <div class="canvas-block header-shadow">
                         <div class="chart-content">
-                            <h4>Chart Pie</h4>
+                            <h4>{{user.company.company_name|capfirst}} Ratings</h4>
                         </div>
                         <div class="chart-wrapper">
                             <canvas id="PieChart"></canvas>
+                        </div>
+                        <div class="d-flex justify-content-center mt-3">
+                            <div class="d-column border-right p-3 align-items-center">
+                                <strong>{{food_avg}}</strong>
+                                <span>Food</span>
+                            </div>
+                            <div class="d-column border-right p-3 align-items-center">
+                                <strong>{{service_avg}}</strong>
+                                <span>Service</span>
+                            </div>
+                            <div class="d-column p-3 align-items-center">
+                                <strong>{{ambience_avg}}</strong>
+                                <span>Ambience</span>
+                            </div>
                         </div>
                     </div>
                 </div>                
             </div>
         </div>
     </main>
+
+    
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
@@ -207,7 +223,7 @@
 
             data: {
                 datasets: [{
-                    data: [30, 40,50],
+                    data: ['{{food_avg}}', '{{service_avg}}','{{ambience_avg}}'],
                     backgroundColor: colorHex,
                 }],
                 labels : labels

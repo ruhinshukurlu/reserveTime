@@ -212,6 +212,11 @@ class Reservation(models.Model):
     denied = models.BooleanField(_("Denied"), default=False)
     reserved_at = models.DateField(_("Reserved at"), auto_now_add=True, blank=True, null=True)
 
+    phone_number = models.CharField(_("Phone number"), max_length=50, blank=True, null=True)
+    payment = models.BooleanField(_("Payment"), default=False)
+    occasion = models.CharField(_("Occasion"), max_length=50, blank=True, null=True)
+    special_request = models.TextField(_("Special Request"), blank=True, null=True)
+
     class Meta:
         verbose_name = _("Reservation")
         verbose_name_plural = _("Reservations")
@@ -241,7 +246,7 @@ class Notification(models.Model):
     reciever = models.ForeignKey("account.User", verbose_name=_("Reciever"), on_delete=models.CASCADE, related_name='reciever_notification', blank=True, null=True)
     text = models.TextField(_("Text"))    
     read = models.BooleanField(_("Read"), default=False)
-    notified_at = models.DateTimeField(_("Notification date"))
+    notified_at = models.DateTimeField(_("Notification date"), auto_now_add=True)
 
     class Meta:
         verbose_name = _("Notification")

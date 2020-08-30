@@ -40,7 +40,7 @@
         </div>
     </div>
 
-    <main>
+    <main class="mb-5">
         <div class="container custom-container">
             <div class="inner-container">
                 <div class="row">
@@ -59,11 +59,15 @@
                                 <h3>Upcoming Reservations</h3>
                             </div>
                             <div class="content">
-                                {% if user_reservations %}
-                                    {% for reservation in user_reservations %}
+                                {% if upcoming_reservations %}
+                                    {% for reservation in upcoming_reservations %}
                                         <div class="company-item row pt-3 pb-3 mb-4 bottom-border">
                                             <div class="col-3 company-profile-img">
-                                                <img src="{% static 'images/img3.jpg' %}" alt="">
+                                                {% if reservation.company.cover_photo %}
+                                                    <img src="{{ reservation.company.cover_photo.url }}" alt="">
+                                                {% else %}
+                                                    <img src="{% static 'images/img3.jpg' %}" alt="">
+                                                {% endif %}
                                             </div>
                                             <div class="col-9">
                                                 <div class="d-flex ">
@@ -82,11 +86,15 @@
                                                     <span class="bold mr-2">Location : </span>
                                                     <p class="location">{{reservation.company.country_location}}, {{reservation.company.city_location}}</p>
                                                 </div>
-                                                <div class="d-flex align-items-center">
+                                                <div class="d-flex align-items-center mt-2">
                                                     <span>TakeOut : </span>
-                                                    <div class="ml-3 phone-number d-flex mt-2">
-                                                        <i class="fas fa-phone-alt pr-2"></i> 
-                                                        <p>xxx xxx xx xx</p>
+                                                    <div class="ml-3 phone-number d-flex">
+                                                        <i class="fas fa-phone-alt pr-2"></i>
+                                                        {% if reservation.company.phone_number %}
+                                                            <p>{{reservation.company.phone_number}}</p>
+                                                        {% else %}
+                                                            <p>xxx xxx xx xx</p>
+                                                        {% endif %}
                                                     </div>
                                                 </div>
                                             </div>
@@ -102,7 +110,50 @@
                                 <h3>Past Reservations</h3>
                             </div>
                             <div class="content">
-                                <p>No Past Reservations</p>
+                                {% if past_reservations %}
+                                    {% for reservation in past_reservations %}
+                                        <div class="company-item row pt-3 pb-3 mb-4 bottom-border">
+                                            <div class="col-3 company-profile-img">
+                                                {% if reservation.company.cover_photo %}
+                                                    <img src="{{ reservation.company.cover_photo.url }}" alt="">
+                                                {% else %}
+                                                    <img src="{% static 'images/img3.jpg' %}" alt="">
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-9">
+                                                <div class="d-flex ">
+                                                    <span class="bold mr-2">Restaurant Name : </span>
+                                                    <p>{{reservation.company.company_name}}</p>
+                                                </div>
+                                                <div class="d-flex ">
+                                                    <span class="bold mr-2">Reserve Date and Time : </span>
+                                                    <p>{{reservation.reserved_date}}, {{reservation.reserved_time|time:'H:i:s'}}</p>
+                                                </div>
+                                                <div class="d-flex">
+                                                    <span class="bold mr-2">Total Price : </span>
+                                                    <p> {{reservation.total_price}} $</p>
+                                                </div> 
+                                                <div class="d-flex align-items-center">
+                                                    <span class="bold mr-2">Location : </span>
+                                                    <p class="location">{{reservation.company.country_location}}, {{reservation.company.city_location}}</p>
+                                                </div>
+                                                <div class="d-flex align-items-center mt-2">
+                                                    <span>TakeOut : </span>
+                                                    <div class="ml-3 phone-number d-flex">
+                                                        <i class="fas fa-phone-alt pr-2"></i>
+                                                        {% if reservation.company.phone_number %}
+                                                            <p>{{reservation.company.phone_number}}</p>
+                                                        {% else %}
+                                                            <p>xxx xxx xx xx</p>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}   
+                                {% else %}
+                                   <p>No Past Reservations</p>
+                                {% endif %}
                             </div>
                         </div>
                         
@@ -112,6 +163,9 @@
         </div>
     </main>
     
+    {% include 'partials/footer.html' %}
+
+
     <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/owl.carousel.min.js' %}"></script>

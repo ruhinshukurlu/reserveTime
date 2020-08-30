@@ -11,4 +11,8 @@ urlpatterns = [
     path("user/<int:pk>/savedRestaurants", SavedRestaurantsView.as_view(), name="user-saved-restaurants"),
     path("companies/<city_location>", CompanyCategoryList.as_view(), name="city-categories"),
     path("company_list/<cuisine>", CompanyCuisineListView.as_view(), name="company-cuisine"),
+    path("company/register/compelted", RegisterCompleted.as_view(), name="register-completed"),
+    path("reservation/<int:pk>/payment", PaymentView.as_view(), name="payment"),
+    path("charge/", charge, name="charge"),
+    path("payment/success", SuccessView.as_view(), name="payment-success"),
 ]

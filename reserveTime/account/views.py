@@ -9,6 +9,8 @@ from django.contrib.auth.views import LoginView,PasswordChangeView,PasswordChang
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
 from restaurant.models import *
+from django.db.models import Sum, Avg
+import datetime
 
 
 class CustomerRegisterView(CreateView):
@@ -67,8 +69,11 @@ class CustomerProfileView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        reservations = Reservation.objects.filter(user=self.request.user, accessed=True)
-        context["user_reservations"] = reservations
+        upcoming_reservations = Reservation.objects.filter(user=self.request.user, accept=True, reserved_date__gte=datetime.datetime.today())
+        past_reservations = Reservation.objects.filter(user=self.request.user, accept=True, reserved_date__lt=datetime.datetime.today())
+
+        context["upcoming_reservations"] = upcoming_reservations
+        context["past_reservations"] = past_reservations
         
         return context
 
@@ -95,6 +100,27 @@ class CompanyProfileView(LoginRequiredMixin, DetailView):
 
     def get_object(self):
         return self.request.user
+        
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        company = Company.objects.filter(pk=self.kwargs.get('pk'))
+        comments = Comment.objects.filter(company = company.first())
+
+        food = comments.aggregate(Avg('ratingFood'))
+        service = comments.aggregate(Avg('ratingService'))
+        ambience = comments.aggregate(Avg('ratingAmbience'))
+
+        if food.get('ratingFood__avg', 0) and service.get('ratingService__avg', 0) and ambience.get('ratingAmbience__avg', 0)   :
+            print('ok')
+            context['food_avg'] = "{:.1f}".format(food.get('ratingFood__avg', 0))
+
+            context['service_avg'] = "{:.1f}".format(service.get('ratingService__avg', 0))
+
+            context['ambience_avg'] = "{:.1f}".format(ambience.get('ratingAmbience__avg', 0))
+
+        return context
+    
 
 
 class CompanyUpdateView(UpdateView):

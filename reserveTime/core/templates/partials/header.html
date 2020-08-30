@@ -1,7 +1,11 @@
 {% load static custom_tags %}
-
+<style>
+    header .side{
+        margin: 5px 0;
+    }
+</style>
 <header >
-    <div class="container custom-container">
+    <div class="container custom-container shadow">
         <div class="row justify-content-between">
             <div class="left side">
                 <a href="{% url 'core:home' %}">
@@ -28,12 +32,37 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="reserve-table ">
+                    {% reservation request.user as reservations%}
+                    <div class="reserve-table">
                         <button type="button" class="header-btn"><i class="far fa-calendar"></i></button>
-                        <div class="custom-drop-down p-3 shadow" style="display: none;">
+                        <div class="custom-drop-down p-3 scroll-y box2" style="display: none;">
                             <div class="triangle"></div>
-                            <span>Upcoming reservations</span>
-                            <p class="pl-2 pr-2">You have no upcoming reservations</p>
+                            <span class="pb-2">Upcoming reservations</span>
+                            {% if reservations %}
+                                {% for reservation in reservations %}
+                                    <div class="card mb-3" style="max-width: 540px;">
+                                        <div class="row no-gutters">
+                                        <div class="col-md-4">
+                                            {% if reservation.company.cover_photo %}
+                                                <img src="{{reservation.company.cover_photo.url}}" class="card-img" style="width: 100px;height: 100px; object-fit: cover;">
+                                            {% else %}
+                                                <img src="{% static 'images/img3.jpg' %}" class="card-img" style="width: 100px;height: 100px; object-fit: cover;">
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{reservation.company.company_name}}</h5>
+                                                <p class="card-text">{{reservation.reserved_date}}, {{reservation.reserved_time}}</p>
+                                                <p class="card-text"><small class="text-muted">{{reservation.company.city_location}}, {{reservation.company.province_location}}</small></p>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    
+                                {% endfor %}
+                            {% else %}
+                                <p class="pl-2 pr-2">You have no upcoming reservations</p>
+                            {% endif %}
                         </div>
                     </div>
                     {% notification request.user as notifications %} 
@@ -44,7 +73,7 @@
                             {% endif %}
                             <i class="far fa-bell"></i>
                         </button>
-                        <div class="custom-drop-down box3 p-3 shadow" style="display: none;">
+                        <div class="custom-drop-down box3 p-3 scroll-y shadow" style="display: none;">
                             <div class="triangle"></div>
                             <span class="pb-3">Notifications</span>
                             

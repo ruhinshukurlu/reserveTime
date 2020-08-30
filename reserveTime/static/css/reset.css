@@ -132,3 +132,10 @@ ol li{
 .border-top{
 	border-top: 1px solid #ccc;
 }
+
+.p-fixed{
+	bottom: 0;
+    position: fixed;
+    width: 100%;
+}
+

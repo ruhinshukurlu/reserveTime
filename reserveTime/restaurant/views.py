@@ -15,6 +15,8 @@ import datetime
 from django.shortcuts import get_object_or_404
 from django.core.mail import send_mail
 from django.db.models import Sum, Avg
+import json
+
 
 
 class RestaurantRegisterView(CreateView):
@@ -36,7 +38,7 @@ class RestaurantRegisterView(CreateView):
             ['ruhinshukurlu@gmail.com'],
             fail_silently=False,
         )
-        return redirect('core:home')
+        return redirect('core:register-completed')
 
 
 class MenuView(CreateView):
@@ -132,14 +134,25 @@ class CompanyTablesView(CreateView):
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
-        
-        inside_tables = Table.objects.filter(table_place = 'inside', company=self.request.user).order_by('size')
-        outside_tables = Table.objects.filter(table_place = 'outside', company=self.request.user).order_by('size')
-        return render(request, self.template_name, {
-                'form' : form, 
-                'inside_tables' : inside_tables, 
-                'outside_tables' : outside_tables
-            })
+        company_start_hour = self.request.user.company.work_hours_from
+        company_finish_hour = self.request.user.company.work_hours_to
+
+        if company_start_hour and company_finish_hour:
+
+            today = TableDate.objects.filter(date=datetime.datetime.today())
+            inside_tables = Table.objects.filter(table_place = 'inside', company=self.request.user, dates__in=today).order_by('size')
+            outside_tables = Table.objects.filter(table_place = 'outside', company=self.request.user).order_by('size')
+            return render(request, self.template_name, {
+                    'form' : form, 
+                    'inside_tables' : inside_tables, 
+                    'outside_tables' : outside_tables,
+                })
+        else:
+            return render(request, self.template_name, {
+                    'message' : "You haven't included start and finish work hours of your company, please go to the informations page and include work hours."
+                })
+
+
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -153,33 +166,36 @@ class CompanyTablesView(CreateView):
             company_finish_hour = self.request.user.company.work_hours_to
             free_times = []
             free_times.append(company_start_hour)
-            while company_start_hour < company_finish_hour:
-                company_start_hour = (datetime.datetime.combine(  
-                        datetime.date(1, 1, 1),  
-                        company_start_hour
-                    ) + datetime.timedelta(minutes=30)).time()
+            if company_start_hour and company_finish_hour:
+                while company_start_hour < company_finish_hour:
+                    company_start_hour = (datetime.datetime.combine(  
+                            datetime.date(1, 1, 1),  
+                            company_start_hour
+                        ) + datetime.timedelta(minutes=30)).time()
 
-                free_times.append(company_start_hour)
+                    free_times.append(company_start_hour)
+                free_times = free_times[:-1]
             
-            free_times = free_times[:-1]
+                reserve_start_date = datetime.date.today()
+                reserve_finish_date = (datetime.date.today()+datetime.timedelta(days=30)).isoformat()
             
-            reserve_start_date = datetime.date.today()
-            reserve_finish_date = (datetime.date.today()+datetime.timedelta(days=30)).isoformat()
-        
-            reserve_dates = []
-            for i in range(31):
-                reserve_dates.append(reserve_start_date)
-                reserve_start_date = (reserve_start_date+datetime.timedelta(days=1))
+                reserve_dates = []
+                for i in range(31):
+                    reserve_dates.append(reserve_start_date)
+                    reserve_start_date = (reserve_start_date+datetime.timedelta(days=1))
 
-            for i in range(amount): 
-                table = Table.objects.create(size = size, table_place = place, company = self.request.user)
-                for free_time in free_times:
-                    time = Time.objects.create(free_time = free_time, reserved = False)
-                    table.times.add(time)
-                for free_date in reserve_dates:
-                    date = TableDate.objects.create(date=free_date)
-                    table.dates.add(date)
+                for i in range(amount): 
+                    table = Table.objects.create(size = size, table_place = place, company = self.request.user)
+                    for free_time in free_times:
+                        time = Time.objects.create(free_time = free_time, reserved = False)
+                        table.times.add(time)
+                    for free_date in reserve_dates:
+                        date = TableDate.objects.create(date=free_date)
+                        table.dates.add(date)
 
+            else:
+                pass
+            
             return HttpResponseRedirect(reverse_lazy('restaurant:company-tables', kwargs={'pk': self.request.user.pk}))
 
         return render(request,self.template_name, {'form' : form})
@@ -202,21 +218,22 @@ class ResevedUserList(DetailView):
         company = Company.objects.filter(pk=self.kwargs.get('pk'))
 
         reservations = Reservation.objects.filter(company__in=company)
+        print(reservations)
 
-        reserved_user_list = []
-        first_user = reservations.first().user
+        all_reserved_user_list = []
+        # first_user = reservations.first().user
         for reservation in reservations:
-            if reservation.user != first_user:
-                reserved_user_obj = {
-                    'user' : reservation.user,
-                    'reservation_count' : reservations.filter(user = reservation.user).count(),
-                    'total_price' : reservations.filter(user = reservation.user).aggregate(Sum('total_price')).get('total_price__sum' , 0),
-                    'last_reserved_date' : reservations.filter(user = reservation.user).last().reserved_date,
-                    'reviews' : reservation.user.user_comment.all().count()
-                }
-                reserved_user_list.append(reserved_user_obj)
-                first_user = reservation.user
-        context['reserved_users'] = reserved_user_list
+            reserved_user_obj = {
+                'user' : reservation.user,
+                'reservation_count' : reservations.filter(user = reservation.user).count(),
+                'total_price' : reservations.filter(user = reservation.user).aggregate(Sum('total_price')).get('total_price__sum' , 0),
+                'last_reserved_date' : reservations.filter(user = reservation.user).last().reserved_date,
+                'reviews' : reservation.user.user_comment.all().count()
+            }
+            all_reserved_user_list.append(reserved_user_obj)
+
+        
+        context['reserved_users'] = all_reserved_user_list
 
         return context
 
@@ -229,22 +246,19 @@ class CompanyReservations(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         company = Company.objects.filter(pk=self.kwargs.get('pk'))
-        reservations = Reservation.objects.filter(company = company.first(),accept = False, denied=False)
-        reservations_list = []
-        for reservation in reservations:
-            tables_size = Table.objects.filter(pk = int(reservation.table_id)).values_list('size', flat = True)
-            reservations_obj = {
-                'reservation' : reservation,
-                'table_size' : tables_size
-            }
-            reservations_list.append(reservations_obj)
-        context["reservations"] = reservations_list
+        upcoming_reservations = Reservation.objects.filter(company = company.first(),accept = False, denied=False)
+        past_reservations = Reservation.objects.filter(company = company.first(),accept = True, denied=False)
+        
+        context["upcoming_reservations"] = upcoming_reservations
+        context["past_reservations"] = past_reservations
+
         return context
 
 
 class ReservationDetail(DetailView):
     model = Reservation
     template_name='reservation-detail.html'
+    context_object_name = 'reservation'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -274,6 +288,43 @@ class ReservationDetail(DetailView):
         context['menus'] = menus_list
         context['menu_categories'] = MenuCategory.objects.all()
         return context
+
+
+    def post(self, request, *args, **kwargs):
+        reservation = Reservation.objects.filter(pk=self.kwargs.get('pk'))
+        print(reservation)
+        if request.POST['form_id'] == 'acceptReservation':
+            reservation.update(accept=True)
+            response_data = {}
+            response_data['result'] = 'You succcessfully accept reservation'
+
+            Notification.objects.create(
+                sender = request.user,
+                reciever = reservation.first().user,
+                text = 'Your reservation accepted'
+            )
+
+            return HttpResponse(
+                    json.dumps(response_data, indent=4, sort_keys=True, default=str),
+                    content_type="application/json"
+                )
+
+        elif request.POST['form_id'] == 'deniedReservation':
+            reservation.update(denied=True)
+            response_data = {}
+            response_data['result'] = 'You succcessfully denied reservation'
+
+            Notification.objects.create(
+                sender = request.user,
+                reciever = reservation.first().user,
+                text = 'Your reservation denied'
+            )
+
+            return HttpResponse(
+                    json.dumps(response_data, indent=4, sort_keys=True, default=str),
+                    content_type="application/json"
+                )
+
 
 
 class CommentView(FormMixin, DetailView):

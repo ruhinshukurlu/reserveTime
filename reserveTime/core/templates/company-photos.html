@@ -18,7 +18,11 @@
 
     <title>Company List</title>
 
-    
+    <style>
+        .col{
+            padding: 3px;
+        }
+    </style>
 
 </head>
 <body id="company-admin-body">
@@ -116,7 +120,7 @@
                                 <input type="submit" value="Save" class="save-btn">
                             </form>
                             <h3 class="full bottom-border bold pb-3 mb-5">Company Photos</h3>
-                            <div class="row row-cols-2 row-cols-sm-3 row-cols-md-5 mb-3 full">
+                            <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 mb-3 full">
                                 <!-- <p>You don't have any photo</p> -->
                                 {% if photos %}
                                     {% for photo in photos %}

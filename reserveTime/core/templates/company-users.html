@@ -100,7 +100,7 @@
                                 {% for user in reserved_users %}
                                     {% ifchanged user.user %}
                                         <div class="user-item row">
-                                            <div class="col-3 comment-author">
+                                            <div class="col-lg-3 comment-author">
                                                 <div class="reserve-author-profile-img">{{user.user.first_name|slice:"1"}}{{user.user.last_name|slice:"1"}}</div>
                                                 <div class="user-username">{{user.user.username}}</div>
                                                 <div class="user-address">San Francisco</div>
@@ -108,7 +108,7 @@
                                                     <p class="review-text mr-4 ml-4"><i class="far fa-comment"></i> {% if user.reviews > 1 %}{{user.reviews}} reviews {% else %} {{user.reviews}} review{% endif %}</p>
                                                 </div>
                                             </div>
-                                            <div class="col-9">
+                                            <div class="col-lg-9">
                                                 <div class="d-flex">
                                                     <div class="posted-date pl-4">
                                                         <p>Last Reservation on {{user.last_reserved_date}}</p>

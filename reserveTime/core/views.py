@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 import json
 from django.http import HttpResponse, HttpResponseRedirect
 from restaurant.models import *
@@ -9,9 +10,14 @@ from django.shortcuts import get_list_or_404, get_object_or_404
 import datetime
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Sum, Avg
 
-from core.tasks import complete_reserve
+from core.tasks import complete_reserve, give_feedback
+
+import stripe
+stripe.api_key = "sk_test_51HGewRGdwSoA84C6OD2Xuc3Mc3nM8czUjbfkzXJqCOgmsaCZ3wl3CTlhUZOKZbdiWTQ5Ila1d91uKTkNRkO0mDBM00KXkrNFWo"
+
 
 class HomeView(TemplateView):
     template_name = "home-page.html"
@@ -58,6 +64,10 @@ class HomeView(TemplateView):
         if self.request.user.is_authenticated:
             context['notifications'] = Notification.objects.filter(reciever=self.request.user, read=False)
         return context
+
+
+class RegisterCompleted(TemplateView):
+    template_name = "register-completed.html"
 
     
 class ReadNotifications(View):
@@ -122,6 +132,7 @@ class CompanyProfile(FormMixin, DetailView):
 
         if company_overall.get('overall__avg', 0):
             context['company_overall'] = int(company_overall.get('overall__avg', 0))
+            
             food = comments.aggregate(Avg('ratingFood'))
             context['food_avg'] = "{:.1f}".format(food.get('ratingFood__avg', 0))
 
@@ -166,13 +177,14 @@ class CompanyProfile(FormMixin, DetailView):
         
         free_times = []
         free_times.append(company_start_hour)
-        while company_start_hour < company_finish_hour:
-            company_start_hour = (datetime.datetime.combine(  
-                    datetime.date(1, 1, 1),  
-                    company_start_hour
-                ) + datetime.timedelta(minutes=30)).time()
+        if company_start_hour and company_finish_hour:
+            while company_start_hour < company_finish_hour:
+                company_start_hour = (datetime.datetime.combine(  
+                        datetime.date(1, 1, 1),  
+                        company_start_hour
+                    ) + datetime.timedelta(minutes=30)).time()
 
-            free_times.append(company_start_hour)
+                free_times.append(company_start_hour)
         
         free_times = free_times[:-1]
         context["work_hours"] = free_times
@@ -219,10 +231,14 @@ class CompanyProfile(FormMixin, DetailView):
                 
             if request.POST.get('form_id') == 'FindTableForm':
                 company = Company.objects.filter(pk=self.kwargs.get('pk'))
-               
+
+                # tomorrow = datetime.datetime.utcnow() + datetime.timedelta(minutes=1)
+                # give_feedback.apply_async(args=[company.first().id, request.user.email], eta = tomorrow)
+
                 party_size = request.POST.get('size')
                 reserve_date = request.POST.get('date')
                 reserve_time = request.POST.get('time')
+
                 table_place = request.POST.get('table_place')
              
                 party_size = int(party_size)
@@ -322,14 +338,20 @@ class CompanyProfile(FormMixin, DetailView):
                     total_price = total_price
                 )
 
+                response_data['reservation_id'] = reservation.pk
+
                 Notification.objects.create(
                     sender=request.user,
                     reciever=company.first().user, 
                     text = 'You have new reservation',
                     notified_at = datetime.datetime.now()
                 )   
-                # tomorrow = datetime.datetime.utcnow() + datetime.timedelta(minutes=5)
-                complete_reserve.apply_async(args=[reserve_time_obj, reserve_date_obj.date(), table_id], countdown=30)
+                
+                eta_date_time = datetime.datetime.combine(reserve_date_obj, reserve_time_obj)
+                tomorrow = datetime.datetime.utcnow() + datetime.timedelta(minutes=1)
+
+                # complete_reserve.apply_async(args=[reserve_time_obj, reserve_date_obj.date(), table_id], eta=eta_date_time)
+                # give_feedback.apply_async(args=[company.first().id, request.user.email], eta = tomorrow)
                 
                 for i in range(0,int(request.POST.get('length'))):
                     menu_id = int(request.POST.get(f'selected_menus_list[{i}][menu_id]'))
@@ -338,7 +360,7 @@ class CompanyProfile(FormMixin, DetailView):
                     portion = Portion.objects.create(menu_id=menu_id, portion_count=portion_count)
                     reservation.portions.add(portion)
                     
-            
+
                 return HttpResponse(
                     json.dumps(response_data, indent=4, sort_keys=True, default=str),
                     content_type="application/json"
@@ -386,6 +408,32 @@ class SavedRestaurantsView(ListView):
     
     def get_queryset(self):
         return SavedRestaurant.objects.filter(user=self.request.user, saved=True)
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     companies = SavedRestaurant.objects.filter(user=self.request.user, saved=True)
+    #     for company in companies:
+    #         comments = company.company.company_comment.all()
+    #         company_overall = comments.aggregate(Avg('overall'))
+    #         if company_overall.get('overall__avg', 0):
+    #             company_rating = int(company_overall.get('overall__avg', 0))
+    #             company_dict = {
+    #                 'company' : company,
+    #                 'reservation_count' : company.reservation.filter(reserved_at=datetime.date.today()).count(),
+    #                 'company_overall' : company_rating
+    #             }
+    #         else:
+    #             company_dict = {
+    #                 'company' : company,
+    #                 'reservation_count' : company.reservation.filter(reserved_at=datetime.date.today()).count(),
+    #                 'company_overall' : 0
+    #             }
+    #         company_list.append(company_dict)
+        
+    #     context['companies'] = company_list
+        # context[""] = 
+        return context
+    
 
 
 class CompanyCategoryList(ListView):
@@ -436,3 +484,44 @@ class CompanyCuisineListView(ListView):
         self.cuisine = get_object_or_404(Cuisine, title=self.kwargs['cuisine'])
         return Company.objects.filter(cuisine=self.cuisine)
         
+
+
+class PaymentView(DetailView, LoginRequiredMixin):
+    model = Reservation
+    context_object_name = 'reservation'
+    template_name = "payment.html"
+
+
+def charge(request):
+    
+    if request.method == 'POST':
+
+        reservation = Reservation.objects.filter(id=int(request.POST['reservation_id']))
+        
+        reservation.update(
+            payment=True,
+            phone_number = request.POST['phone'],
+            occasion = request.POST['occasion'],
+            special_request = request.POST['special_request']
+        )
+
+        print(request.POST)
+        customer = stripe.Customer.create(
+            name = request.POST['username'],
+            email = request.user.email,
+            source = request.POST['stripeToken']
+        )
+
+        total_price = int(request.POST['total_price'])
+
+        stripe.Charge.create(
+            customer = customer,
+            amount=total_price*100,
+            currency="usd",
+            description="Reservation payment",
+        )
+    return redirect(reverse('core:payment-success'))
+
+
+class SuccessView(TemplateView):
+    template_name = "payment-success.html"

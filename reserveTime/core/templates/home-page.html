@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% load static %}
+    {% load static custom_tags %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css">
@@ -62,18 +62,43 @@
                                     {% else %}
                                         <li><a href="{% url 'account:user-profile' user.pk %}">My Profile</a></li>
                                     {% endif %}
-                                    <li><a href="user-profile.html">My Dining History</a></li>
-                                    <li><a href="user-profile.html">My Saved Restaurants</a></li>
+                                    <li><a href="{% url 'account:user-profile' user.pk %}">My Dining History</a></li>
+                                    <li><a href="{% url 'core:user-saved-restaurants' user.pk %}">My Saved Restaurants</a></li>
                                     <li><a href="{% url 'account:logout' %}">Sign out</a></li>
                                 </ul>
                             </div>
                         </div>
+                        {% reservation request.user as reservations%}
                         <div class="reserve-table">
                             <button type="button" class="header-btn"><i class="far fa-calendar"></i></button>
-                            <div class="custom-drop-down p-3 box2" style="display: none;">
+                            <div class="custom-drop-down p-3 box2 scroll-y" style="display: none;">
                                 <div class="triangle"></div>
-                                <span>Upcoming reservations</span>
-                                <p class="pl-2 pr-2">You have no upcoming reservations</p>
+                                <span class="pb-2">Upcoming reservations</span>
+                                {% if reservations %}
+                                    {% for reservation in reservations %}
+                                        <div class="card mb-3" style="max-width: 540px;">
+                                            <div class="row no-gutters">
+                                            <div class="col-md-4">
+                                                {% if reservation.company.cover_photo %}
+                                                    <img src="{{reservation.company.cover_photo.url}}" class="card-img" style="width: 100px;height: 100px; object-fit: cover;">
+                                                {% else %}
+                                                    <img src="{% static 'images/img3.jpg' %}" class="card-img" style="width: 100px;height: 100px; object-fit: cover;">
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">{{reservation.company.company_name}}</h5>
+                                                    <p class="card-text">{{reservation.reserved_date}}, {{reservation.reserved_time}}</p>
+                                                    <p class="card-text"><small class="text-muted">{{reservation.company.city_location}}, {{reservation.company.province_location}}</small></p>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        
+                                    {% endfor %}
+                                {% else %}
+                                    <p class="pl-2 pr-2">You have no upcoming reservations</p>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="notification">
@@ -83,13 +108,16 @@
                                 {% endif %}
                                 <i class="far fa-bell"></i>
                             </button>
-                            <div class="custom-drop-down box3 p-3" style="display: none;">
+                            <div class="custom-drop-down box3 scroll-y p-3" style="display: none;">
                                 <div class="triangle"></div>
                                 <span>Notifications</span>
                                 {% if notifications %}
                                     {% if request.user.is_company %}
                                         {% for notification in notifications %}
-                                            <a class="pl-2 pr-2" href="{% url 'restaurant:company-reservations' user.company.pk %}">{{notification.text}}</a>
+                                            <a class="pl-2 pr-2 d-column" href="{% url 'restaurant:company-reservations' user.company.pk %}">
+                                                {{notification.text}}
+                                                <small>From {{notification.sender.email}}</small>
+                                            </a>
                                         {% endfor %}
                                     {% else %}
                                         {% for notification in notifications %}
@@ -146,7 +174,7 @@
 
     
 
-    <main class="pb-3">
+    <main>
         <div class="custom-container container main-container shadow">
             <div class="inner-container">
                 <div class="row pt-3 pb-3 bottom-border">
@@ -159,7 +187,7 @@
                     <h3 class="full bold bottom-border pb-3 padding-mobile">Recently viewed</h3>
                     <div class="card-list d-flex">
                         {% for company in companies %}
-                            <div class="col-12 col-lg-3 col-sm-6 card-box">
+                            <div class="col-12 col-lg-4 col-xl-3 col-sm-6 card-box">
                                 <div class="card">
                                     <a href="{% url 'core:company-profile' company.company.pk %}">
                                         <div class="card-img">
@@ -220,7 +248,7 @@
                     </div>
                 </div>
     
-                <div class="row flex-column">
+                <div class="row flex-column pb-5">
                     <h3 class="bold mb-3 pb-2 bottom-border padding-mobile">Featured Areas</h3>
                     <div class="row card-list" >
                         {% for company in company_groups %}
@@ -241,49 +269,12 @@
                     </div>    
                 </div>
     
-                <div class="row" style="padding: 20px;">
-                    <ul class="city-list">
-                        <li><a href="#">Baku(120)</a></li>
-                        <li><a href="#">Baku(120)</a></li>
-                        <li><a href="#">Baku(120)</a></li>
-                        <li><a href="#">Baku(120)</a></li>
-                        <li><a href="#">Baku(120)</a></li>
-                        <li><a href="#">Baku(120)</a></li>
-                        <li><a href="#">Baku(120)</a></li>
-                        <li><a href="#">Baku(120)</a></li>
-                        <li><a href="#">Baku(120)</a></li>
-                        <li><a href="#">Baku(120)</a></li>
-                        <li><a href="#">Baku(120)</a></li>
-                        <li><a href="#">Baku(120)</a></li>
-                        <li><a href="#">Baku(120)</a></li>
-                        <li><a href="#">Baku(120)</a></li>
-                        <li><a href="#">Baku(120)</a></li>
-                    </ul>
-                </div>
+                
             </div>
         </div>
     </main>
 
-    <!-- <footer>
-        <div class="container">
-            
-            <div class="row footer-row">
-                <h4>Become an Insider</h4>
-                <p>Gain access to exclusive offers, best-of lists, local events & more (you can unsubscribe any time).</p>
-                <form class="mb-30">
-                    <div class="row">
-                        <div class="col-9">
-                            <input type="email" name="" id="" class="subscribe-email-input" placeholder="Email">
-                        </div>
-                        <div class="col-3">
-                            <button type="submit" class="subscribe-btn btn">Subscribe</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </footer>
-     -->
+    {% include 'partials/footer.html' %}
 
     <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>

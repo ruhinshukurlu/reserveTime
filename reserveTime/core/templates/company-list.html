@@ -34,11 +34,15 @@
                    <a href="{% url 'core:company-profile' company.pk %}">
                         <div class="company-item row pt-3 pb-3 mb-5 bottom-border">
                             <div class="col-12 col-lg-4 company-profile-img">
-                                <img src="{% static 'images/img3.jpg' %}" alt="">
+                                {% if company.cover_photo %}
+                                    <img src="{{company.cover_photo.url}}" alt="">
+                                {% else %}
+                                    <img src="{% static 'images/img3.jpg' %}" alt="">
+                                {% endif %}    
                             </div>
                             <div class="col-12 col-lg-8">
                                 <p class="name bold mb-2 pb-2">{{company.company_name}} </p>
-                                <div class="review-box d-flex">
+                                <div class="review-box d-flex mb-2">
                                     <div data-type = '{% for comment in comments %} {% if comment.company == company %}{{comment.rating}} {% endif %}{% endfor %}'  class="stars d-flex rating-box">
                                             <div class="star"><i class="far fa-star"></i></div>
                                             <div class="star"><i class="far fa-star"></i></div>
@@ -58,7 +62,7 @@
                                     </span>
                                 </div>
                                 <p class="description">
-                                    {{company.description}}</p>
+                                    {{company.description|slice:":255"}}...</p>
                                 <div class="d-flex align-items-center">
                                     <span>TakeOut : </span>
                                     <div class="ml-3 phone-number d-flex mt-2">
@@ -110,10 +114,6 @@
     <script src="{% static 'js/main.js' %}"></script>
     <script>
         $(document).ready(function(){
-            $('.header-btn').click(function(){
-                $('.custom-drop-down').hide()
-                $(this).siblings('.custom-drop-down').slideToggle()
-            });
 
             for(var index = 0; index < $('.rating-box').length; index++ ){
                 for(var i = 0; i< parseInt($('.rating-box').eq(index).data('type'));i++){

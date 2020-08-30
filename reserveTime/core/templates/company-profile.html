@@ -102,7 +102,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="row overview" id="overview" name = "link1">
+                        <div class="row overview d-column" id="overview" name = "link1">
                             <h1 class="company-name bold">{{company.company_name}}</h1>
                             <div style="display: none;" id="company_id">{{company.pk}}</div>
                             <div class="d-flex pl-3">
@@ -120,7 +120,9 @@
                                 </p>
                             </div>
                             <p class="description p-3">
-                                {{company.description}}
+                                {% if company.description %}
+                                    {{company.description}}
+                                {% endif %}
                             </p>
                         </div>
     
@@ -153,6 +155,7 @@
                                                             <span class="total-price">34</span>
                                                         </div>
                                                         <input class="m-2 btn btn-success" type="submit" value="Complete Reserve">
+                                                        <!-- <a href="{ url 'core:payment'  }"></a> -->
                                                     </div>
                                                 </div>
                                             </div>
@@ -167,6 +170,7 @@
                                                                     <div class="menu-title menu-title-get"><span>{{menu.title}}</span></div>
                                                                     <div class="menu-price menu-price-get"><span>{{menu.price}}</span></div>
                                                                 </div>
+                                                                
                                                                 <div class="menu-description">
                                                                     <p>{{menu.description}}</p>
                                                                 </div>
@@ -194,42 +198,45 @@
                        
                         <div class="reserve-box">
                             <h4 class="bottom-border bold pb-2 text-center">Make a reservation</h4>
-                            
-                            <form action="{% url 'core:company-profile' company.pk %}" method='POST' id = "FindTableForm" name="FindTableForm" class="reserve-form">
-                                {% csrf_token %}
-                                <label for="party-size" >Party Size</label>
-                                <select id="party-size" name="size">
-                                    <optgroup label="Inside Tables">
-                                        {% for size in inside_tables_sizes %}
-                                            <option data-place='inside'  value="{{size}}">For {{size}}</option>
-                                        {% endfor %}
-                                    </optgroup>
-                                    <optgroup label="Outside Tables"> 
-                                        {% for size in outside_tables_sizes %}
-                                            <option data-place='outside' value="{{size}}">For {{size}}</option>
-                                        {% endfor %}
-                                    </optgroup>
-                                    
-                                </select>
-                                
-                                <div class="d-flex mt-4 mb-4">
-                                    <div class='full'>
-                                        <label for="date">Date</label>
-                                        <input type="date" id="reserve-date" name="trip-start" value="{{reserve_start_date | date:'Y-m-d'}}" min="{{reserve_start_date | date:'Y-m-d'}}" max="{{reserve_finish_date}}">
-                                    </div>
-                                </div>
-                                <div class="d-flex mt-4 mb-4">
-                                    <div class='full'>
-                                        <label for="time">Time</label>
-                                        <select id="reserve-time" name="time">
-                                            {% for hour in work_hours %}
-                                                <option value="{{hour | time:'H:i:s'}}">{{hour | time:'H:i'}}</option>
+                            {% if inside_tables_sizes or outside_tables_sizes%}
+                                <form action="{% url 'core:company-profile' company.pk %}" method='POST' id = "FindTableForm" name="FindTableForm" class="reserve-form">
+                                    {% csrf_token %}
+                                    <label for="party-size" >Party Size</label>
+                                    <select id="party-size" name="size">
+                                        <optgroup label="Inside Tables">
+                                            {% for size in inside_tables_sizes %}
+                                                <option data-place='inside'  value="{{size}}">For {{size}}</option>
                                             {% endfor %}
-                                        </select>
+                                        </optgroup>
+                                        <optgroup label="Outside Tables"> 
+                                            {% for size in outside_tables_sizes %}
+                                                <option data-place='outside' value="{{size}}">For {{size}}</option>
+                                            {% endfor %}
+                                        </optgroup>
+                                        
+                                    </select>
+                                    
+                                    <div class="d-flex mt-4 mb-4">
+                                        <div class='full'>
+                                            <label for="date">Date</label>
+                                            <input type="date" id="reserve-date" name="trip-start" value="{{reserve_start_date | date:'Y-m-d'}}" min="{{reserve_start_date | date:'Y-m-d'}}" max="{{reserve_finish_date}}">
+                                        </div>
                                     </div>
-                                </div>
-                                <input type="submit" value="Find Table" class="find-table-btn">
-                            </form>
+                                    <div class="d-flex mt-4 mb-4">
+                                        <div class='full'>
+                                            <label for="time">Time</label>
+                                            <select id="reserve-time" name="time">
+                                                {% for hour in work_hours %}
+                                                    <option value="{{hour | time:'H:i:s'}}">{{hour | time:'H:i'}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <input type="submit" value="Find Table" class="find-table-btn">
+                                </form>
+                            {% else %}
+                                <p class="text-center mt-3" style="color: red;">Company administration hasn't included any table yet. That is why, you can't reserve table online.</p>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -257,7 +264,7 @@
                             </div>
                         </div>
                         <div class="row menu-section" id="3" name = "link3">
-                            <div class="menu-container mb-3 collapse-menu">
+                            <div class="menu-container full mb-3 collapse-menu">
                                 <h3 class="full bottom-border pb-3 pl-3">Menu</h3>
                                 <div class="row">
                                     {% for category in menu_categories %}
@@ -417,19 +424,39 @@
                             <span style="color: #6f737b;"><i class="far fa-thumbs-up mr-2"></i><small>{{liked_users_count|percentage:all_likes}} % of people would recommend it to a friend</small></span>
                         </div>
                     </div>
+                    
                     <div class="row mt-3 mb-5">
-                        <div class="col-12 m-auto col-sm-8 col-md-6 col-lg-4">
-                            <canvas id="likeChart"></canvas>
-                            <div class="full text-center">
-                                <p>Based on {{liked_users_count|add:disliked_users_count}} recomendations</p>
+                        {% if liked_users_count or disliked_users_count %}
+                            <div class="col-12 m-auto col-sm-8 col-md-6 col-lg-4">
+                                <canvas id="likeChart"></canvas>
+                                <div class="full text-center">
+                                    <p>Based on {{liked_users_count|add:disliked_users_count}} recomendations</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-12 m-auto col-sm-8 col-md-6 col-lg-4">
-                            <canvas id="ratingChart"></canvas>
-                        </div>
-                        <div class="col-12 col-sm-8 col-md-8 m-auto col-lg-4">
-                            <canvas id="userRatingChart"></canvas>
-                        </div>
+                        {% endif %}
+                        {% if food_avg or service_avg or ambience_avg %}
+                            <div class="col-12 m-auto col-sm-8 col-md-6 col-lg-4">
+                                <canvas id="ratingChart"></canvas>
+                                <div class="d-flex justify-content-center mt-3">
+                                    <div class="d-column border-right pr-3 pl-3 align-items-center">
+                                        <strong>{{food_avg}}</strong>
+                                        <span>Food</span>
+                                    </div>
+                                    <div class="d-column border-right pr-3 pl-3 align-items-center">
+                                        <strong>{{service_avg}}</strong>
+                                        <span>Service</span>
+                                    </div>
+                                    <div class="d-column pr-3 pl-3 align-items-center">
+                                        <strong>{{ambience_avg}}</strong>
+                                        <span>Ambience</span>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <div class="col-12 col-sm-8 col-md-8 m-auto col-lg-4">
+                                <canvas id="userRatingChart"></canvas>
+                            </div>
+                        {% endif %}
                     </div>
 
                    
@@ -524,6 +551,9 @@
             <div id="formTable"></div>
         </div>
     </main>
+
+    {% include 'partials/footer.html' %}
+
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
@@ -538,7 +568,7 @@
 
     <script >
         var ctx = document.getElementById("likeChart").getContext('2d');
-        let colorHex = ['#60BD47 ', '#F76C5E ']
+        let colorHex = ['#27AE60 ', '#F76C5E ']
         let labels = ['Liked','Disliked']
 
         var ctx_1 = new Chart(ctx, {
@@ -548,6 +578,7 @@
                 datasets: [{
                     data: ['{{liked_users_count}}', '{{disliked_users_count}}'],
                     backgroundColor: colorHex,
+                    hoverBackgroundColor: '#27AE60'
                 }],
                 labels : labels
             },
@@ -696,7 +727,7 @@
                 success: function (data) {
                     $('#message-2').html("<h2>Form posted</h2>")
                     console.log(data);
-                    window.location.replace("{% url 'core:home' %}");
+                    window.location.replace("{% url 'core:payment' 5 %}".replace('5', data.reservation_id ));
                 },
                 error: function(data) {
                     alert("error");
