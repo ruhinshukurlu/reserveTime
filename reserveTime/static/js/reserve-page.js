@@ -5,10 +5,13 @@ $('.total-price').text(total_price)
 $('.menu-items-style').click(function(){
     $('.total-price-box').css('display','flex')
     count += 1
+    
+    $('#complete-box-form').css('display', 'block')
     $('.choosen-items-container').css('display', 'flex')
     $(this).addClass(`item${count}`)
     if($(this).data('clicked'))
     {
+        
         $(this).css('border', '1px solid #ccc')
         $(this).siblings('.menu-item-choose').css('display','none')
         $(this).data('clicked', false);
@@ -31,6 +34,7 @@ $('.menu-items-style').click(function(){
        $(this).data('clicked', true);
        $(this).css('border', '2px solid #42FF00')
        $(this).siblings('.menu-item-choose').css('display','flex')
+       
        
        total_price += parseInt($(this).find('.menu-price-get span').text())
        $('.total-price').text(total_price)

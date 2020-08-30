@@ -46,7 +46,9 @@
         .star i{
             color : #da3743;
         }
-
+        #complete-box-form{
+            display: none;
+        }
     </style>
     
 </head>
@@ -135,9 +137,7 @@
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h3 class="full text-center bold">Menu List
-                                           
-                                        </h3>
+                                        <h3 class="full text-center bold">Choose your meal from {{company.company_name}}'s menu </h3>
                                     </div>
                                     <div class="modal-body">
                                         <form action="{% url 'core:company-profile' company.pk %}" method="POST" id="selectMenuForm">
@@ -149,7 +149,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-3">
-                                                    <div class="complete-reserve-box shadow">
+                                                    <div class="complete-reserve-box shadow" id="complete-box-form">  
                                                         <div class="total-price-box mb-2" style="display: none;">
                                                             <span>Total : $</span>
                                                             <span class="total-price">34</span>
@@ -661,6 +661,18 @@
      </script>
 
     <script>
+
+        $(document).ready(function(){
+            $('.menu-item').click(function(){
+                var total_price = parseInt($('.total-price').text())
+                if (total_price == 0){
+                    $('#complete-box-form').hide()
+                }
+                else{
+                    $('#complete-box-form').css('display','flex')
+                }
+            })
+        })
         
         $('#FindTableForm').on('submit', function(e){
             e.preventDefault()

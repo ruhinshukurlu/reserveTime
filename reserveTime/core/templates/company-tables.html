@@ -27,11 +27,33 @@
         .icon-box i {
             margin: 10px;
         }
+       /* Paste this css to your style sheet file or under head tag */
+        /* This only works with JavaScript, 
+        if it's not present, don't show loader */
+        .no-js #loader { display: none;  }
+        .js #loader { display: block; position: absolute; left: 100px; top: 0; }
+        .se-pre-con {
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background: url(http://smallenvelop.com/demo/simple-pre-loader/images/loader-64x/Preloader_2.gif) center no-repeat #fff;
+        }
+
 
     </style>
 
 </head>
 <body id="company-admin-body">
+    <div class="se-pre-con"></div>
+	<!-- Ends -->
+	
+	<!-- <div class="content">
+        <img src="http://smallenvelop.com/wp-content/uploads/2014/08/simple-pre-loader.jpg" style=" width:100%; height: auto;">
+        <img src="https://images.unsplash.com/photo-1465328610639-388f315eb31b" style=" width:100%; height: auto;">
+	</div> -->
     
     {% include 'partials/company-header.html' %}
     {% include 'partials/mobile-menu.html' %}
@@ -283,10 +305,24 @@
     
 
     <script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+
+    <script>
+        //paste this code under the head tag or in a separate js file.
+        // Wait for window load
+        $(window).on('load', function (){
+            // Animate loader off screen
+            $(".se-pre-con").fadeOut();
+            console.log('okkk');
+        });
+    </script>
+
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/owl.carousel.min.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
     <script>
+
+        
+
         $(document).ready(function(){
           
             var width = $('.link-box').width()
@@ -304,9 +340,11 @@
                     })
             })
 
-            
 
         });
+
+
+        
     </script>
 </body>
 </html>
