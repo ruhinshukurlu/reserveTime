@@ -192,7 +192,12 @@
                             <span class="bold">Pickup</span>
                             <div class="phone-number d-flex mt-2">
                                 <i class="fas fa-phone-alt pr-2"></i> 
-                                <p>xxx xxx xx xx</p>
+                                {% if company.phone_number %}
+                                    <p>{{company.phone_number}}</p>
+                                {% else %} 
+                                    <p>xxx xxx xx xx</p>
+                                {% endif %}
+                                
                             </div>
                         </div>
                        
@@ -232,7 +237,11 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <input type="submit" value="Find Table" class="find-table-btn">
+                                    {% if request.user.is_authenticated %}
+                                        <input type="submit" value="Find Table" class="find-table-btn">
+                                    {% else %}
+                                        <a href="{% url 'account:login' %}" class="find-table-btn" >Find Table</a>
+                                    {% endif %}
                                 </form>
                             {% else %}
                                 <p class="text-center mt-3" style="color: red;">Company administration hasn't included any table yet. That is why, you can't reserve table online.</p>
@@ -257,7 +266,7 @@
                             </div>
                             <div class="row photo-gallery row-cols-4 m-auto" >
                                 {% for photo in photos %}
-                                    <div class="col mb-2 photo-box">
+                                    <div class="col photo-box">
                                         <a data-fancybox="gallery" href="{{photo.photo.url}}"><img data-type="{{photo.photo_type}}" src="{{photo.photo.url}}"></a>
                                     </div>
                                 {% endfor %}

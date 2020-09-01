@@ -20,6 +20,9 @@
         .star i{
             color: #da3743;
         }
+        .company-item .name {
+            font-size: 25px;
+        }
     </style>
 </head>
 <body id="profile-body">
@@ -75,7 +78,7 @@
                                         </div>
                                         <p class="review-text ml-2">{{company.company_comment.all.count}} reviews</p>
                                     </div>
-                                    <div class="d-flex align-items-center">
+                                    <div class="d-flex align-items-center mb-3">
                                         <p class="location">{{company.city_location}}, {{company.country_location}}</p>
                                         <span class="ml-3 booking-count">
                                             <span>

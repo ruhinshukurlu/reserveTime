@@ -73,20 +73,35 @@
                             {% endif %}
                             <i class="far fa-bell"></i>
                         </button>
-                        <div class="custom-drop-down box3 p-3 scroll-y shadow" style="display: none;">
+                        <div class="custom-drop-down box3 scroll-y p-3" style="display: none;">
                             <div class="triangle"></div>
-                            <span class="pb-3">Notifications</span>
-                            
+                            <span>Notifications</span>
                             {% if notifications %}
-                                {% if request.user.is_company %}
-                                    {% for notification in notifications %}
-                                        <a class="pl-2 pr-2" href="{% url 'restaurant:company-reservations' user.company.pk %}">{{notification.text}}</a>
-                                    {% endfor %}
-                                {% else %}
-                                    {% for notification in notifications %}
-                                        <a class="pl-2 pr-2 mb-2" href="{% url 'account:user-profile' request.user.pk %}">{{notification.sender.company.company_name}}</a>
-                                    {% endfor %}
-                                {% endif %}
+                                {% for notification in notifications %}
+                                    {% if notification.notification_type == 'new_reservation' %}
+                                        <a class="pl-2 pr-2" href="{% url 'restaurant:company-reservations' user.company.pk %}">
+                                            <div class="d-flex align-items-center">
+                                                <i class="far fa-clock mr-3"></i>
+                                                <div class="d-column">
+                                                    {{notification.text}}
+                                                    <small>From {{notification.sender.email}}</small>   
+                                                </div>
+                                            </div>
+                                        </a>
+                                    {% elif notification.notification_type == 'accept_reservation' %}
+                                        <a class="pl-2 pr-2 mb-2 d-column" href="{% url 'account:user-profile' request.user.pk %}">
+                                            <div class="d-flex align-items-center">
+                                                <i class="far fa-calendar-check mr-3"></i>
+                                                <div class="d-column">
+                                                    {{notification.text}}
+                                                    <small>By {{notification.sender.company.company_name}}</small>   
+                                                </div>
+                                            </div>
+                                            
+                                        </a>
+                                    {% endif %}
+                                {% endfor %}
+
                                 <form  class="full mt-2 mb-2" id="readNotifications" action="{% url 'core:read-notifications' %}" method="POST">
                                     {% csrf_token %}
                                     <input type="submit" class="btn btn-outline-secondary float-r" value="Mark all as read!">
@@ -95,6 +110,7 @@
                                 <img src="{% static 'images/animat-bell-color.gif' %}" width="50%" class="m-auto" alt="">
                                 <p class="pl-2 pr-2 bold text-center">Nothing to see here, you’re all caught up!</p>
                             {% endif %}
+                            
                         </div>
                     </div>
                 {% else %}

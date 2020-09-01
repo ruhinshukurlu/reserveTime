@@ -50,11 +50,11 @@ class RestaurantRegisterForm(UserCreationForm):
     password1 = forms.CharField(required=True, widget = forms.PasswordInput(attrs={
                     'class': 'form-control register-input',
                     
-                }))
+                }), label = 'Password')
     password2 = forms.CharField(required=True, widget = forms.PasswordInput(attrs={
                     'class': 'form-control register-input',
                     
-                }))
+                }), label = 'Confirm Password')
     first_name = forms.CharField(required=True, widget=forms.TextInput(attrs={
                     'class': 'form-control register-input',
                 }))

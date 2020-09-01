@@ -112,18 +112,31 @@
                                 <div class="triangle"></div>
                                 <span>Notifications</span>
                                 {% if notifications %}
-                                    {% if request.user.is_company %}
-                                        {% for notification in notifications %}
-                                            <a class="pl-2 pr-2 d-column" href="{{notification.url}}">
-                                                {{notification.text}}
-                                                <small>From {{notification.sender.email}}</small>
+                                    {% for notification in notifications %}
+                                        {% if notification.notification_type == 'new_reservation' %}
+                                            <a class="pl-2 pr-2" href="{% url 'restaurant:company-reservations' user.company.pk %}">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="far fa-clock mr-3"></i>
+                                                    <div class="d-column">
+                                                        {{notification.text}}
+                                                        <small>From {{notification.sender.email}}</small>   
+                                                    </div>
+                                                </div>
                                             </a>
-                                        {% endfor %}
-                                    {% else %}
-                                        {% for notification in notifications %}
-                                            <a class="pl-2 pr-2 mb-2" href="{% url 'account:user-profile' request.user.pk %}">{{notification.sender.company.company_name}}</a>
-                                        {% endfor %}
-                                    {% endif %}
+                                        {% elif notification.notification_type == 'accept_reservation' %}
+                                            <a class="pl-2 pr-2 mb-2 d-column" href="{% url 'account:user-profile' request.user.pk %}">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="far fa-calendar-check mr-3"></i>
+                                                    <div class="d-column">
+                                                        {{notification.text}}
+                                                        <small>By {{notification.sender.company.company_name}}</small>   
+                                                    </div>
+                                                </div>
+                                                
+                                            </a>
+                                        {% endif %}
+                                    {% endfor %}
+
                                     <form  class="full mt-2 mb-2" id="readNotifications" action="{% url 'core:read-notifications' %}" method="POST">
                                         {% csrf_token %}
                                         <input type="submit" class="btn btn-outline-secondary float-r" value="Mark all as read!">
@@ -143,8 +156,22 @@
                     
                 </div>
             </div>
-            <div class="row">
-                <img src="{% static 'images/baku-city-tour.jpg' %}" class="header-img" alt="">
+            <div class="row" style="position: relative;">
+                <style>
+                    .cover-name{
+                        color: #fff;
+                        font-size: 55px;
+                        background-color: rgba(128,128,128,0.5);
+                        padding: 20px;
+                        border-radius: 20px;
+                    }
+                </style>
+                <div class="overlay">
+                    <div class="overlay-text">
+                        <h1 class="bold cover-name">Find Your Table for Any Occasion</h1>
+                    </div>
+                </div>
+                <img src="{% static 'images/img_slider_01.jpg' %}" class="header-img" alt="">
             </div>
         </div>
     </header>
@@ -184,7 +211,7 @@
                     </div>
                 </div>
                 <div class="row mt-3" style="margin-bottom: 50px;">
-                    <h3 class="full bold bottom-border pb-3 padding-mobile">Recently viewed</h3>
+                    <h3 class="full bold bottom-border pb-3 padding-mobile">Newest Restaurants</h3>
                     <div class="card-list d-flex">
                         {% for company in companies %}
                             <div class="col-12 col-lg-4 col-xl-3 col-sm-6 card-box">
@@ -225,7 +252,7 @@
                     </div>
                 </div>
                 <div class="row" style="margin-bottom: 50px;">
-                    <h3 class='padding-mobile'>Top Cuisines near Baku</h3>
+                    <h3 class='padding-mobile bold bottom-border full pb-3'>Top Cuisines near Baku</h3>
                     <div id="custom-carousel"  class="owl-carousel owl-theme card-list">
                         {% for cuisine in cuisines %}
                             <div class="item">
@@ -249,19 +276,19 @@
                 </div>
     
                 <div class="row flex-column pb-5">
-                    <h3 class="bold mb-3 pb-2 bottom-border padding-mobile">Featured Areas</h3>
-                    <div class="row card-list" >
+                    <h3 class="bold mb-3 pb-3 bottom-border padding-mobile">Featured Areas</h3>
+                    <div class="row card-list company-list-by-city" >
                         {% for company in company_groups %}
                             <div class="col-4 city-category-items mb-3">
                                 <a href="{% url 'core:city-categories' company.city_location %}">
                                     <div class="inner p-relative">
                                         <div class="overlay">
-                                            <div class="overlay-text">
-                                                <p>{{company.city_location}}</p>
+                                            <div class="overlay-text" style="font-size: 21px; font-weight: bold;">
+                                                <p class="mb-1">{{company.city_location}}</p>
                                                 <span>{% if company.count == 1 %}{{company.count}} restaurant {% else %}{{company.count}} restaurants{% endif %}</span>
                                             </div>
                                         </div>
-                                        <img src="{% static 'images/city2.jpg' %}" alt="Owl Image">
+                                        <img src="{% static 'images/city2.jpg' %}" data-city="{{company.city_location}}" alt="{{company.city_location}} Image">
                                     </div>
                                 </a>
                             </div>
@@ -280,6 +307,31 @@
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/owl.carousel.min.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
+
+    <script>
+        $(document).ready(function(){
+            var city_photos = [
+                {
+                    city : 'Baku',
+                    src : "{% static 'images/baku-photo.jpg' %}"
+                },
+                {
+                    city : 'New York',
+                    src : "{% static 'images/new-york.jpg' %}"
+                },
+            ]
+            
+            for (var i=0; i<$('.company-list-by-city').find('img').length; i++){
+                var img = $('.company-list-by-city').find('img')[i]
+                var img_city = $($('.company-list-by-city').find('img')[i]).data('city')
+                for(var j=0; j<city_photos.length; j++){
+                    if (img_city == city_photos[i].city){
+                        $(img).attr('src',city_photos[i].src)
+                    }
+                }
+            }
+        })
+    </script>
     
     <script>
         $('#readNotifications').on('submit', function(e){

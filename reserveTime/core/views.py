@@ -26,7 +26,7 @@ class HomeView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        companies = Company.objects.all()
+        companies = Company.objects.order_by('-created_at')[:4]
         
         company_list = []
 
@@ -340,7 +340,8 @@ class CompanyProfile(FormMixin, DetailView):
                     sender=request.user,
                     reciever=company.first().user, 
                     text = 'You have new reservation',
-                    notified_at = datetime.datetime.now()
+                    notified_at = datetime.datetime.now(),
+                    notification_type = 'new_reservation'
                 )   
                 
                 eta_date_time = datetime.datetime.combine(reserve_date_obj, reserve_time_obj)

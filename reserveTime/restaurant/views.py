@@ -331,7 +331,7 @@ class ReservationDetail(DetailView):
                 sender = request.user,
                 reciever = reservation.first().user,
                 text = 'Your reservation accepted',
-                # url = {% url 'account:user-profile' reservation.first().user.pk %}
+                notification_type = 'accept_reservation'
             )
 
             return HttpResponse(

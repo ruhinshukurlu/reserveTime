@@ -243,12 +243,18 @@ class SavedRestaurant(models.Model):
 
 class Notification(models.Model):
 
+    NOTIFICATION_TYPES = (
+        ('accept_reservation','Accepted Reservation'),
+        ('new_reservation','New Reservation'),
+    )
+
     sender = models.ForeignKey("account.User", verbose_name=_("Sender"), on_delete=models.CASCADE, related_name='sender_notification', blank=True, null=True)
     reciever = models.ForeignKey("account.User", verbose_name=_("Reciever"), on_delete=models.CASCADE, related_name='reciever_notification', blank=True, null=True)
     text = models.TextField(_("Text"))
     url = models.URLField(_("Url"), max_length=200, blank=True, null=True)    
     read = models.BooleanField(_("Read"), default=False)
     notified_at = models.DateTimeField(_("Notification date"), auto_now_add=True)
+    notification_type = models.CharField(_("Notification type"), choices=NOTIFICATION_TYPES, max_length=50, blank=True, null=True)
 
     class Meta:
         verbose_name = _("Notification")
