@@ -12,6 +12,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Sum, Avg
+from itertools import chain
 
 from core.tasks import complete_reserve, give_feedback
 
@@ -448,15 +449,45 @@ class CompanyCategoryList(ListView):
                 'rating' : company.company_comment.all().aggregate(Avg('overall')).get('overall__avg', 0)
             }
             companies_list.append(company_obj)
-        print(companies_list)
         context["comments"] = companies_list
         return context
 
+
     def get_queryset(self):
-        self.category = Company.objects.distinct('city_location').get(city_location=self.kwargs['city_location'])
-        return Company.objects.filter(city_location=self.category.city_location)
+        self.queryset2 = Company.objects.distinct('city_location').get(city_location=self.kwargs['city_location'])
+        queryset2 =  Company.objects.filter(city_location=self.queryset2.city_location)
+        if self.request.method == 'GET':
+            queryset1 = Company.objects.filter(city_location=self.queryset2.city_location)
+            title_name = self.request.GET.get('q', None)
+            if title_name is not None:
+                queryset1 = queryset1.filter(company_name__icontains=title_name)
+                return queryset1
+        
+        return queryset2
   
+
+class CompanyFilterView(ListView):
+    model = Company
+    template_name = "company-filter.html"
+    context_object_name = 'companies'
+    show_change_link = True
     
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        company = Company.objects.all()
+        # queryset = queryset.filter(company = company.first())
+        print(queryset)
+        sort_data = self.request.GET.get('companySort')
+
+        if sort_data == 'newest':
+            return queryset.order_by('-commented_at')
+        elif sort_data == 'highest':
+            return queryset.order_by('-overall')
+        elif sort_data == 'lowest':
+            return queryset.order_by('overall')
+        
+        return queryset
+
 class CompanyCuisineListView(ListView):
     context_object_name = 'companies'
     model = Cuisine
@@ -481,7 +512,6 @@ class CompanyCuisineListView(ListView):
         self.cuisine = get_object_or_404(Cuisine, title=self.kwargs['cuisine'])
         return Company.objects.filter(cuisine=self.cuisine)
         
-
 
 class PaymentView(DetailView, LoginRequiredMixin):
     model = Reservation

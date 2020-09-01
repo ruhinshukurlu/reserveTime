@@ -792,3 +792,27 @@ footer .btn-floating{
     max-height: 350px;
     overflow-y: scroll;
 }
+.search-form {
+    background: #f2f2f2;
+}
+
+.search-form .form-group {
+    position: relative;
+}
+
+.search-form .form-group input {
+    height: 43px !important;
+    padding-right: 200px;
+    font-size: 14px;
+    border: 1px solid rgba(0, 0, 0, 0.09);
+}
+
+.search-form .icon {
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    color: #ccc;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}

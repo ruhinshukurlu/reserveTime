@@ -31,13 +31,13 @@
             <h1 class="company-name bold text-center"> {{cuisine}} Restaurants in Azerbaijan</h1>
             <div class="row company-list">
                 {% for company in companies %}
-                   <a href="{% url 'core:company-profile' company.pk %}">
+                   <a href="{% url 'core:company-profile' company.pk %}" class="full">
                         <div class="company-item row pt-3 pb-3 mb-5 bottom-border">
                             <div class="col-12 col-lg-4 company-profile-img">
                                 {% if company.cover_photo %}
-                                    <img src="{{company.cover_photo.url}}" alt="">
+                                    <img src="{{company.cover_photo.url}}" alt="" >
                                 {% else %}
-                                    <img src="{% static 'images/img3.jpg' %}" alt="">
+                                    <img src="{% static 'images/img3.jpg' %}" alt="" >
                                 {% endif %}    
                             </div>
                             <div class="col-12 col-lg-8">

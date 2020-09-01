@@ -10,6 +10,7 @@ urlpatterns = [
     path("company/<int:pk>/filter", CommentFilterView.as_view(), name="comment-filter"),
     path("user/<int:pk>/savedRestaurants", SavedRestaurantsView.as_view(), name="user-saved-restaurants"),
     path("companies/<city_location>", CompanyCategoryList.as_view(), name="city-categories"),
+    path("companies/filter", CompanyFilterView.as_view(), name="company-filter"),
     path("company_list/<cuisine>", CompanyCuisineListView.as_view(), name="company-cuisine"),
     path("company/register/compelted", RegisterCompleted.as_view(), name="register-completed"),
     path("reservation/<int:pk>/payment", PaymentView.as_view(), name="payment"),

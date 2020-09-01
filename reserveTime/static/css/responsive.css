@@ -63,6 +63,9 @@
     .admin-header .left{
         margin: 0;
     }
+    .company-profile-img img{
+        max-height: 240px;
+    }
 }
 
 @media (max-width: 1200px) {
