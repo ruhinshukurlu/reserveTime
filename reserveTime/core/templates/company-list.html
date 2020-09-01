@@ -28,7 +28,7 @@
 
     <main class="pt-5 mb-5">
         <div class="container main-container">
-            <h1 class="company-name bold text-center"> {% for b in queryset1 %}{{b}}{% endfor %} Restaurants in {% for company in companies %}{% ifchanged company.city_location %}{{company.city_location}} {% endifchanged %}{% endfor %} - {% if companies.all.count == 1 or companies.all.count == 0 %}{{companies.all.count}} restaurant {% else %} {{companies.all.count}} restaurants {% endif %} </h1>
+            <h1 class="company-name bold text-center">Restaurants in {% for company in companies %}{% ifchanged company.city_location %}{{company.city_location}} {% endifchanged %}{% endfor %} - {% if companies.all.count == 1 or companies.all.count == 0 %}{{companies.all.count}} restaurant {% else %} {{companies.all.count}} restaurants {% endif %} </h1>
             <div class="row company-list">
                 <div class="search-sort-box d-flex full justify-content-between">
                     <div class="sidebar-box pt-2 pl-2 ftco-animate">
@@ -152,7 +152,7 @@
                 const filterData = $('#companyFilter').serialize();
                 console.log(filterData);
                     $.ajax({
-                        url: `{% url 'core:company-filter' %}?${filterData}`,
+                        url: `{% url 'core:company-filter' company.city_location %}?${filterData}`,
                         // data : filterData,
                         success: function(data){
                             document.querySelector('#companytBox').innerHTML = data;

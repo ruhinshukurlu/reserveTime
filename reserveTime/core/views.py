@@ -117,8 +117,6 @@ class CompanyProfile(FormMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         company = Company.objects.filter(pk=self.kwargs.get('pk'))
-        company_name = Company.objects.filter(id=1).first().company_name
-        print(company_name)
         company_photos = Photo.objects.filter(owner=company.first().user)
         context['photos'] = company_photos
         
@@ -433,7 +431,6 @@ class SavedRestaurantsView(ListView):
         return context
     
 
-
 class CompanyCategoryList(ListView):
     context_object_name = 'companies'
     template_name='company-list.html'
@@ -451,6 +448,8 @@ class CompanyCategoryList(ListView):
             }
             companies_list.append(company_obj)
         context["comments"] = companies_list
+        print(Company.objects.distinct('city_location').get(city_location=self.kwargs['city_location']))
+        context['company'] = Company.objects.distinct('city_location').get(city_location=self.kwargs['city_location'])
         return context
 
 
@@ -475,17 +474,20 @@ class CompanyFilterView(ListView):
     
     def get_queryset(self):
         queryset = super().get_queryset()
+        self.queryset = Company.objects.distinct('city_location').get(city_location=self.kwargs['city_location'])
+        queryset =  Company.objects.filter(city_location=self.queryset.city_location)
         # company = Company.objects.all()
         # queryset = queryset.filter(company = company.first())
-        # print(queryset)
         sort_data = self.request.GET.get('companySort')
-        print(sort_data)
-        # if sort_data == 'newest':
-        #     return queryset.order_by('-created_at')
-        # elif sort_data == 'highest':
-        #     return queryset.order_by('-overall')
-        # elif sort_data == 'lowest':
-        #     return queryset.order_by('overall')
+        if sort_data == 'newest':
+            print(queryset.last().created_at)
+            for q in queryset:
+                print(q.company_comment.all().aggregate(Avg('overall')).get('overall__avg', 0))
+            return queryset.order_by('-created_at')
+        elif sort_data == 'highest':
+            return queryset.order_by('-overall')
+        elif sort_data == 'lowest':
+            return queryset.order_by('overall')
         
         return queryset
 

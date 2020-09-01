@@ -52,8 +52,8 @@
                         <div class="col-6">
                             <canvas id="myChart"></canvas>
                             <div class="d-column align-items-center">
-                                <span style="color: #6f737b;" class="mb-2">Based on 34 recommendation</span>
-                                <span>Would you recommend this restaurant?</span>
+                                <span style="color: #6f737b;" class="mb-2">Based on {{all_likes}} recommendation</span>
+                                <span>Would you recommend this restaurant? </span>
                                 <div class="d-flex like-box mt-2">
                                     <input type="radio" value="1" name="like" id='liked'><label class="btn btn-outline-success mr-2" for="liked">Yes</label>
                                     <input type="radio" value="0" name="like" id='notLiked'><label class="btn btn-outline-danger" for="notLiked">No</label>
@@ -143,7 +143,7 @@
                 labels: labels,
                 datasets: [{
                     backgroundColor: colorHex,
-                    data: [80, 20]
+                    data: [{{liked}}, {{disliked}}]
                 }]
             },
 

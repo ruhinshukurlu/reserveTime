@@ -356,11 +356,11 @@ class ReservationDetail(DetailView):
                 )
 
 
-
 class CommentView(FormMixin, DetailView):
     template_name = 'write-comment.html'
     model = Company
     form_class = CommentForm
+    context_object_name = 'company'
 
     def post(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
@@ -389,6 +389,19 @@ class CommentView(FormMixin, DetailView):
 
     def get_success_url(self):
         return reverse_lazy('core:company-profile', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        company = Company.objects.filter(pk=self.kwargs.get('pk'))
+        
+        liked_users_count = Comment.objects.filter(company = company.first(), liked=1).count()
+        disliked_users_count = Comment.objects.filter(company = company.first(), liked=0).count()
+
+        context["liked"] = liked_users_count
+        context["disliked"] = disliked_users_count
+        context['all_likes'] = liked_users_count + disliked_users_count
+
+        return context
 
 
 class CompanyReviews(ListView):
