@@ -117,7 +117,8 @@ class CompanyProfile(FormMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         company = Company.objects.filter(pk=self.kwargs.get('pk'))
-
+        company_name = Company.objects.filter(id=1).first().company_name
+        print(company_name)
         company_photos = Photo.objects.filter(owner=company.first().user)
         context['photos'] = company_photos
         
@@ -233,8 +234,8 @@ class CompanyProfile(FormMixin, DetailView):
             if request.POST.get('form_id') == 'FindTableForm':
                 company = Company.objects.filter(pk=self.kwargs.get('pk'))
 
-                # tomorrow = datetime.datetime.utcnow() + datetime.timedelta(minutes=1)
-                # give_feedback.apply_async(args=[company.first().id, request.user.email], eta = tomorrow)
+                tomorrow = datetime.datetime.utcnow() + datetime.timedelta(minutes=1)
+                give_feedback.apply_async(args=[company.first().id, request.user.email], eta = tomorrow)
 
                 party_size = request.POST.get('size')
                 reserve_date = request.POST.get('date')
@@ -474,17 +475,17 @@ class CompanyFilterView(ListView):
     
     def get_queryset(self):
         queryset = super().get_queryset()
-        company = Company.objects.all()
+        # company = Company.objects.all()
         # queryset = queryset.filter(company = company.first())
-        print(queryset)
+        # print(queryset)
         sort_data = self.request.GET.get('companySort')
-
-        if sort_data == 'newest':
-            return queryset.order_by('-commented_at')
-        elif sort_data == 'highest':
-            return queryset.order_by('-overall')
-        elif sort_data == 'lowest':
-            return queryset.order_by('overall')
+        print(sort_data)
+        # if sort_data == 'newest':
+        #     return queryset.order_by('-created_at')
+        # elif sort_data == 'highest':
+        #     return queryset.order_by('-overall')
+        # elif sort_data == 'lowest':
+        #     return queryset.order_by('overall')
         
         return queryset
 

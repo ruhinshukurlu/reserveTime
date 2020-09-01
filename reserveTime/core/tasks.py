@@ -18,13 +18,14 @@ def complete_reserve(time, date, table_id):
 @shared_task
 def give_feedback(company_id, user_email):
     company_name = Company.objects.filter(id=company_id).first().company_name
-    template_name = 'write-comment.html'
+    template_name = 'feedback-email.html'
     subject  = 'Please give your feedback'
     context = {
-        'site_address': settings.SITE_ID,
-		'comapany_name': company_name
+        'site_address': settings.SITE_ADDRESS,
+		'company_id': company_id,
+        'company_name' : company_name
     }
     msg = render_to_string(template_name, context)
-    message = EmailMessage(subject=subject, body=msg, from_email=settings.EMAIL_HOST_USER, to=(user_email,))
+    message = EmailMessage(subject=subject, body=msg, from_email=settings.EMAIL_HOST_USER, to = (user_email,) )
     message.content_subtype = 'html'
     message.send()

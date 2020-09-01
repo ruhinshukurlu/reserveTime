@@ -181,6 +181,7 @@ SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [                 # add this
     ('link', 'profile_url'),
 ]
 SITE_ID = 1
+SITE_ADDRESS = 'http://127.0.0.1:8000'
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '941585526331-gmejg73f1etjlr72m34e19f2trgml1gr.apps.googleusercontent.com' # Google Consumer Key
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'GKlRzaLHHkRb3ZriAVmSChsq'

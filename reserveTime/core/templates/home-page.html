@@ -64,7 +64,7 @@
                                     {% endif %}
                                     <li><a href="{% url 'account:user-profile' user.pk %}">My Dining History</a></li>
                                     <li><a href="{% url 'core:user-saved-restaurants' user.pk %}">My Saved Restaurants</a></li>
-                                    <li><a href="{% url 'account:logout' %}">Sign out</a></li>
+                                    <li><a href="{% url 'account:logout' %} " style="color: red;">Sign out</a></li>
                                 </ul>
                             </div>
                         </div>
