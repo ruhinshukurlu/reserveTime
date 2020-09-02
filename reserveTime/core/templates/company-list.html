@@ -64,7 +64,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="companyBox full" id="companyBox">
+                <div class="companiesBox full" id="company-Box">
                     {% for company in companies %}
                         <a href="{% url 'core:company-profile' company.pk %}" class='full'>
                             <div class="company-item row pt-3 pb-3 mb-5 bottom-border">
@@ -99,7 +99,8 @@
                                         </span>
                                     </div>
                                     <p class="description">
-                                        {{company.description|slice:":255"}}...</p>
+                                        {% if company.description %}{{company.description|truncatechars:30}} {% else %} ...{% endif %}
+                                    </p>
                                     <div class="d-flex align-items-center">
                                         <span>TakeOut : </span>
                                         <div class="ml-3 phone-number d-flex mt-2">
@@ -169,26 +170,13 @@
                         url: `{% url 'core:company-filter' company.city_location %}?${filterData}`,
                         // data : filterData,
                         success: function(data){
-                            $('#companytBox').html(data);
-                            console.log(data);
+                            document.querySelector('#company-Box').innerHTML = data;;
+                            
                         },
                         error: function(data){
                             alert('error');
                         }
                     }).then(function(){
-                        var comments_box = $('.companyBox').find('.comment-author-profile-img')
-
-                        function generateRandomColors(){
-                            var clr_1 = Math.floor(Math.random()*256);
-                            var clr_2 = Math.floor(Math.random()*256);
-                            var clr_3 = Math.floor(Math.random()*256);
-
-                            return `rgb(${clr_1},${clr_2},${clr_3})`;
-                        }
-
-                        for (var i=0; i<comments_box.length; i++){
-                            $(comments_box[i]).css('background-color',`${generateRandomColors()}`)
-                        }
                         
                         for(var index = 0; index < $('.rating-box').length; index++ ){
                             for(var i = 0; i< parseInt($('.rating-box').eq(index).data('type'));i++){

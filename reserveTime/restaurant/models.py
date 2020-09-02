@@ -34,7 +34,7 @@ class Company(models.Model):
     private_party_contact = models.CharField(_("Private party contact"), max_length=150, blank=True, null=True)
     description = models.TextField(_("Description"),  blank=True, null=True)
     overall = models.IntegerField(_("Overall"), blank=True, null=True)
-    created_at = models.DateField(_("Created date"), auto_now_add=True,blank=True, null=True)
+    created_at = models.DateField(_("Created date"), auto_now_add=True, blank=True, null=True)
 
     class Meta:
         verbose_name = 'Comapany'

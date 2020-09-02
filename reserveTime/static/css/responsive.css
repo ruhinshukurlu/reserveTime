@@ -66,6 +66,15 @@
     .company-profile-img img{
         max-height: 240px;
     }
+    .cover-name {
+        font-size: 43px !important;
+    }
+    .overlay-text{
+        font-size: 18px !important;
+    }
+    .overlay-text span {
+        font-size: 18px;
+    }
 }
 
 @media (max-width: 1200px) {
