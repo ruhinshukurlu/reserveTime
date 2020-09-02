@@ -26,7 +26,7 @@
     {% include 'partials/header.html' %}
 
     <!-- <main class="mb-5"> -->
-        <div class="container main-register-container pb-5 ">
+        <div class="container main-register-container pb-5 mb-5 mt-5">
             <div class="row">
                 <div class="col-lg-6 mx-auto pt-5">
                     <form method = "POST" enctype="multipart/form-data">
@@ -72,10 +72,7 @@
     <script src="{% static 'js/main.js' %}"></script>
     <script>
         $(document).ready(function(){
-            $('.header-btn').click(function(){
-                $('.custom-drop-down').hide()
-                $(this).siblings('.custom-drop-down').slideToggle()
-            });
+            
 
             $('.show-menu-btn').click(function(){
                 $('.menu-container').toggleClass('collapse-menu')

@@ -58,13 +58,29 @@
                                 <span>Hello, {{request.user.first_name|capfirst}}</span>
                                 <ul>
                                     {% if request.user.is_company %}
-                                        <li><a href="{% url 'account:company-profile' user.pk %}">Company Profile</a></li>
+                                        <li><a href="{% url 'core:company-profile' user.pk %}">
+                                            <i class="fas fa-home mr-2"></i>
+                                            {{request.user.company.company_name}}</a></li>
+                                        <li><a href="{% url 'account:company-profile' user.pk %}">
+                                            <i class="fas fa-cogs mr-2"></i>
+                                            Company Settings</a></li>
+                                        <li><a href="{% url 'account:user-profile' user.pk %}">
+                                            <i class="far fa-user-circle mr-2"></i>
+                                            My Profile</a></li>
                                     {% else %}
-                                        <li><a href="{% url 'account:user-profile' user.pk %}">My Profile</a></li>
+                                        <li><a href="{% url 'account:user-profile' user.pk %}">
+                                            <i class="far fa-user-circle mr-2"></i>
+                                            My Profile</a></li>
                                     {% endif %}
-                                    <li><a href="{% url 'account:user-profile' user.pk %}">My Dining History</a></li>
-                                    <li><a href="{% url 'core:user-saved-restaurants' user.pk %}">My Saved Restaurants</a></li>
-                                    <li><a href="{% url 'account:logout' %} " style="color: red;">Sign out</a></li>
+                                    <li><a href="{% url 'account:user-profile' user.pk %}">
+                                        <i class="fas fa-history mr-2"></i>
+                                        My Dining History</a></li>
+                                    <li><a href="{% url 'core:user-saved-restaurants' user.pk %}">
+                                        <i class="fas fa-bookmark mr-2"></i>
+                                        My Saved Restaurants</a></li>
+                                    <li><a href="{% url 'account:logout' %} " style="color: red;">
+                                        <i class="fas fa-sign-out-alt mr-2"  style="color: red;"></i>
+                                        Sign out</a></li>
                                 </ul>
                             </div>
                         </div>

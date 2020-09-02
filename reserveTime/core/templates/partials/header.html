@@ -22,20 +22,36 @@
                             <!-- <span>Hello, {{request.user.first_name|capfirst}}</span> -->
                             <ul>
                                 {% if request.user.is_company %}
-                                    <li><a href="{% url 'account:company-profile' user.pk %}">Company Profile</a></li>
+                                    <li><a href="{% url 'core:company-profile' user.pk %}">
+                                        <i class="fas fa-home mr-2"></i>
+                                        {{request.user.company.company_name}}</a></li>
+                                    <li><a href="{% url 'account:company-profile' user.pk %}">
+                                        <i class="fas fa-cogs mr-2"></i>
+                                        Company Settings</a></li>
+                                    <li><a href="{% url 'account:user-profile' user.pk %}">
+                                        <i class="far fa-user-circle mr-2"></i>
+                                        My Profile</a></li>
                                 {% else %}
-                                    <li><a href="{% url 'account:user-profile' user.pk %}">My Profile</a></li>
+                                    <li><a href="{% url 'account:user-profile' user.pk %}">
+                                        <i class="far fa-user-circle mr-2"></i>
+                                        My Profile</a></li>
                                 {% endif %}
-                                <li><a href="{% url 'account:user-profile' request.user.pk %}">My Dining History</a></li>
-                                <li><a href="{% url 'core:user-saved-restaurants' request.user.pk %}">My Saved Restaurants</a></li>
-                                <li><a href="{% url 'account:logout' %}" style="color: red;">Sign out</a></li>
+                                <li><a href="{% url 'account:user-profile' user.pk %}">
+                                    <i class="fas fa-history mr-2"></i>
+                                    My Dining History</a></li>
+                                <li><a href="{% url 'core:user-saved-restaurants' user.pk %}">
+                                    <i class="fas fa-bookmark mr-2"></i>
+                                    My Saved Restaurants</a></li>
+                                <li><a href="{% url 'account:logout' %} " style="color: red;">
+                                    <i class="fas fa-sign-out-alt mr-2"  style="color: red;"></i>
+                                    Sign out</a></li>
                             </ul>
                         </div>
                     </div>
                     {% reservation request.user as reservations%}
                     <div class="reserve-table">
                         <button type="button" class="header-btn"><i class="far fa-calendar"></i></button>
-                        <div class="custom-drop-down p-3 scroll-y box2" style="display: none;">
+                        <div class="custom-drop-down p-3 scroll-y shadow box2" style="display: none;">
                             <div class="triangle"></div>
                             <span class="pb-2">Upcoming reservations</span>
                             {% if reservations %}
@@ -73,7 +89,7 @@
                             {% endif %}
                             <i class="far fa-bell"></i>
                         </button>
-                        <div class="custom-drop-down box3 scroll-y p-3" style="display: none;">
+                        <div class="custom-drop-down box3 scroll-y p-3 shadow" style="display: none;">
                             <div class="triangle"></div>
                             <span>Notifications</span>
                             {% if notifications %}
