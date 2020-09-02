@@ -34,8 +34,13 @@ class HomeView(TemplateView):
             if company.user.is_active:
                 comments = company.company_comment.all()
                 company_overall = comments.aggregate(Avg('overall'))
+                print(company_overall.get('overall__avg', 0))
                 if company_overall.get('overall__avg', 0):
                     company_rating = int(company_overall.get('overall__avg', 0))
+                    # print(int(company_overall.get('overall__avg', 0)))
+                    print(company.overall)
+                    company.overall = company_overall.get('overall__avg', 0)
+
                     company_dict = {
                         'company' : company,
                         'reservation_count' : company.reservation.filter(reserved_at=datetime.date.today()).count(),
@@ -47,6 +52,7 @@ class HomeView(TemplateView):
                         'reservation_count' : company.reservation.filter(reserved_at=datetime.date.today()).count(),
                         'company_overall' : 0
                     }
+                    company.overall = 0
                 company_list.append(company_dict)
         
         context['companies'] = company_list
@@ -445,6 +451,7 @@ class CompanyCategoryList(ListView):
         for company in companies:
             company_obj = {
                 'company' : company,
+                'reservation_count' : company.reservation.filter(reserved_at=datetime.date.today()).count(),
                 'rating' : company.company_comment.all().aggregate(Avg('overall')).get('overall__avg', 0)
             }
             companies_list.append(company_obj)
@@ -481,11 +488,9 @@ class CompanyFilterView(ListView):
         # queryset = queryset.filter(company = company.first())
         sort_data = self.request.GET.get('companySort')
         if sort_data == 'newest':
-            print(queryset.last().created_at)
-            for q in queryset:
-                print(q.company_comment.all().aggregate(Avg('overall')).get('overall__avg', 0))
             return queryset.order_by('-created_at')
         elif sort_data == 'highest':
+            print(queryset.order_by('overall'))
             return queryset.order_by('-overall')
         elif sort_data == 'lowest':
             return queryset.order_by('overall')

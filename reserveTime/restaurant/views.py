@@ -376,14 +376,17 @@ class CommentView(FormMixin, DetailView):
         print(self.request.POST)
         comment = form.save(commit=False)
         form.instance.user = self.request.user
+        
         company =  get_object_or_404(Company, pk=self.kwargs.get('pk'))
+        comments = Comment.objects.filter(company=company)
         comment.company = company
         comment.ratingFood = self.request.POST.get('ratingFood')
         comment.ratingService = self.request.POST.get('ratingService')
         comment.ratingAmbience = self.request.POST.get('ratingAmbience')
         comment.overall = int((int(self.request.POST.get('ratingFood')) + int(self.request.POST.get('ratingService')) + int(self.request.POST.get('ratingAmbience')))/3)
         comment.liked = self.request.POST.get('like')
-
+        company.overall = int(comments.aggregate(Avg('overall')).get('overall__avg' , 0))
+        print(company.overall, comments.aggregate(Avg('overall')).get('overall__avg' , 0))
         form.save()
         return super().form_valid(form)
 
@@ -393,7 +396,7 @@ class CommentView(FormMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         company = Company.objects.filter(pk=self.kwargs.get('pk'))
-        
+
         liked_users_count = Comment.objects.filter(company = company.first(), liked=1).count()
         disliked_users_count = Comment.objects.filter(company = company.first(), liked=0).count()
 

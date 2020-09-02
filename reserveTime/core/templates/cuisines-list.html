@@ -20,6 +20,15 @@
         .star i{
             color: #da3743;
         }
+        .img-box-container{
+            width: 100%;
+            overflow: hidden;
+        }
+        .company-profile-img img:hover{
+            transform: scale(1.3, 1.3);
+            -ms-transform: scale(1.3, 1.3);
+            -webkit-transform: scale(1.3, 1.3);
+        }
     </style>
 </head>
 <body id="profile-body">
@@ -34,11 +43,13 @@
                    <a href="{% url 'core:company-profile' company.pk %}" class="full">
                         <div class="company-item row pt-3 pb-3 mb-5 bottom-border">
                             <div class="col-12 col-lg-4 company-profile-img">
-                                {% if company.cover_photo %}
-                                    <img src="{{company.cover_photo.url}}" alt="" >
-                                {% else %}
-                                    <img src="{% static 'images/img3.jpg' %}" alt="" >
-                                {% endif %}    
+                                <div class="img-box-container">
+                                    {% if company.cover_photo %}
+                                        <img src="{{company.cover_photo.url}}" alt="">
+                                    {% else %}
+                                        <img src="{% static 'images/img3.jpg' %}" alt="">
+                                    {% endif %}
+                                </div>   
                             </div>
                             <div class="col-12 col-lg-8">
                                 <p class="name bold mb-2 pb-2">{{company.company_name}} </p>
