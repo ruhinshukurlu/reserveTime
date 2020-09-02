@@ -34,12 +34,10 @@ class HomeView(TemplateView):
             if company.user.is_active:
                 comments = company.company_comment.all()
                 company_overall = comments.aggregate(Avg('overall'))
-                print(company_overall.get('overall__avg', 0))
                 if company_overall.get('overall__avg', 0):
                     company_rating = int(company_overall.get('overall__avg', 0))
-                    # print(int(company_overall.get('overall__avg', 0)))
                     print(company.overall)
-                    company.overall = company_overall.get('overall__avg', 0)
+                    company.overall = company_rating
 
                     company_dict = {
                         'company' : company,
@@ -481,21 +479,35 @@ class CompanyFilterView(ListView):
     show_change_link = True
     
     def get_queryset(self):
-        queryset = super().get_queryset()
+        # queryset = super().get_queryset()
         self.queryset = Company.objects.distinct('city_location').get(city_location=self.kwargs['city_location'])
         queryset =  Company.objects.filter(city_location=self.queryset.city_location)
-        # company = Company.objects.all()
-        # queryset = queryset.filter(company = company.first())
         sort_data = self.request.GET.get('companySort')
         if sort_data == 'newest':
             return queryset.order_by('-created_at')
         elif sort_data == 'highest':
-            print(queryset.order_by('overall'))
-            return queryset.order_by('-overall')
+            return queryset.order_by('-work_hours_from')
         elif sort_data == 'lowest':
             return queryset.order_by('overall')
         
         return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        companies = Company.objects.all()
+        companies_list = []
+        for company in companies:
+            company_obj = {
+                'company' : company,
+                'reservation_count' : company.reservation.filter(reserved_at=datetime.date.today()).count(),
+                'rating' : company.company_comment.all().aggregate(Avg('overall')).get('overall__avg', 0)
+            }
+            companies_list.append(company_obj)
+        context["comments"] = companies_list
+        print(Company.objects.distinct('city_location').get(city_location=self.kwargs['city_location']))
+        context['company'] = Company.objects.distinct('city_location').get(city_location=self.kwargs['city_location'])
+        return context
+
 
 class CompanyCuisineListView(ListView):
     context_object_name = 'companies'
