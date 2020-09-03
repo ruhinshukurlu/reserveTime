@@ -131,7 +131,7 @@
                         <div class="row go-to-reservation">
                             <h3 class="full pl-3 pb-3 bottom-border bold" >Go To Reservation</h3>
                             <p>If you find suitable table, you can pass to the reservation page. In this page you can choose foods and exact time for a meal.</p>
-                            <button data-toggle="modal" data-target="#menuListModal" id = "menu-link" class="go-reserve-btn" style="display: none;"></button>
+                            <button data-toggle="modal" data-target="#menuListModal" id = "menu-link" class="go-reserve-btn" style="display: none; outline: none;"></button>
                             <div id="not-found-message"></div>
                             <div class="modal fade bd-example-modal-lg" id="menuListModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-lg">
@@ -264,7 +264,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="row photo-gallery row-cols-4 m-auto" >
+                            <div class="row photo-gallery row-cols-5 m-auto" >
                                 {% for photo in photos %}
                                     <div class="col photo-box">
                                         <a data-fancybox="gallery" href="{{photo.photo.url}}"><img data-type="{{photo.photo_type}}" src="{{photo.photo.url}}"></a>
@@ -357,7 +357,7 @@
                             </div>
                             <div class="col-6 d-flex">
                                 <div class="icon-block">
-                                    <i class="fas fa-parking"></i>
+                                    <svg width="26px" height="26px" viewBox="0 0 24 24" version="1.1" style="background:#FFFFFF"><title>icon/ic_parking_details</title><desc>Created with Sketch.</desc><defs></defs><g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="icon/ic_parking_details"><rect id="boundry" x="0" y="0" width="24" height="24"></rect><circle id="Oval" stroke="#333333" stroke-width="2" cx="12" cy="12" r="8"></circle><rect id="Rectangle-3" fill="#333333" x="9" y="8" width="2" height="8" rx="1"></rect><rect id="Rectangle-3" fill="#333333" x="13" y="8" width="2" height="5" rx="1"></rect><path d="M10,8 L14,8 L14,9.5 L14,9.5 C14,9.77614237 13.7761424,10 13.5,10 L10.5,10 L10.5,10 C10.2238576,10 10,9.77614237 10,9.5 L10,8 Z" id="Rectangle-3" fill="#333333"></path><path d="M10.5,11 L13.5,11 L13.5,11 C13.7761424,11 14,11.2238576 14,11.5 L14,13 L10.5,13 L10.5,13 C10.2238576,13 10,12.7761424 10,12.5 L10,11.5 L10,11.5 C10,11.2238576 10.2238576,11 10.5,11 Z" id="Rectangle-3" fill="#333333"></path></g></g></svg>
                                 </div>
                                 <div class="info-text">
                                     <span>Parking details</span>
@@ -397,7 +397,7 @@
                                 </div>
                                 <div class="info-text">
                                     <span>Website</span>
-                                    <p><a target="blank" href="{% if company.website %}{{company.website}}{% else %}#{% endif %}">{% if company.website %}{{company.website}}{% else %} .... {% endif %}</a></p>
+                                    <p><a target="blank" style="color: red; text-decoration: none;" href="{% if company.website %}{{company.website}}{% else %}#{% endif %}">{% if company.website %}{{company.website}}{% else %} .... {% endif %}</a></p>
                                 </div>
                             </div>
                             <div class="col-6 d-flex">
@@ -622,6 +622,7 @@
             type: 'doughnut',
             data: data_2,
             options: {
+                responsive : true,
                 legend: {
                     position: 'bottom',
                 }

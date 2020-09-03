@@ -248,17 +248,22 @@ class ResevedUserList(DetailView):
         print(reservations)
 
         all_reserved_user_list = []
-        # first_user = reservations.first().user
+        check_user_list = []
+        
         for reservation in reservations:
-            reserved_user_obj = {
-                'user' : reservation.user,
-                'reservation_count' : reservations.filter(user = reservation.user).count(),
-                'total_price' : reservations.filter(user = reservation.user).aggregate(Sum('total_price')).get('total_price__sum' , 0),
-                'last_reserved_date' : reservations.filter(user = reservation.user).last().reserved_date,
-                'reviews' : reservation.user.user_comment.all().count()
-            }
-            all_reserved_user_list.append(reserved_user_obj)
+            if reservation.user not in check_user_list:
+                reserved_user_obj = {
+                    'user' : reservation.user,
+                    'reservation_count' : reservations.filter(user = reservation.user).count(),
+                    'total_price' : reservations.filter(user = reservation.user).aggregate(Sum('total_price')).get('total_price__sum' , 0),
+                    'last_reserved_date' : reservations.filter(user = reservation.user).last().reserved_date,
+                    'reviews' : reservation.user.user_comment.all().count()
+                }
+                all_reserved_user_list.append(reserved_user_obj)
+            check_user_list.append(reservation.user)
+            
 
+        print(all_reserved_user_list)
         
         context['reserved_users'] = all_reserved_user_list
 
@@ -378,6 +383,7 @@ class CommentView(FormMixin, DetailView):
         form.instance.user = self.request.user
         
         company =  get_object_or_404(Company, pk=self.kwargs.get('pk'))
+        company_1 = Company.objects.filter(pk=self.kwargs.get('pk'))
         comments = Comment.objects.filter(company=company)
         comment.company = company
         comment.ratingFood = self.request.POST.get('ratingFood')
@@ -385,7 +391,9 @@ class CommentView(FormMixin, DetailView):
         comment.ratingAmbience = self.request.POST.get('ratingAmbience')
         comment.overall = int((int(self.request.POST.get('ratingFood')) + int(self.request.POST.get('ratingService')) + int(self.request.POST.get('ratingAmbience')))/3)
         comment.liked = self.request.POST.get('like')
-        company.overall = int(comments.aggregate(Avg('overall')).get('overall__avg' , 0))
+        company_1.update(
+            overall = int(comments.aggregate(Avg('overall')).get('overall__avg' , 0))
+        )
         print(company.overall, comments.aggregate(Avg('overall')).get('overall__avg' , 0))
         form.save()
         return super().form_valid(form)

@@ -38,7 +38,7 @@
 
     <main class="pt-5 mb-5" style="min-height: 600px;">
         <div class="container main-container">
-            <h1 class="company-name bold text-center"> {{cuisine}} Restaurants in Azerbaijan</h1>
+            <h1 class="company-name bold text-center"> {{cuisine}} Cuisines</h1>
             <div class="row company-list">
                 {% for company in companies %}
                    <a href="{% url 'core:company-profile' company.pk %}" class="full">

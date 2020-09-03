@@ -141,15 +141,15 @@ class UserEditForm(forms.ModelForm):
 
         widgets = {
             'first_name': forms.TextInput(attrs={
-                'class': 'form-control height',
+                'class': 'form-control height mb-4',
                 'placeholder' : 'First Name',
                 }),
             'last_name': forms.TextInput(attrs={
-                'class': 'form-control height',
+                'class': 'form-control height mb-4',
                 'placeholder' : 'Last Name',
                 }),
             'email' : forms.EmailInput(attrs = {
-                'class' : 'form-control height',
+                'class' : 'form-control height mb-4',
                 'placeholder' : 'Email'
-            }),
+            })
         }

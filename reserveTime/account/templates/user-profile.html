@@ -14,6 +14,11 @@
     <link rel="stylesheet" href="{% static 'css/user-profile.css' %}">
     <link rel="stylesheet" href="{% static 'css/company-profile.css' %}">
     <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+    <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
     <title>My Profile</title>
     
     <style>
@@ -26,10 +31,10 @@
 <body id="profile-body">
     {% include 'partials/header.html' %}
 
-    <div class="container custom-container bg-white border-top">
+    <div class="container custom-container bg-white shadow border-top">
         <div class="row username-box">  
             {% if user.profile_img %}
-                <img src="{{user.profile_img.url}}" alt="">
+                <a data-fancybox="gallery" href="{{user.profile_img.url}}"><img src="{{user.profile_img.url}}"></a>
             {% else %}
                 <img src="{% static 'images/profile.png' %}" alt="">
             {% endif %}
@@ -40,7 +45,7 @@
         </div>
     </div>
 
-    <main class="mb-5">
+    <main class="mb-5 mt-3">
         <div class="container custom-container">
             <div class="inner-container">
                 <div class="row">
@@ -71,8 +76,7 @@
                                             </div>
                                             <div class="col-9">
                                                 <div class="d-flex ">
-                                                    <span class="bold mr-2">Restaurant Name : </span>
-                                                    <p>{{reservation.company.company_name}}</p>
+                                                    <span class="mb-3" style="font-size: 25px;">{{reservation.company.company_name}} </span>
                                                 </div>
                                                 <div class="d-flex ">
                                                     <span class="bold mr-2">Reserve Date and Time : </span>
@@ -127,8 +131,7 @@
                                             </div>
                                             <div class="col-9">
                                                 <div class="d-flex ">
-                                                    <span class="bold mr-2">Restaurant Name : </span>
-                                                    <p>{{reservation.company.company_name}}</p>
+                                                    <span class="mb-3" style="font-size: 25px;">{{reservation.company.company_name}} </span>
                                                 </div>
                                                 <div class="d-flex ">
                                                     <span class="bold mr-2">Reserve Date and Time : </span>

@@ -32,10 +32,18 @@
                         <nav>
                             <ul class="admin-menu-list">
                                 <li>
-                                    <a href="{% url 'account:company-profile' user.company.pk %}">
+                                    <a href="{% url 'core:company-profile' user.company.pk %}">
                                         <div class="d-flex">
                                             <i class="fas fa-home"></i>
-                                            <span class="ml-2 bold">Home</span>
+                                            <span class="ml-2 bold">{{request.user.company.company_name}}</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'account:company-profile' user.company.pk %}">
+                                        <div class="d-flex">
+                                            <i class="fas fa-cogs"></i>
+                                            <span class="ml-2 bold">Company Settings</span>
                                         </div>
                                     </a>
                                 </li>

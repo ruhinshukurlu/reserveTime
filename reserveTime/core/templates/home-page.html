@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
 
+    
+
     <title>Home Page</title>
 
     <script>
@@ -34,6 +36,15 @@
     .star i {
         color: #da3743;
     }
+
+    /* .company-list-by-city .overlay-text{
+        width: fit-content;
+        padding: 20px;
+        background-color: rgba(0,0,0,.5);
+        border-radius: 50%;
+    } */
+
+
 </style>
 </head>
 <body>
@@ -58,11 +69,11 @@
                                 <span>Hello, {{request.user.first_name|capfirst}}</span>
                                 <ul>
                                     {% if request.user.is_company %}
-                                        <li><a href="{% url 'core:company-profile' user.pk %}">
+                                        <li><a href="{% url 'core:company-profile' user.company.pk %}">
                                             <i class="fas fa-home mr-2"></i>
                                             {{request.user.company.company_name}}</a></li>
                                         <li><a href="{% url 'account:company-profile' user.pk %}">
-                                            <i class="fas fa-cogs mr-2"></i>
+                                            <i class="fas fa-cog mr-2"></i>
                                             Company Settings</a></li>
                                         <li><a href="{% url 'account:user-profile' user.pk %}">
                                             <i class="far fa-user-circle mr-2"></i>
@@ -177,12 +188,11 @@
                     .cover-name{
                         color: #fff;
                         font-size: 55px;
-                        background-color: rgba(128,128,128,0.5);
                         padding: 20px;
                         border-radius: 20px;
                     }
                 </style>
-                <div class="overlay">
+                <div class="overlay" style="background: radial-gradient(ellipse at center,rgba(0,0,0,.1) 0,transparent 100%) rgba(0,0,0,.3);">
                     <div class="overlay-text">
                         <h1 class="bold cover-name">Find Your Table for Any Occasion</h1>
                     </div>
@@ -258,7 +268,52 @@
                                                 <span>
                                                     <svg width = 20 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M15.5,5 C15.2239,5 15,5.223846 15,5.5 L15,6.5 C15,6.77615 15.2239,7 15.5,7 L17.5858,7 L14,10.58578 L12.70711,9.29291 L12.35355,8.93933 C12.15829,8.74408 11.84171,8.74408 11.64645,8.93933 L11.29289,9.29291 L5,15.5858 L5,7 L11.5,7 C11.77614,7 12,6.77615 12,6.5 L12,5.5 C12,5.22385 11.77614,5 11.5,5 L5,5 C3.89543,5 3,5.89542 3,7 L3,17 C3,18.1046 3.89543,19 5,19 L19,19 C20.1046,19 21,18.1046 21,17 L21,14.5 C21,14.2238 20.7761,14 20.5,14 L19.5,14 C19.2239,14 19,14.2238 19,14.5 L19,17 L6.4142,17 L12,11.41422 L13.2929,12.70709 L13.6464,13.06067 C13.8417,13.25592 14.1583,13.25592 14.3536,13.06067 L14.7071,12.70709 L19,8.41422 L19,10.5 C19,10.77615 19.2239,11 19.5,11 L20.5,11 C20.7761,11 21,10.77615 21,10.5 L21,6 L21,5.5 C21,5.223846 20.7761,5 20.5,5 L20,5 L15.5,5 Z" fill="#2D333F" fill-rule="nonzero"></path></g></svg>
                                                 </span>
-                                                <span>{{company.reservation_count}} times today</span>
+                                                <span>Booked {{company.reservation_count}} times today</span>
+                                            </span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="row mt-3" style="margin-bottom: 50px;">
+                    <div  class="full bottom-border pb-3 padding-mobile d-flex justify-content-between">
+                        <h3 class="bold m-0">All Restaurants</h3>
+                        <button type="button" class="mr-2" style="color: red; outline: none;" id="view_all_companies">View all</button>
+                    </div>
+                    
+                    <div class="card-list d-flex" id="all_companies_list">
+                        {% for company in all_companies %}
+                            <div class="col-12 col-lg-4 col-xl-3 col-sm-6 card-box">
+                                <div class="card">
+                                    <a href="{% url 'core:company-profile' company.company.pk %}">
+                                        <div class="card-img">
+                                            {% if company.company.cover_photo %}
+                                                <img src="{{company.company.cover_photo.url}}" class="card-img-self" alt="Restauran image" >
+                                            {% else %}
+                                                <img src="{% static 'images/img3.jpg' %}" class="card-img-self" alt="Restauran image" >
+                                            {% endif %}
+                                            
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="name">{{company.company.company_name}}</p>
+                                            <div class="review-box d-flex">
+                                                <div data-type="{{company.company_overall}}" class="stars rating-box d-flex">
+                                                    <div class="star"><i class="far fa-star"></i></div>
+                                                    <div class="star"><i class="far fa-star"></i></div>
+                                                    <div class="star"><i class="far fa-star"></i></div>
+                                                    <div class="star"><i class="far fa-star"></i></div>
+                                                    <div class="star"><i class="far fa-star"></i></div>
+                                                </div>
+                                                <p class="review-text ml-2">{{company.company.company_comment.all|length}} reviews</p>
+                                            </div>
+                                            <p class="location">{{company.company.city_location}}, {{company.company.province_location|truncatechars:14}}</p>
+                                            <span class="booking-count">
+                                                <span>
+                                                    <svg width = 20 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M15.5,5 C15.2239,5 15,5.223846 15,5.5 L15,6.5 C15,6.77615 15.2239,7 15.5,7 L17.5858,7 L14,10.58578 L12.70711,9.29291 L12.35355,8.93933 C12.15829,8.74408 11.84171,8.74408 11.64645,8.93933 L11.29289,9.29291 L5,15.5858 L5,7 L11.5,7 C11.77614,7 12,6.77615 12,6.5 L12,5.5 C12,5.22385 11.77614,5 11.5,5 L5,5 C3.89543,5 3,5.89542 3,7 L3,17 C3,18.1046 3.89543,19 5,19 L19,19 C20.1046,19 21,18.1046 21,17 L21,14.5 C21,14.2238 20.7761,14 20.5,14 L19.5,14 C19.2239,14 19,14.2238 19,14.5 L19,17 L6.4142,17 L12,11.41422 L13.2929,12.70709 L13.6464,13.06067 C13.8417,13.25592 14.1583,13.25592 14.3536,13.06067 L14.7071,12.70709 L19,8.41422 L19,10.5 C19,10.77615 19.2239,11 19.5,11 L20.5,11 C20.7761,11 21,10.77615 21,10.5 L21,6 L21,5.5 C21,5.223846 20.7761,5 20.5,5 L20,5 L15.5,5 Z" fill="#2D333F" fill-rule="nonzero"></path></g></svg>
+                                                </span>
+                                                <span>Booked {{company.reservation_count}} times today</span>
                                             </span>
                                         </div>
                                     </a>
@@ -268,7 +323,7 @@
                     </div>
                 </div>
                 <div class="row" style="margin-bottom: 50px;">
-                    <h3 class='padding-mobile bold bottom-border full pb-3'>Top Cuisines near Baku</h3>
+                    <h3 class='padding-mobile bold bottom-border full pb-3'>Top Cuisines</h3>
                     <div id="custom-carousel"  class="owl-carousel owl-theme card-list">
                         {% for cuisine in cuisines %}
                             <div class="item">
@@ -325,16 +380,48 @@
     <script src="{% static 'js/main.js' %}"></script>
 
     <script>
-        $(document).ready(function(){
-            var city_photos = [
+        for(var i=4; i<$('#all_companies_list').children().length; i++){
+            $($('#all_companies_list').children()[i]).css('display','none')
+        }
+        $('#view_all_companies').click(function(){
+            var i=0
+            var interval = setInterval(() => {
+                $($('#all_companies_list').children()[i]).fadeIn()
+                i++ 
+                if (i==$('#all_companies_list').children().length){
+                    clearInterval(interval)
+                }
+            }, 300);
+        })
+    </script>
+
+    <script>
+         var city_photos = [
                 {
                     city : 'Baku',
                     src : "{% static 'images/baku-photo.jpg' %}"
                 },
                 {
+                    city : 'Las Vegas',
+                    src : "{% static 'images/las-vegas.jpg' %}"
+                },
+                {
+                    city : 'London',
+                    src : "{% static 'images/london.jpg' %}"
+                },
+                {
+                    city : 'Miami',
+                    src : "{% static 'images/miami-2.jpg' %}"
+                },
+                {
                     city : 'New York',
                     src : "{% static 'images/new-york.jpg' %}"
                 },
+                {
+                    city : 'San Francisco',
+                    src : "{% static 'images/san-francisco.jpeg' %}"
+                },
+                
             ]
             
             for (var i=0; i<$('.company-list-by-city').find('img').length; i++){
@@ -346,7 +433,6 @@
                     }
                 }
             }
-        })
     </script>
     
     <script>

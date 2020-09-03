@@ -183,7 +183,7 @@
     {% include 'partials/header.html' %}
 
     <!-- <main class="mb-5"> -->
-        <div class="container main-register-container pb-5">
+        <div class="container main-register-container pb-5 mt-5 mb-5">
             <div class="row">
                 <div class="col-lg-12 pt-5">
                     <div class="checkmark">
@@ -197,7 +197,7 @@
                             </g>
                         </svg>
                     </div>
-                    <p class="full text-center">
+                    <p class="full text-center mt-3">
                         You successfully registered, we will call as soon as possible.
                     </p>
                 </div> 
@@ -218,13 +218,13 @@
                 setTimeout(function () {
                     $(".check").attr("class", "check check-complete");
                     $(".fill").attr("class", "fill fill-complete");
-                }, 3000);
+                }, 2500);
 
                 setTimeout(function () {
                     $(".check").attr("class", "check check-complete success");
                     $(".fill").attr("class", "fill fill-complete success");
                     $(".path").attr("class", "path path-complete");
-                }, 4000);
+                }, 2500);
             });
         </script>
 

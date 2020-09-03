@@ -33,10 +33,18 @@
                         <nav>
                             <ul class="admin-menu-list">
                                 <li>
-                                    <a href="{% url 'account:company-profile' user.company.pk %}">
+                                    <a href="{% url 'core:company-profile' user.company.pk %}">
                                         <div class="d-flex">
                                             <i class="fas fa-home"></i>
-                                            <span class="ml-2 bold">Home</span>
+                                            <span class="ml-2 bold">{{request.user.company.company_name}}</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'account:company-profile' user.company.pk %}">
+                                        <div class="d-flex">
+                                            <i class="fas fa-cogs"></i>
+                                            <span class="ml-2 bold">Company Settings</span>
                                         </div>
                                     </a>
                                 </li>
@@ -136,15 +144,15 @@
                               {% for category in menu_categories %}
                                 
                                 <div class="menu-section pl-4 pr-4 mb-4">
-                                    <div class="menu-section-header mb-4 bottom-border"><span>{{category.title}}</span></div>
+                                    <div class="menu-section-header mb-4 bottom-border text-center"><span style="font-size: 25px;">{{category.title}}</span></div>
                                     <div class="row menu-items">
                                         {% for menu in menus %}
                                             {% if menu.menu_type == category %}
                                             <div class="col-sm-6">
-                                                <a href="{% url 'restaurant:menu-update' menu.pk %}">
+                                                <a href="{% url 'restaurant:menu-update' menu.pk %}" style="text-decoration: none;">
                                                     <div class="menu-item">
                                                         <div class="menu-item-header">
-                                                            <div class="menu-title"><span>{{menu.title}}</span></div>
+                                                            <div class="menu-title"><span>{{menu.title|capfirst}}</span></div>
                                                             <div class="menu-price"><span>${{menu.price}}</span></div>
                                                         </div>
                                                         <div class="menu-description">

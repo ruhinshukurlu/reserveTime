@@ -111,6 +111,26 @@ class CompanyProfileView(LoginRequiredMixin, DetailView):
         service = comments.aggregate(Avg('ratingService'))
         ambience = comments.aggregate(Avg('ratingAmbience'))
 
+        reservations = Reservation.objects.filter(company__in=company)
+
+        all_reserved_user_list = []
+        check_user_list = []
+        
+        for reservation in reservations:
+            if reservation.user not in check_user_list:
+                reserved_user_obj = {
+                    'user' : reservation.user,
+                    'reservation_count' : reservations.filter(user = reservation.user).count(),
+                    'total_price' : reservations.filter(user = reservation.user).aggregate(Sum('total_price')).get('total_price__sum' , 0),
+                    'last_reserved_date' : reservations.filter(user = reservation.user).last().reserved_date,
+                    'reviews' : reservation.user.user_comment.all().count()
+                }
+                all_reserved_user_list.append(reserved_user_obj)
+            check_user_list.append(reservation.user)
+
+        context['reserved_users_count'] = len(all_reserved_user_list)
+        
+
         if food.get('ratingFood__avg', 0) and service.get('ratingService__avg', 0) and ambience.get('ratingAmbience__avg', 0)   :
             print('ok')
             context['food_avg'] = "{:.1f}".format(food.get('ratingFood__avg', 0))

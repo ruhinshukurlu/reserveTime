@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
     
     
-    <title>Company Profile</title>
+    <title>Write Comment</title>
 </head>
 <body id="raiting-body">
     
@@ -66,11 +66,11 @@
                                     <span>Food</span>
                                     <div class="star-rating">
                                         <fieldset>
-                                            <input type="radio" id="Foodstar5" name="ratingFood" value="5" /><label for="Foodstar5" title="Outstanding">5 stars</label>
-                                            <input type="radio" id="Foodstar4" name="ratingFood" value="4" /><label for="Foodstar4" title="Very Good">4 stars</label>
-                                            <input type="radio" id="Foodstar3" name="ratingFood" value="3" /><label for="Foodstar3" title="Good">3 stars</label>
-                                            <input type="radio" id="Foodstar2" name="ratingFood" value="2" /><label for="Foodstar2" title="Poor">2 stars</label>
-                                            <input type="radio" id="Foodstar1" name="ratingFood" value="1" /><label for="Foodstar1" title="Very Poor">1 star</label>
+                                            <input required type="radio" id="Foodstar5" name="ratingFood" value="5" /><label for="Foodstar5" title="Outstanding">5 stars</label>
+                                            <input required type="radio" id="Foodstar4" name="ratingFood" value="4" /><label for="Foodstar4" title="Very Good">4 stars</label>
+                                            <input required type="radio" id="Foodstar3" name="ratingFood" value="3" /><label for="Foodstar3" title="Good">3 stars</label>
+                                            <input required type="radio" id="Foodstar2" name="ratingFood" value="2" /><label for="Foodstar2" title="Poor">2 stars</label>
+                                            <input required type="radio" id="Foodstar1" name="ratingFood" value="1" /><label for="Foodstar1" title="Very Poor">1 star</label>
                                         </fieldset>
                                     </div>
                                 </li>
@@ -78,11 +78,11 @@
                                     <span>Service</span>
                                     <div class="star-rating">
                                         <fieldset>
-                                            <input type="radio" id="Servicestar5" name="ratingService" value="5" /><label for="Servicestar5" title="Outstanding">5 stars</label>
-                                            <input type="radio" id="Servicestar4" name="ratingService" value="4" /><label for="Servicestar4" title="Very Good">4 stars</label>
-                                            <input type="radio" id="Servicestar3" name="ratingService" value="3" /><label for="Servicestar3" title="Good">3 stars</label>
-                                            <input type="radio" id="Servicestar2" name="ratingService" value="2" /><label for="Servicestar2" title="Poor">2 stars</label>
-                                            <input type="radio" id="Servicestar1" name="ratingService" value="1" /><label for="Servicestar1" title="Very Poor">1 star</label>
+                                            <input required type="radio" id="Servicestar5" name="ratingService" value="5" /><label for="Servicestar5" title="Outstanding">5 stars</label>
+                                            <input required type="radio" id="Servicestar4" name="ratingService" value="4" /><label for="Servicestar4" title="Very Good">4 stars</label>
+                                            <input required type="radio" id="Servicestar3" name="ratingService" value="3" /><label for="Servicestar3" title="Good">3 stars</label>
+                                            <input required type="radio" id="Servicestar2" name="ratingService" value="2" /><label for="Servicestar2" title="Poor">2 stars</label>
+                                            <input required type="radio" id="Servicestar1" name="ratingService" value="1" /><label for="Servicestar1" title="Very Poor">1 star</label>
                                         </fieldset>
                                     </div>
                                 </li>
@@ -90,11 +90,11 @@
                                     <span>Ambience</span>
                                     <div class="star-rating">
                                         <fieldset>
-                                            <input type="radio" id="Ambiencestar5" name="ratingAmbience" value="5" /><label for="Ambiencestar5" title="Outstanding">5 stars</label>
-                                            <input type="radio" id="Ambiencestar4" name="ratingAmbience" value="4" /><label for="Ambiencestar4" title="Very Good">4 stars</label>
-                                            <input type="radio" id="Ambiencestar3" name="ratingAmbience" value="3" /><label for="Ambiencestar3" title="Good">3 stars</label>
-                                            <input type="radio" id="Ambiencestar2" name="ratingAmbience" value="2" /><label for="Ambiencestar2" title="Poor">2 stars</label>
-                                            <input type="radio" id="Ambiencestar1" name="ratingAmbience" value="1" /><label for="Ambiencestar1" title="Very Poor">1 star</label>
+                                            <input required type="radio" id="Ambiencestar5" name="ratingAmbience" value="5" /><label for="Ambiencestar5" title="Outstanding">5 stars</label>
+                                            <input required type="radio" id="Ambiencestar4" name="ratingAmbience" value="4" /><label for="Ambiencestar4" title="Very Good">4 stars</label>
+                                            <input required type="radio" id="Ambiencestar3" name="ratingAmbience" value="3" /><label for="Ambiencestar3" title="Good">3 stars</label>
+                                            <input required type="radio" id="Ambiencestar2" name="ratingAmbience" value="2" /><label for="Ambiencestar2" title="Poor">2 stars</label>
+                                            <input required type="radio" id="Ambiencestar1" name="ratingAmbience" value="1" /><label for="Ambiencestar1" title="Very Poor">1 star</label>
                                         </fieldset>
                                     </div>
                                 </li>
@@ -106,14 +106,14 @@
                     </div>
                     <div class="form-group">
                         <div class="d-flex">
-                            <span class="mr-2">You can add photo from our restaurant</span>
+                            <span class="mr-2 d-flex align-items-center">You can add photo from our restaurant</span>
                             <div class="d-flex">
                                 <label for="upload-img" style="width: 200px; color: green;" class="add-img-label">Add Photo<i class="ml-2 fas fa-plus-circle"></i></label>
                                 {{form.comment_image}}
                             </div>
                         </div>
                     </div>
-                    <input type="submit" class="float-r btn btn-success" value="Send Review">
+                    <input type="submit" class="float-r btn btn-success" id="submit-comment-btn" value="Send Review">
                 </form>
             </div>
         </div>
@@ -130,6 +130,10 @@
     <script src="{% static 'js/owl.carousel.min.js' %}"></script>
     <script src="{% static 'js/main.js' %}"></script>
     <script src="{% static 'js/reserve-page.js' %}"></script>
+
+    <script>
+        
+    </script>
 
     <script >
        var ctx = document.getElementById('myChart').getContext('2d');

@@ -27,33 +27,36 @@ class HomeView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         companies = Company.objects.order_by('-created_at')[:4]
-        
-        company_list = []
+        all_companies = Company.objects.all()
 
-        for company in companies:
-            if company.user.is_active:
-                comments = company.company_comment.all()
-                company_overall = comments.aggregate(Avg('overall'))
-                if company_overall.get('overall__avg', 0):
-                    company_rating = int(company_overall.get('overall__avg', 0))
-                    print(company.overall)
-                    company.overall = company_rating
+        def generateCompanies(companies):
+            company_list = []
+            for company in companies:
+                if company.user.is_active:
+                    comments = company.company_comment.all()
+                    company_overall = comments.aggregate(Avg('overall'))
+                    if company_overall.get('overall__avg', 0):
+                        company_rating = int(company_overall.get('overall__avg', 0))
+                        company.overall = company_rating
 
-                    company_dict = {
-                        'company' : company,
-                        'reservation_count' : company.reservation.filter(reserved_at=datetime.date.today()).count(),
-                        'company_overall' : company_rating
-                    }
-                else:
-                    company_dict = {
-                        'company' : company,
-                        'reservation_count' : company.reservation.filter(reserved_at=datetime.date.today()).count(),
-                        'company_overall' : 0
-                    }
-                    company.overall = 0
-                company_list.append(company_dict)
+                        company_dict = {
+                            'company' : company,
+                            'reservation_count' : company.reservation.filter(reserved_at=datetime.date.today()).count(),
+                            'company_overall' : company_rating
+                        }
+                    else:
+                        company_dict = {
+                            'company' : company,
+                            'reservation_count' : company.reservation.filter(reserved_at=datetime.date.today()).count(),
+                            'company_overall' : 0
+                        }
+                        company.overall = 0
+                    company_list.append(company_dict)
+            return company_list
         
-        context['companies'] = company_list
+        context['companies'] = generateCompanies(companies)
+        context['all_companies'] = generateCompanies(all_companies)
+
 
         companies_by_city = Company.objects.all().distinct('city_location')
         city_list = []
@@ -236,8 +239,7 @@ class CompanyProfile(FormMixin, DetailView):
             if request.POST.get('form_id') == 'FindTableForm':
                 company = Company.objects.filter(pk=self.kwargs.get('pk'))
 
-                tomorrow = datetime.datetime.utcnow() + datetime.timedelta(minutes=1)
-                give_feedback.apply_async(args=[company.first().id, request.user.email], eta = tomorrow)
+                
 
                 party_size = request.POST.get('size')
                 reserve_date = request.POST.get('date')
@@ -265,6 +267,7 @@ class CompanyProfile(FormMixin, DetailView):
                 thirty_minutes_less = (datetime.datetime.combine(datetime.date(1, 1, 1),reserve_time_obj) - datetime.timedelta(minutes=30)).time()
                 thirty_minutes_great = (datetime.datetime.combine(datetime.date(1, 1, 1),reserve_time_obj) + datetime.timedelta(minutes=30)).time()
 
+               
 
                 for table in tables:
                     dates = table.dates.filter(date=reserve_date_obj)
@@ -348,11 +351,13 @@ class CompanyProfile(FormMixin, DetailView):
                     notification_type = 'new_reservation'
                 )   
                 
-                eta_date_time = datetime.datetime.combine(reserve_date_obj, reserve_time_obj)
+                after_one_hour = (datetime.datetime.combine(datetime.date(1, 1, 1),reserve_time_obj) + datetime.timedelta(hours=1)).time()
+                eta_date_time = datetime.datetime.combine(reserve_date_obj, after_one_hour)
                 tomorrow = datetime.datetime.utcnow() + datetime.timedelta(minutes=1)
 
                 # complete_reserve.apply_async(args=[reserve_time_obj, reserve_date_obj.date(), table_id], eta=eta_date_time)
-                # give_feedback.apply_async(args=[company.first().id, request.user.email], eta = tomorrow)
+                give_feedback.apply_async(args=[company.first().id, request.user.email], eta = eta_date_time)
+                
                 
                 for i in range(0,int(request.POST.get('length'))):
                     menu_id = int(request.POST.get(f'selected_menus_list[{i}][menu_id]'))
@@ -486,7 +491,7 @@ class CompanyFilterView(ListView):
         if sort_data == 'newest':
             return queryset.order_by('-created_at')
         elif sort_data == 'highest':
-            return queryset.order_by('-work_hours_from')
+            return queryset.order_by('-overall')
         elif sort_data == 'lowest':
             return queryset.order_by('overall')
         

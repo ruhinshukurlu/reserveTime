@@ -90,7 +90,7 @@
                             <i class="fas fa-users"></i>
                             <div class="ml-2 d-flex flex-direction-column">
                                 <span class="bold">Users</span>
-                                <span class="bold">2</span>
+                                <span class="bold">{{reserved_users_count}}</span>
                             </div>
                         </div>
                     </a>
@@ -215,7 +215,7 @@
         }
 
         var ctx_1 = document.getElementById("PieChart").getContext('2d');
-        let colorHex = ['#FCF6F5FF ', '#EDC2D8FF', '#8ABAD3FF']
+        let colorHex = ['#EBEBCA', '#EDC2D8FF', '#8ABAD3FF']
         let labels = ['Food','Service', 'Ambience']
 
         var ctx_1 = new Chart(ctx_1, {
