@@ -2,7 +2,8 @@
 
 ## --Description
 
-Welcome to reserveTime
+Welcome to reserveTime.
+
 It is a website to find a table from any restaurants for any occasion. You can make your reservation easily, we also have payment system for making reservetion more clear.
 
 How process going on website?
@@ -14,7 +15,7 @@ When you include reserveTime you will see restaurants and cafes, then you can fi
 ## First you need to download files to your computer
 
 ```
-git clone https://github.com/ruhinshukurlu/reserveTime-Backend.git
+git clone https://github.com/ruhinshukurlu/reserveTime.git
 ```
 
 ## Install and activate Vitual Environment
