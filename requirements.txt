@@ -9,7 +9,7 @@ cryptography==3.0
 defusedxml==0.7.0rc1
 Django==3.0.8
 django-3-jet==1.0.8
-django-celery-results==1.2.1
+django-celery-results==2.4.0
 djangorestframework==3.11.1
 idna==2.10
 importlib-metadata==1.7.0
